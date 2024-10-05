@@ -255,3 +255,9 @@ button.ghost {
 .container.right-panel-active .overlay-right {
     transform: translateX(20%);
 }
+
+.logo{
+    width: 50%;
+    margin-top: 120px;
+    margin-left: 383px;
+}

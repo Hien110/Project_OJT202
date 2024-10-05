@@ -49,7 +49,6 @@ public class LoginController {
                         Model model) {
         
         Account account = accountService.getAccountByAccountIDAndPassword(accountID, accountPassword);
-        System.out.println(account);
         if (account != null) {
             // Kiểm tra vai trò của tài khoản
             String accountRole = account.getAccountRole(); 
@@ -68,7 +67,7 @@ public class LoginController {
                     return "login"; 
             }
         } else {
-            model.addAttribute("error", "Invalid account ID or password");
+            model.addAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
             return "login"; 
         }
     }    
