@@ -1,0 +1,305 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    
+  /* hi */
+  }
+  .header {
+    background-color: #6C63FF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Đặt logo ở giữa */
+  }
+  .logo img {
+    height: 50px;
+    width: 150px; /* Đặt kích thước của logo */
+    margin-right: 10px;
+  }
+  .search-bar {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+  }
+  .search-bar input {
+    width: 300px; /* Giảm kích thước của thanh tìm kiếm */
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: #5A55D6;
+    color: #B0AEE6;
+    font-size: 16px;
+  }
+  .search-bar input::placeholder {
+    color: #B0AEE6;
+  }
+  .search-bar i {
+    margin-left: -30px;
+    color: #B0AEE6;
+  }
+  .search-button {
+    background-color: transparent;
+    border: none;
+    margin-left: -40px;
+    color: #B0AEE6;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    color: #ffffff; /* Đổi màu khi hover */
+  }
+  
+  .search-button i {
+    font-size: 18px;
+  } 
+  .logout-button {
+    background-color: #4DE1FF;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  .menu-item i {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  .menu-item.active {
+    background-color: #00d1c1;
+    color: #ffffff;
+  }
+  .menu-item.active i {
+    color: #ffffff;
+  }
+  .menu-item:hover {
+    background-color: #f1f1f1;
+  }
+  .menu-item.active:hover {
+    background-color: #00d1c1;
+  }
+  .menu-item a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .menu-item a:hover {
+    text-decoration: underline;
+  }
+  
+  .breaking-news-headline {
+    display: block;
+    position: absolute;
+    font-family: arial;
+    font-size: 13px;
+    margin-top: -22px;
+    color: white;
+    margin-left: 150px;
+    
+  }
+  
+  /* Main container: Flexbox layout */
+  .main-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    height: auto; /* Đảm bảo container tự điều chỉnh theo nội dung */
+  }
+  
+  .sidebar {
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0; /* Vị trí cố định của sidebar */
+    width: 250px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-top: 0px;
+    padding-left: 20px;
+  }
+  
+  /* Marquee effect */
+  .marquee {
+    position: absolute;
+    white-space: nowrap;
+    animation: marquee 10s linear infinite;
+  }
+  
+  @keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -100%; }
+  }
+  
+  
+  .container {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1;
+    width: 1000px;
+  }
+  .updates {
+    width: 97%;
+    margin-right: 20px; /* Đảm bảo khoảng cách giữa updates và popular-groups */
+  }
+  .post{
+    position: relative;
+  }
+  .popular-groups {
+    position: sticky;
+    height: 100vh;
+    top: 20px; /* Vị trí cố định của phần popular-groups */
+    width: 18%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1;
+  }
+  .update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+  .update-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .update-header select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  .update-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .update-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .update-card-header .user-info {
+    display: flex;
+    align-items: center;
+  }
+  .update-card-header .user-info img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  .update-card-header .user-info .user-name {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .update-card-header .user-info .user-role {
+    background-color: #6c63ff;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+  .update-card-header .post-time {
+    font-size: 12px;
+    color: #888;
+  }
+  .update-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin: 20px 0;
+  }
+  .update-card-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #888;
+  }
+  .popular-groups h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .group img {
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  .group .group-info {
+    font-size: 14px;
+  }
+  .group .group-info .group-name {
+    font-weight: 500;
+  }
+  .group .group-info .group-members {
+    color: #888;
+  }
+  
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .waviy {
+    position: relative;
+    -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+    font-size: 76px;
+    margin-bottom: 60px;
+    background:#00d1c1 ;
+    display:flex ;
+    justify-content: space-around;
+  }
+  .waviy span {
+    font-family: 'Alfa Slab One';
+    position: relative;
+    display: inline-block;
+    color: #ffffff;
+    text-transform: uppercase;
+    animation: waviy 1s infinite;
+    animation-delay: calc(.1s * var(--i));
+    
+  }
+  @keyframes waviy {
+    0%,40%,100% {
+      transform: translateY(0)
+    }
+    20% {
+      transform: translateY(-20px)
+    }
+  }
