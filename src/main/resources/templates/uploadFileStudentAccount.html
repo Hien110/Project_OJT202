@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Tải lên và Hiển thị Dữ liệu Sinh viên</title>
+    <style>
+      .upload-area {
+        width: 100%;
+        height: 200px;
+        border: 2px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+
+      .upload-area.dragging {
+        border-color: #000;
+        background-color: #f9f9f9;
+      }
+
+      .upload-area p {
+        font-size: 18px;
+        color: #555;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tải Lên và Hiển Thị Dữ Liệu Sinh Viên</h1>
+
+    <!-- File Upload Section -->
+    <form
+      id="uploadForm"
+      method="post"
+      enctype="multipart/form-data"
+      th:action="@{/uploadFileStudentAccountDetail}"
+    >
+      <div id="uploadArea" class="upload-area">
+        <p>Kéo và thả tệp của bạn vào đây hoặc nhấp để chọn tệp</p>
+      </div>
+      <input type="file" name="file" id="fileInput" accept=".xlsx, .xls" />
+    </form>
+
+    <script>
+      const uploadArea = document.getElementById("uploadArea");
+      const fileInput = document.getElementById("fileInput");
+      const form = document.getElementById("uploadForm");
+
+      // Highlight the drop area when a file is being dragged over it
+      ["dragenter", "dragover"].forEach((eventName) => {
+        uploadArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          uploadArea.classList.add("dragging");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        uploadArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          uploadArea.classList.remove("dragging");
+        });
+      });
+
+      // Handle the dropped file
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const files = e.dataTransfer.files;
+        if (files.length) {
+          fileInput.files = files; // Set the file to the input
+          form.submit(); // Automatically submit the form after dropping the file
+        }
+      });
+
+      // Allow clicking to open the file input
+      uploadArea.addEventListener("click", () => fileInput.click());
+
+      // Trigger form submit when a file is selected through the input
+      fileInput.addEventListener("change", () => form.submit());
+    </script>
+
+    <!-- Display Student Data Section (this will be populated after the file upload) -->
+    <div th:if="${studentProfiles != null}">
+      <h2>Thông tin sinh viên</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Student Phone</th>
+            <th>Student Email</th>
+            <th>Parent Name</th>
+            <th>Parent Phone</th>
+            <th>Parent Email</th>
+            <th>Major ID</th>
+            <th>Year of Submission</th>
+            <th>Relationship</th>
+            <th>School Year</th>
+            <th>Account ID Student</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="student, stat : ${studentProfiles}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${student.firstName}"></td>
+            <td th:text="${student.lastName}"></td>
+            <td th:text="${student.dob}"></td>
+            <td th:text="${student.gender ? 'Male' : 'Female'}"></td>
+            <td th:text="${student.address}"></td>
+            <td th:text="${student.phoneNumber}"></td>
+            <td th:text="${student.email}"></td>
+            <td th:text="${student.parent.parentName}"></td>
+            <td th:text="${student.parent.parentPhone}"></td>
+            <td th:text="${student.parent.parentEmail}"></td>
+            <th:block th:if="${student.major != null}">
+              <td th:text="${student.major.majorID}"></td>
+            </th:block>
+            <th:block th:unless="${student.major != null}">
+              <td>No Major Available</td>
+            </th:block>
+            <td th:text="${student.yearOfAdmission}"></td>
+            <td th:text="${student.parent.relationship}"></td>
+            <td th:text="${student.schoolYear}"></td>
+            <td th:text="${student.studentID}"></td>
+          </tr>
+        </tbody>
+      </table>
+      <form method="post" th:action="@{/submitUploadStudentAccount}">
+        <button type="submit">Lưu dữ liệu vào DB</button>
+      </form>
+    </div>
+  </body>
+</html>
