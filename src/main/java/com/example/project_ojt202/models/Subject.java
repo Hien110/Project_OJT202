@@ -1,5 +1,7 @@
 package com.example.project_ojt202.models;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,4 +36,22 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name = "majorID",  nullable = false)
     private Major major;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject that = (Subject) o;
+        return Objects.equals(subjectID, that.subjectID) && Objects.equals(subjectName, that.subjectName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subjectID, subjectName);
+    }
+
+    public Subject(String subjectID, String subjectName) {
+        this.subjectID = subjectID;
+        this.subjectName = subjectName;
+    }
 }

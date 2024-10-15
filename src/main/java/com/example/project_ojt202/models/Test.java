@@ -54,7 +54,7 @@ public class Test {
     
     @ManyToOne
     @JoinColumn(name = "classID")
-    private Class class1;
+    private UniClass uniClass;
 
     @ManyToOne
     @JoinColumn(name = "scoreTranscriptID")
