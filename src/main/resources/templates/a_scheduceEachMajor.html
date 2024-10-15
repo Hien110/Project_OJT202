@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Major Result</title>
+    </head>
+    <br>
+        <h1>Chuyên ngành bạn chọn là: <span th:text="${selectedMajor}"></span></h1>
+        <form th:action = "@{scheduceOfSubject}" method="post">
+            <input type="hidden" name="major" th:value="${selectedMajor}"/>
+            <button name="specialization" value="1">Specialization 1 (Chuyên Ngành 1)</button></br>
+            <button name="specialization" value="2">Specialization 2 (Chuyên Ngành 2)</button></br>
+            <button name="specialization" value="3">Specialization 3 (Chuyên Ngành 3)</button></br>
+            <button name="specialization" value="4">Specialization 4 (Chuyên Ngành 4)</button></br>
+            <button name="specialization" value="5">Specialization 5 (Chuyên Ngành 5)</button></br>
+            <button name="specialization" value="6">Specialization 6 (Chuyên Ngành 6)</button></br>
+            <button name="specialization" value="7">Specialization 7 (Chuyên Ngành 7)</button></br>
+            <button name="specialization" value="8">Specialization 8 (Chuyên Ngành 8)</button></br>
+            <button name="specialization" value="9">Specialization 9 (Chuyên Ngành 9)</button></br>
+        </form>
+    </body>
+</html>
