@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     
-  /* hi */
+  /* header */
   }
   .header {
     background-color: #6C63FF;
@@ -18,8 +18,8 @@ body {
     justify-content: center; /* Đặt logo ở giữa */
   }
   .logo img {
-    height: 50px;
-    width: 150px; /* Đặt kích thước của logo */
+    height: 89px;
+    width: 211px; /* Đặt kích thước của logo */
     margin-right: 10px;
   }
   .search-bar {
@@ -27,10 +27,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 20px;
+    margin: 0px 80px 0px 0px;
   }
   .search-bar input {
-    width: 300px; /* Giảm kích thước của thanh tìm kiếm */
+   
+    height: 54px;
+    width: 350px; /* Giảm kích thước của thanh tìm kiếm */
     padding: 10px;
     border: none;
     border-radius: 25px;
@@ -48,13 +50,13 @@ body {
   .search-button {
     background-color: transparent;
     border: none;
-    margin-left: -40px;
+    margin-left: 40px;
     color: #B0AEE6;
     cursor: pointer;
   }
   
   .search-button:hover {
-    color: #ffffff; /* Đổi màu khi hover */
+    color: #ffffff; 
   }
   
   .search-button i {
@@ -70,7 +72,7 @@ body {
     cursor: pointer;
   }
   
-  
+  /*   nav trai   */
   .menu-item {
     display: flex;
     align-items: center;
@@ -105,7 +107,19 @@ body {
   .menu-item a:hover {
     text-decoration: underline;
   }
-  
+  .sidebar {
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0; /* Vị trí cố định của sidebar */
+    width: 250px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-top: 0px;
+    padding-left: 20px;
+  }
+
+  /* new */
   .breaking-news-headline {
     display: block;
     position: absolute;
@@ -270,7 +284,7 @@ body {
   .group .group-info .group-members {
     color: #888;
   }
-  
+  /*hieu ung*/
   * {
     padding: 0;
     margin: 0;

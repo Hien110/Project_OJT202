@@ -1,14 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="preload" href="/assets/images/68.jpg" as="image">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../static/assets/css/homestudent.css" />
+    <link rel="stylesheet"type="text/css" th:href="@{/assets/css/homestudent.css}" />
 </head>
 <!-- hi -->
 <body>
     <div class="header">
         <div class="logo">
-            <img alt="Logo image" src="https://placehold.co/150x50" />
+            <img src="/assets/images/Logo.png" alt="">
         </div>
         <div class="search-bar">
             <input placeholder="Enter your search here..." type="text" />
