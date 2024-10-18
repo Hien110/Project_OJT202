@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -42,11 +43,9 @@ public class RegisterStudentAccountController {
 
     // Save uploaded data to the database
     @PostMapping("/submitUploadStudentAccount")
-    public String submitData(Model model) {
-        // Save the data to the database using the service
+    @ResponseBody
+    public String submitData() {
         excelService.saveDataToDatabase();
-
-        // Redirect to a success page or back to the form with a success message
-        return "uploadStudentAccountSuccess"; // Redirect to a success page after submission
+        return "Dữ liệu đã được lưu thành công!";
     }
 }
