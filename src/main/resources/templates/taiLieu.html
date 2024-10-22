@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="preload" href="/assets/images/68.jpg" as="image">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/taiLieu.css}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="/assets/images/Logo.png" alt="">
+        </div>
+        <div class="search-bar">
+            <input placeholder="Enter your search here..." type="text" />
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <button class="logout-button">
+            Log out
+        </button>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="#" class="menu-item active">
+                <i class="fas fa-tv"></i>
+                <span>Thông Báo</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>Thong tin Hoc Sinh</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Lop Hoc</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-medal"></i>
+                <span>Diem</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Lich Hoc</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Khac</span>
+            </a>
+        </div>
+        
+        <aside>
+            <div class="container">
+                <span data-title="HanhNT54-SU24-SWP391-SWproject" class="text">
+                    HanhNT54-SU24-SWP391-SWproject
+                </span>
+              </div>
+            <ul class="list">
+                <li><a href="#" class="list-item">TAI LIEU </a>
+                    <ul class="list open" style="--depth: 2">
+                        <li><a href="#" class="list-item">TUAN 1</a>
+                            <ul class="list" style="--depth: 3">
+                                <li><a href="#" class="list-item">Item 1.1.1</a></li>
+                                <li><a href="#" class="list-item">Item 1.1.2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" class="list-item">Item 1.2</a></li>
+                        <li><a href="#" class="list-item">Item 1.3</a>
+                            <ul class="list " style="--depth: 3">
+                                <li><a href="#" class="list-item">Item 1.3.1</a></li>
+                                <li><a href="#" class="list-item">Item 1.3.2</a></li>
+                                <li><a href="#" class="list-item ">Item 1.3.3</a></li>
+                                <li><a href="#" class="list-item">Item 1.3.4</a></li>
+                                <li><a href="#" class="list-item">Item 1.3.5</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#" class="list-item">BAI TAP</a>
+                    <ul class="list open" style="--depth: 2">
+                        <li><a href="#" class="list-item">Item 3.1</a></li>
+                        <li><a href="#" class="list-item">Item 3.2</a></li>
+                        <li><a href="#" class="list-item">Item 3.3</a></li>
+                        <li><a href="#" class="list-item">Item 3.4</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="list-item">KIEM TRA</a>
+                    <ul class="list open " style="--depth: 2">
+                        <li><a href="#" class="list-item">Item 4.1</a></li>
+                        <li><a href="#" class="list-item">Item 4.2</a></li>
+                        <li><a href="#" class="list-item">Item 4.3</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <section id="main">
+            <div class="box">
+                Tab active : <span id="active-tab"></span>
+            </div>
+        </section>
+
+        <script>
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    // Remove 'active' class from all menu items
+                    menuItems.forEach(i => i.classList.remove('active'));
+
+                    // Add 'active' class to the clicked menu item
+                    this.classList.add('active');
+                });
+            });
+            const collapse = function (willCollapse = true, callback = (list) => { }) {
+                this.collapsing = true;
+                const height = this.scrollHeight;
+                const stateFrom = { height: height + 'px' };
+                const stateTo = { height: '0px' };
+
+                let animateState = [stateFrom, stateTo];
+                if (!willCollapse) animateState = [stateTo, stateFrom];
+
+                this.animate(animateState, {
+                    duration: 500,
+                    iterations: 1,
+                    easing: 'ease-in-out'
+                }).finished.then(val => {
+                    this.collapsing = false;
+                    if (callback && typeof (callback) == 'function') {
+                        callback(this);
+                    }
+                });
+            }
+            const showActiveTab = (tab) => {
+                if (tab) {
+                    document.querySelector('#active-tab').textContent = tab.textContent;
+                }
+            }
+            showActiveTab(document.querySelector('.list-item.active'));
+
+            document.querySelectorAll('.list li').forEach(li => {
+                const list = li.querySelector('.list');
+                if (list) list.collapse = collapse.bind(list);
+                li.querySelector('.list-item').addEventListener('click', (event) => {
+                    // if not a list (just list-item)
+                    if (!list) {
+                        document.querySelectorAll('.list-item').forEach(listItem => {
+                            listItem.classList.remove('active');
+                        });
+                        event.target.classList.add('active');
+                        showActiveTab(event.target);
+                        event.preventDefault();
+                        return;
+                    }
+                    // if list still collapsing
+                    if (list.collapsing) {
+                        event.preventDefault();
+                        return;
+                    }
+                    // set list collapse or open
+                    if (!list.classList.contains('open')) {
+                        list.classList.add('open')
+                        list.querySelectorAll('.list').forEach(oList => oList.classList.remove('open'));
+                        list.parentElement.parentElement.querySelectorAll('& > li > .list.open').forEach(oList => {
+                            if (oList !== list) {
+                                oList.collapse(true, ls => {
+                                    ls.querySelectorAll('.list').forEach(oList => oList.classList.remove('open'));
+                                    ls.classList.remove('open');
+                                });
+                            }
+                        });
+                        // open
+                        list.collapse(false);
+                    } else {
+                        // collapse
+                        list.collapse(true, ls => {
+                            ls.querySelectorAll('.list').forEach(oList => oList.classList.remove('open'));
+                            ls.classList.remove('open');
+                        });
+                    }
+                })
+            })
+
+           
+
+
+        </script>
