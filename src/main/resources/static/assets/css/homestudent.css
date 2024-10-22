@@ -82,23 +82,26 @@ body {
     color: #6c757d;
     text-decoration: none;
     font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   .menu-item i {
     margin-right: 10px;
     font-size: 20px;
   }
   .menu-item.active {
-    background-color: #00d1c1;
+    background: linear-gradient(to right, red 3%, #5A55D6 20%);
     color: #ffffff;
+    margin-left: -19px;
   }
   .menu-item.active i {
     color: #ffffff;
   }
   .menu-item:hover {
-    background-color: #f1f1f1;
+    background-color: #5A55D6;
+    color: #ffffff;
   }
   .menu-item.active:hover {
-    background-color: #00d1c1;
+    background-color: #5A55D6 ;
   }
   .menu-item a {
     color: inherit;
@@ -114,7 +117,7 @@ body {
     width: 250px;
     height: 100vh;
     background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding-top: 0px;
     padding-left: 20px;
   }
@@ -292,10 +295,10 @@ body {
   }
   .waviy {
     position: relative;
-    -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+    
     font-size: 76px;
     margin-bottom: 60px;
-    background:#00d1c1 ;
+   
     display:flex ;
     justify-content: space-around;
   }
@@ -303,11 +306,8 @@ body {
     font-family: 'Alfa Slab One';
     position: relative;
     display: inline-block;
-    color: #ffffff;
+    color: #000000;
     text-transform: uppercase;
-    animation: waviy 1s infinite;
-    animation-delay: calc(.1s * var(--i));
-    
   }
   @keyframes waviy {
     0%,40%,100% {

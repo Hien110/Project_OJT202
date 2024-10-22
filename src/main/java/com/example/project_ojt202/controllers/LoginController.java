@@ -33,11 +33,19 @@ public class LoginController {
         return "homeLecture"; 
     }
 
+    @GetMapping("/taiLieu")
+    public String showTaiLieuPage() {
+        return "taiLieu"; 
+    }
+
     @GetMapping("/homeAdmin")
     public String showHomeAdminPage() {
         return "homeAdmin"; 
     }
-
+    @GetMapping("/classRoom")
+    public String showClassRoom() {
+        return "classRoom"; 
+    }
     @GetMapping("/homeParent")
     public String showHomeParentPage() {
         return "homeParent"; 
