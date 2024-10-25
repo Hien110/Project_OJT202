@@ -1,0 +1,21 @@
+<tbody id="subjectTableBody">
+    <tr th:each="entry : ${subjectClassMap}">
+        <td colspan="4">
+            <ul th:each="uniClass : ${entry.value}">
+                <li th:data-semester="${uniClass.semester}" th:data-subject="${entry.key.subjectID}">
+                    <span th:text="${uniClass.uniClassName}"></span> - 
+                    <span th:text="${uniClass.lectureProfile.firstName}"></span>
+                </li>
+
+                <!-- Lặp qua từng giờ học của lớp -->
+                <ul th:each="scheduce : ${classSlotMap[uniClass.uniClassId]}">
+                    <li>
+                        <span th:text="${entry.key.subjectID} + ' - ' + ${uniClass.lectureProfile.firstName}">Tên lớp - Giáo viên</span>
+                        <br />
+                        <span th:text=" ${scheduce.timeScheduce} + ' - ' + ${scheduce.dateScheduce}">Giờ học - Ngày</span>
+                    </li>
+                </ul></ul>
+            </td>
+        </tr>
+    </tbody>
+    
