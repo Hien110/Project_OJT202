@@ -1,190 +1,326 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const semesterSelect = document.getElementById('semesterSelect');
-  const weekSelect = document.getElementById('weekSelect');
-  const subjectTableBody = document.getElementById('subjectTableBody');
-  const allClasses = subjectTableBody.querySelectorAll('li[data-subject]'); // Lấy tất cả các lớp học
-  const createScheduleButton = document.getElementById('createScheduleButton');
-  const noClassesMessage = document.getElementById('noClassesMessage'); // Thông báo không có lớp học
+document.addEventListener("DOMContentLoaded", function () {
+  const semesterSelect = document.getElementById("semester");
+  // Mặc định thiết lập kỳ là Fall23 khi trang tải
+  semesterSelect.value = "Fall23";
+  updateWeeks(); // Gọi để cập nhật các tuần của kỳ Fall23
+  updateClassCounts(); // Cập nhật số lượng lớp khi thay đổi kỳ học
 
-  // Đối tượng ánh xạ các ký hiệu học kỳ sang tháng
-  const semesterDates = {
-      'Fall': { start: { month: 8, day: 1 }, end: { month: 8, day: 23 } }, // Tháng 8
-      'Spring': { start: { month: 12, day: 1 }, end: { month: 12, day: 23 } }, // Tháng 12
-      'Summer': { start: { month: 10, day: 1 }, end: { month: 10, day: 23 } } // Tháng 4
-  };
-
-  // Hàm lọc các lớp học theo học kỳ và tuần
-  function filterClasses() {
-      const selectedSemester = semesterSelect.value;
-      const selectedWeek = weekSelect.value;
-      const subjectClassCounts = {}; // Biến để lưu số lượng lớp theo subjectID cho từng học kỳ và tuần
-
-      // Đặt lại số lượng lớp về 0 cho tất cả các môn học
-      allClasses.forEach(classItem => {
-          const subjectID = classItem.getAttribute('data-subject');
-          if (!subjectClassCounts[subjectID]) {
-              subjectClassCounts[subjectID] = 0; // Đặt lại số lượng lớp cho mỗi subjectID
-          }
-      });
-
-      // Lọc lớp học theo học kỳ
-      allClasses.forEach(classItem => {
-          const classSemester = classItem.getAttribute('data-semester'); // Lấy học kỳ của lớp
-
-          if (classSemester === selectedSemester) {
-              classItem.style.display = ''; // Hiển thị lớp học nếu khớp kỳ
-          } else {
-              classItem.style.display = 'none'; // Ẩn lớp học nếu không khớp kỳ
-          }
-      });
-
-      // Nếu có tuần được chọn, gọi hàm lọc theo tuần
-      if (selectedWeek) {
-          filterSchedulesByWeek(selectedWeek, subjectClassCounts);
-      } else {
-          noClassesMessage.style.display = 'block'; // Hiển thị thông báo nếu không có lớp
-      }
-
-      // Kiểm tra nếu không có lớp học nào hiển thị
-      const totalClasses = Object.values(subjectClassCounts).reduce((acc, count) => acc + count, 0);
-      if (totalClasses === 0) {
-          noClassesMessage.style.display = 'block'; // Hiển thị thông báo nếu không có lớp
-      } else {
-          noClassesMessage.style.display = 'none'; // Ẩn thông báo nếu có lớp
-      }
-
-      checkScheduleButtonVisibility(selectedSemester);
-  }
-
-  // Hàm lọc lịch học theo tuần
-  function filterSchedulesByWeek(selectedWeek, subjectClassCounts) {
-      const [startISO, endISO] = selectedWeek.split("_");
-      const startDate = new Date(startISO);
-      const endDate = new Date(endISO);
-      const scheduleRows = document.querySelectorAll("ul li[data-subject]"); // Lấy tất cả các lịch học
-      let totalVisibleClasses = 0; // Biến đếm số lượng lớp học hiển thị
-
-      scheduleRows.forEach((row) => {
-          const schedules = row.querySelectorAll("li[data-semester]");
-          let classVisible = false; // Biến kiểm tra hiển thị lớp theo tuần
-
-          schedules.forEach((schedule) => {
-              const spanElement = schedule.querySelector("#dateScheduce");
-
-              if (spanElement) {
-                  const scheduleDate = new Date(spanElement.textContent);
-                  if (scheduleDate >= startDate && scheduleDate <= endDate) {
-                      schedule.style.display = "block"; // Hiển thị lịch nằm trong khoảng
-                      classVisible = true; // Đánh dấu lớp này hợp lệ
-                  } else {
-                      schedule.style.display = "none"; // Ẩn lịch không nằm trong khoảng
-                  }
-              }
-          });
-
-          // Hiển thị/Ẩn lớp học theo kết quả lọc
-          row.style.display = classVisible ? '' : 'none'; // Hiển thị lớp nếu có lịch hợp lệ
-          if (classVisible) {
-              const subjectID = row.getAttribute('data-subject');
-              subjectClassCounts[subjectID]++; // Tăng số lượng lớp cho môn học này
-              totalVisibleClasses++; // Tăng số lượng lớp hiển thị
-          }
-      });
-
-      // Cập nhật thông báo không có lớp học
-      if (totalVisibleClasses === 0) {
-          noClassesMessage.style.display = 'block'; // Hiển thị thông báo nếu không có lớp
-      } else {
-          noClassesMessage.style.display = 'none'; // Ẩn thông báo nếu có lớp
-      }
-  }
-
-  // Hàm để kiểm tra thời gian hiện tại và hiển thị nút "Tạo thời khóa biểu"
-  function checkScheduleButtonVisibility(selectedSemester) {
-      const currentDate = new Date();
-      let startDate, endDate;
-      let semesterType = '';
-
-      // Tách ký hiệu học kỳ và năm từ giá trị đã chọn
-      if (selectedSemester !== 'All') {
-          switch (selectedSemester.slice(0, 2)) {
-              case "Fa":
-                  semesterType = "Fall";
-                  break;
-              case "Sp":
-                  semesterType = "Spring";
-                  break;
-              case "Su":
-                  semesterType = "Summer";
-                  break;
-          }
-
-          // Lấy năm từ ký hiệu học kỳ
-          const year = `20${selectedSemester.slice(-2)}`; // Lấy năm từ kỳ học
-
-          // Lấy thông tin tháng và ngày từ đối tượng
-          if (semesterDates[semesterType]) {
-              startDate = new Date(year, semesterDates[semesterType].start.month - 1, semesterDates[semesterType].start.day);
-              endDate = new Date(year, semesterDates[semesterType].end.month - 1, semesterDates[semesterType].end.day);
-          }
-      }
-
-      // Kiểm tra xem thời gian hiện tại có nằm trong khoảng thời gian quy định không
-      if (startDate && endDate && currentDate >= startDate && currentDate <= endDate) {
-          createScheduleButton.style.display = 'inline'; // Hiển thị nút
-      } else {
-          createScheduleButton.style.display = 'none'; // Ẩn nút
-      }
-  }
-
-  // Hàm để tính toán và hiển thị các tuần theo từng năm
-  function generateWeeksForYear(selectedYear) {
-      const weekSelect = document.getElementById("weekSelect");
-      weekSelect.innerHTML = ""; // Xóa các tuần cũ
-
-      // Lấy ngày đầu tiên của năm
-      let startDate = new Date(selectedYear, 0, 1);
-
-      // Nếu ngày đầu tiên của năm không phải là thứ Hai, tìm ngày thứ Hai đầu tiên
-      while (startDate.getDay() !== 1) {
-          startDate.setDate(startDate.getDate() + 1);
-      }
-
-      // Tạo tuần từ ngày thứ Hai đến Chủ Nhật
-      while (startDate.getFullYear() === parseInt(selectedYear)) {
-          let endDate = new Date(startDate);
-          endDate.setDate(startDate.getDate() + 6);
-
-          // Định dạng ngày và tháng với số 0 đứng trước nếu nhỏ hơn 10
-          let startString = `${startDate.getDate().toString().padStart(2, "0")}/${(startDate.getMonth() + 1).toString().padStart(2, "0")}`;
-          let endString = `${endDate.getDate().toString().padStart(2, "0")}/${(endDate.getMonth() + 1).toString().padStart(2, "0")}`;
-
-          let option = document.createElement("option");
-          option.value = `${startDate.toISOString()}_${endDate.toISOString()}`;
-          option.textContent = `${startString} đến ${endString}`;
-          weekSelect.appendChild(option);
-
-          // Chuyển sang tuần tiếp theo
-          startDate.setDate(startDate.getDate() + 7);
-      }
-  }
-
-  // Lắng nghe sự kiện khi người dùng thay đổi kỳ học
-  semesterSelect.addEventListener('change', function () {
-      const selectedYear_string = this.value;
-      const selectedYear = `20${selectedYear_string.slice(-2)}`;
-      generateWeeksForYear(selectedYear);
-      filterClasses(); // Lọc lại lớp học khi thay đổi kỳ
+  // Lắng nghe sự kiện thay đổi kỳ học
+  semesterSelect.addEventListener("change", function () {
+    updateWeeks(); // Tự động cập nhật các tuần khi thay đổi kỳ học
+    updateClassCounts(); // Cập nhật số lượng lớp khi thay đổi kỳ học
   });
 
-  // Lắng nghe sự kiện khi người dùng thay đổi tuần
-  weekSelect.addEventListener('change', filterClasses);
+  const weekSelect = document.getElementById("week");
 
-  // Khởi tạo tuần cho năm mặc định khi tải trang
-  window.onload = function () {
-      const currentYear_string = document.getElementById('semesterSelect').value;
-      const currentYear = `20${currentYear_string.slice(-2)}`;
-      generateWeeksForYear(currentYear);
-      filterClasses(); // Lọc lớp học ban đầu
-  };
+  // Lắng nghe sự kiện thay đổi tuần
+  weekSelect.addEventListener("change", updateCalendarDates);
 });
+
+// Khai báo biến toàn cục để giữ classCountMap
+const classCountMap = new Map();
+
+function updateWeeks() {
+  const semesterSelect = document.getElementById("semester");
+  const weekSelect = document.getElementById("week");
+
+  weekSelect.innerHTML = ""; // Xóa các option trước khi thêm mới
+
+  const selectedSemester = semesterSelect.value;
+  const season = selectedSemester.slice(0, -2); // Mùa (Fall, Spring, Summer)
+  const year = "20" + selectedSemester.slice(-2); // Năm (2023, 2024)
+
+  let startMonth, endMonth;
+
+  if (season === "Spring") {
+    startMonth = 1;
+    endMonth = 4;
+  } else if (season === "Summer") {
+    startMonth = 5;
+    endMonth = 8;
+  } else if (season === "Fall") {
+    startMonth = 8;
+    endMonth = 12; // Fall chỉ đến hết tháng 12
+  }
+
+  function getFirstMonday(year, month) {
+    let date = new Date(year, month - 1, 1); // Ngày đầu tiên của tháng
+    while (date.getDay() !== 1) {
+      date.setDate(date.getDate() + 1); // Tìm thứ Hai đầu tiên
+    }
+    return date;
+  }
+
+  function getWeeks(startMonth, endMonth, year) {
+    let weeks = [];
+    let currentDate = getFirstMonday(year, startMonth);
+    const lastDayOfYear = new Date(year, 11, 31);
+
+    while (
+      currentDate <= lastDayOfYear &&
+      currentDate.getMonth() + 1 <= endMonth
+    ) {
+      let startWeek = new Date(currentDate);
+      let endWeek = new Date(currentDate);
+      endWeek.setDate(endWeek.getDate() + 6);
+
+      if (endWeek > lastDayOfYear) {
+        endWeek = lastDayOfYear;
+      }
+
+      const startWeekStr = startWeek.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+      });
+      const endWeekStr = endWeek.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+      });
+      weeks.push(`${startWeekStr} - ${endWeekStr}`);
+      
+      currentDate.setDate(currentDate.getDate() + 7);
+    }
+    return weeks;
+  }
+
+  const weeks = getWeeks(startMonth, endMonth, year);
+
+  weeks.forEach((week) => {
+    const option = document.createElement("option");
+    option.text = week;
+    weekSelect.add(option);
+  });
+
+  // Thiết lập tuần đầu tiên mặc định được chọn sau khi cập nhật
+  weekSelect.value = weekSelect.options[0].value;
+
+  // Gọi để cập nhật lịch dựa trên tuần đầu tiên
+  updateCalendarDates();
+}
+
+function updateCalendarDates() {
+  const weekSelect = document.getElementById("week");
+  const selectedWeek = weekSelect.value;
+
+  if (!selectedWeek || selectedWeek === "Week") return;
+
+  const [startDate, endDate] = selectedWeek.split(" - ").map((date) => {
+    const [day, month] = date.split("/");
+    // Lấy năm từ kỳ học đã chọn
+    const semesterSelect = document.getElementById("semester");
+    const selectedSemester = semesterSelect.value;
+    const year = "20" + selectedSemester.slice(-2); // Năm (2023, 2024)
+
+    return new Date(year, parseInt(month) - 1, parseInt(day)); // Sử dụng năm đúng
+  });
+
+  const calendarHeaders = document.querySelectorAll(".calendar thead th");
+  let currentDate = new Date(startDate); // Đảm bảo khởi tạo currentDate đúng
+  const dateScheduceText = ["2023-10-18", "2023-10-19", "2023-10-20"]; // Ví dụ dữ liệu từ DB
+
+  // Tạo một mảng để lưu trữ các ngày từ lịch
+  const calendarDates = [];
+
+  calendarHeaders.forEach((header, index) => {
+    if (index > 0 && currentDate <= endDate) {
+      const day = currentDate.getDate().toString().padStart(2, "0");
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+      const year = currentDate.getFullYear();
+      header.innerHTML = `Thứ ${index +1}<br />${day}/${month}`;
+
+      // Lưu giá trị vào mảng calendarDates
+      calendarDates.push(`${year}-${month}-${day}`);
+
+      // Cập nhật currentDate cho lần lặp tiếp theo
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  });
+  const today = new Date(); 
+  const day = today.getDate(); 
+  const month = today.getMonth() + 1; 
+  const year = today.getFullYear(); 
+  const todayObj = `${year}-${month}-${day}`;
+  // In ra console để kiểm tra
+
+  const startDateOjt = new Date(startDate);
+  const endDateOjt = new Date(endDate);
+
+// Lấy các giá trị năm, tháng, ngày
+const yearStart = startDateOjt.getFullYear();
+const monthStart = String(startDateOjt.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+const dayStart = String(startDateOjt.getDate()).padStart(2, '0');
+const formattedDateStart = `${yearStart}-${monthStart}-${dayStart}`;  
+
+
+const yearEnd = endDateOjt.getFullYear();
+const monthEnd = String(endDateOjt.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+const dayEnd = String(endDateOjt.getDate()).padStart(2, '0');
+const formattedDateEnd = `${yearEnd}-${monthEnd}-${dayEnd-2}`;
+
+const saveButton = document.querySelector("#saveButton");
+console.log(formattedDateStart <=  todayObj && formattedDateEnd >= todayObj);
+
+if ( formattedDateEnd >= todayObj) {
+  saveButton.style.display = "block"
+} else {
+  saveButton.style.display = "none"
+}
+
+  updateSchedule(calendarDates);
+}
+
+function updateSchedule(calendarDates) {
+  const slotRows = document.querySelectorAll("tbody tr");
+  const semesterSelect = document.getElementById("semester");
+  const selectedSemester = semesterSelect.value;
+  const year = "20" + selectedSemester.slice(-2); // Năm (2023, 2024)
+
+  slotRows.forEach((row) => {
+    const slotName = row.querySelector(".tableSlot h5").innerText.trim(); // Lấy tên slot (ví dụ: "Slot 1", "Slot 2", ...)
+
+    const scheduleCells = row.querySelectorAll("td");
+    const headerCells = document.querySelectorAll(".calendar thead th");
+    headerCells.forEach((header, colIndex) => {
+      if (colIndex > 0) {
+        // Bỏ qua cột đầu (thường là cột không chứa ngày)
+        const headerText = header.innerText.split("\n")[1].trim(); // Lấy giá trị ngày từ tiêu đề cột (bỏ qua "Thứ")
+        const [day, month] = headerText.split("/").map(Number); // Tách ngày/tháng
+        const headerDate = new Date(year, month - 1, day);
+        const headerFormatted = `${headerDate.getFullYear()}-${(
+          headerDate.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}-${headerDate
+          .getDate()
+          .toString()
+          .padStart(2, "0")}`;
+
+        const cell = scheduleCells[colIndex];
+
+        if (cell) {
+          const scheduleItems = cell.querySelectorAll("ul li ul li");
+
+          // Lặp qua từng mục lịch trình trong ô
+          scheduleItems.forEach((item) => {
+            const timeScheduceElement = item.querySelector(".scheduceTime");
+            const classOfSemester = item.querySelector("#className");
+            const value1 = classOfSemester.innerText;
+            const key =
+              value1.split("_")[0].trim() + "-" + value1.split("_")[1].trim();
+
+            // Cập nhật classCountMap
+            if (!classCountMap.has(key)) {
+              classCountMap.set(key, []);
+            }
+            if (!classCountMap.get(key).includes(value1)) {
+              classCountMap.get(key).push(value1);
+            }
+
+            if (timeScheduceElement) {
+              const timeScheduceText = timeScheduceElement.innerText
+                .split(" - ")[0]
+                .trim(); // Lấy thời gian (Slot) từ lịch trình
+              const dateScheduceText = timeScheduceElement.innerText
+                .split(" - ")[1]
+                .trim(); // Lấy ngày từ lịch trình
+
+              const isSlotMatched = timeScheduceText === slotName;
+              const isDateMatched = dateScheduceText === headerFormatted;
+
+              const dateScheduce = item.querySelector(".scheduceTime").innerText.split(" - ")[1].trim()
+              const today = new Date(); 
+              const day = today.getDate(); 
+              const month = today.getMonth() + 1; 
+              const year = today.getFullYear(); 
+              const currentDate = `${year}-${month}-${day}`;
+              // Hiển thị nếu cả slot và ngày đều khớp
+              if (isSlotMatched && isDateMatched) {
+                item.style.display = "block"; // Hiển thị mục lịch trình
+                const optionLecture = item.querySelectorAll("#optionLecture");
+                const optionRoom = item.querySelectorAll("#optionRoom");
+                const lectureData = item.querySelectorAll("#lectureData");
+                const roomData = item.querySelectorAll("#roomData");
+                
+                if (dateScheduce <= currentDate){
+                  optionLecture.forEach((option) => {
+                    option.style.display = "none";
+                  })
+                  optionRoom.forEach((option) => {
+                    option.style.display = "none";
+                  })
+                  lectureData.forEach((option) => {
+                    option.style.display = "block";
+                  })
+                  roomData.forEach((option) => {
+                    option.style.display = "block";
+                  })
+                }  else {
+                  optionLecture.forEach((option) => {
+                    option.style.display = "block";
+                  })
+                  optionRoom.forEach((option) => {
+                    option.style.display = "block";
+                  })
+                  lectureData.forEach((option) => {
+                    option.style.display = "none";
+                  })
+                  roomData.forEach((option) => {
+                    option.style.display = "none";
+                  })
+                }
+              } else {
+                item.style.display = "none"; // Ẩn mục lịch trình
+              }
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
+// Hàm cập nhật số lượng lớp
+function updateClassCounts() {
+  const selectedSemester_S = document.getElementById("semester").value; // Lấy giá trị kỳ học đã chọn
+  const subjects = document.querySelectorAll(".filter-box");
+  subjects.forEach((subject) => {
+    const classCountInput = subject.querySelector(".classCountInput");
+    classCountInput.value = 0;
+  });
+  classCountMap.forEach((value, key) => {
+    const [className, semester] = key.split("-"); // Tách key thành tên lớp và kỳ học
+    const subjects = document.querySelectorAll(".filter-box");
+    let selectedSemester;
+
+    switch (selectedSemester_S.slice(0, -2)) {
+      case "Fall":
+        selectedSemester = "FA" + selectedSemester_S.slice(-2); // FA23 -> Fa23
+        break;
+      case "Summer":
+        selectedSemester = "Su" + selectedSemester_S.slice(-2); // Summer -> Su
+        break;
+      case "Spring":
+        selectedSemester = "SP" + selectedSemester_S.slice(-2); // Spring -> Sp
+        break;
+    }
+
+    if (semester === selectedSemester) {
+      subjects.forEach((subject) => {
+        const subjectID = subject.querySelector(".subjectID").value.trim(); // Lấy mã môn học
+
+        if (subjectID === className) {
+          const classCountInput = subject.querySelector(".classCountInput");
+          classCountInput.value = value.length; // Cập nhật số lượng lớp nếu có
+        }
+      });
+    }
+  });
+
+  // Đặt giá trị bằng 0 cho những môn không có lớp
+  subjects.forEach((subject) => {
+    const classCountInput = subject.querySelector(".classCountInput");
+    if (!classCountInput.value || classCountInput.value === "") {
+      classCountInput.value = 0; // Nếu không có giá trị, đặt bằng 0
+    }
+  });
+}

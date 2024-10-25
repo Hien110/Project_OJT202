@@ -1,99 +1,242 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Danh sách Lớp học</title>
+    <title>Calendar</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/a_scheduceSubject.css}"
+    />
     <script src="/assets/js/a_scheduceSubject.js"></script>
-    <link rel="stylesheet" href="../static/assets/css/a_scheduceSubject.css">
   </head>
   <body>
-    <h1>
-      Thời khoá biểu của môn học thuộc ngành
-      <span th:text="${selectedMajor}"></span>
-    </h1>
-
-    <label for="weekSelect">Chọn Ngày Theo Tuần</label>
-    <select id="weekSelect"></select>
-
-    <label for="semester">Kỳ học</label>
-    <select name="semester" id="semesterSelect">
-      <option value="Fall23">Fall23</option>
-      <option value="Spring24">Spring24</option>
-      <option value="Summer24">Summer24</option>
-      <option value="Fall24">Fall24</option>
-      <option value="Spring25">Spring25</option>
-      <option value="Summer25">Summer25</option>
-    </select>
-
-    <button id="createScheduleButton" style="display: none">
-      Tạo thời khoá biểu
-    </button>
-
-    <p id="noClassesMessage" style="display: none; color: red">
-      Không có lớp học
-    </p>
-
-    <div id="subjectList">
-      <div th:each="entry : ${subjectClassMap}" style="margin-bottom: 20px;">
-        <p>
-          <strong>Tên Môn Học:</strong> <span th:text="${entry.key.subjectName}">Tên Môn Học</span>
-        </p>
-        <p>
-          <strong>Mã Môn Học:</strong> <span th:text="${entry.key.subjectID}">Mã Môn Học</span>
-        </p>
-        <p>
-          <strong>Số Lượng Lớp:</strong> <span th:id="'classCount_' + ${entry.key.subjectID}"></span>
-        </p>
-      </div>
+    <div class="header">
+      <img
+        alt="Logo"
+        height="50"
+        src="https://storage.googleapis.com/a1aa/image/KAjVFn40HaKsFhScPLGL6VwrPe3fIfMn39G2zRyenfHFDp5cC.jpg"
+        width="50"
+      />
+      <input placeholder="Enter your search here..." type="text" />
+      <button>Log out</button>
     </div>
-
-    <h2>Các Lớp Học:</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Tên Lớp Học</th>
-          <th>Giáo Viên</th>
-          <th>Thời Gian</th>
-          <th>Ngày Học</th>
-        </tr>
-      </thead>
-      <tbody id="subjectTableBody">
-        <tr th:each="entry : ${subjectClassMap}">
-            <td colspan="4">
-                <ul th:each="uniClass : ${entry.value}">
-                    <li th:data-semester="${uniClass.semester}" th:data-subject="${entry.key.subjectID}">
-                        <span th:text="${uniClass.uniClassName}"></span> - 
-                        <span th:text="${uniClass.lectureProfile.firstName}"></span>
-                    </li>
-    
-                    <!-- Lặp qua từng giờ học của lớp -->
-                    <ul th:each="scheduce : ${classSlotMap[uniClass.uniClassId]}">
-                        <li>
-                            <span th:text="${entry.key.subjectID} + ' - ' + ${uniClass.lectureProfile.firstName}">Tên lớp - Giáo viên</span>
-                            <br />
-                            <span th:text=" ${scheduce.timeScheduce} + ' - ' + ${scheduce.dateScheduce}">Giờ học - Ngày</span>
-                        </li>
-                    </ul>
-                </ul>
-            </td>
-        </tr>
-    </tbody>
-    
-    
-    </table>
-
-    <!-- Modal -->
-    <div
-      id="scheduleModal"
-      style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5);"
-    >
-      <div style="background-color: white; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%;">
-        <span id="closeModal" style="cursor: pointer; float: right;">&times;</span>
-        <h2>Tạo Thời Khóa Biểu</h2>
-        <div id="modalContent"></div>
-        <button id="createClassButton">Tạo Lớp Học</button>
+    <div class="sidebar">
+      <ul>
+        <li>
+          <i class="fas fa-newspaper"> </i>
+          Newsfeed
+        </li>
+        <li>
+          <i class="fas fa-user"> </i>
+          Students Info
+        </li>
+        <li>
+          <i class="fas fa-chalkboard-teacher"> </i>
+          Class Room
+        </li>
+        <li>
+          <i class="fas fa-chart-bar"> </i>
+          Score
+        </li>
+        <li class="active">
+          <i class="fas fa-calendar-alt"> </i>
+          Calendar
+        </li>
+        <li>
+          <i class="fas fa-comments"> </i>
+          Chat
+        </li>
+        <li>
+          <i class="fas fa-ellipsis-h"> </i>
+          Other
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>Calendar</h1>
+      <div class="select">
+          <div>
+            <label class="labelSelect" for="semester">Semester</label>
+            <select class="semester" id="semester" onchange="updateWeeks()">
+              <option value="Fall23">Fall 23</option>
+              <option value="Spring24">Spring 24</option>
+              <option value="Summer24">Summer 24</option>
+              <option value="Fall24">Fall 24</option>
+              <option value="Spring25">Spring 25</option>
+              <option value="Summer25">Summer 25</option>
+            </select>
+        </div>
+        <div>
+          <label class="labelSelect" for="week">Week</label>
+          <select class="week" id="week">
+            <option>Week</option>
+          </select>
+        </div>
       </div>
+      <div class="filters">
+        <div th:each="subject : ${subjects}" class="filter-box">
+          <h3>Môn học</h3>
+          <label class="labelSelect">Mã môn học</label>
+          <input
+            id="subjectID"
+            type="text"
+            th:value="${subject.subjectID}"
+            class="form-control subjectID"
+            readonly
+          />
+          <label class="labelSelect">Tên môn học</label>
+          <input
+            type="text"
+            th:value="${subject.subjectName}"
+            class="form-control"
+            readonly
+          />
+          <label class="labelSelect">Số lượng lớp</label>
+          <input type="text" class="classCountInput form-control" readonly />
+        </div>
+      </div>
+      <table class="calendar">
+        <thead>
+          <tr>
+            <th style="vertical-align: middle; width: 40px">Slot</th>
+            <th>
+              Thứ 2
+              <br />
+              <span id="mon"></span>
+            </th>
+            <th>
+              Thứ 3
+              <br />
+              <span id="tue"></span>
+            </th>
+            <th>
+              Thứ 4
+              <br />
+              <span id="wed"></span>
+            </th>
+            <th>
+              Thứ 5
+              <br />
+              <span id="thu"></span>
+            </th>
+            <th>
+              Thứ 6
+              <br />
+              <span id="fri"></span>
+            </th>
+            <th>
+              Thứ 7
+              <br />
+              <span id="sat"></span>
+            </th>
+            <th>
+              Chủ nhật
+              <br />
+              <span id="sun"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="slot : ${slots}">
+            <td class="tableSlot">
+              <h5 th:text="${slot.name}"></h5>
+              <div>
+                <div th:text="${slot.startTime}"></div>
+                <div>-</div>
+                <div th:text="${slot.endTime}"></div>
+              </div>
+            </td>
+            <td th:each="day : ${days}">
+              <ul class="calendarUl" th:each="entry : ${subjectClassMap}">
+                <li
+                  class="calendarLi"
+                  th:each="uniClass : ${entry.value}"
+                  th:data-semester="${uniClass.semester}"
+                  th:data-subject="${entry.key.subjectID}"
+                >
+                  <ul
+                    class="calendarUl"
+                    th:each="scheduce : ${classSlotMap[uniClass.uniClassId]}"
+                  >
+                    <li class="event" style="display: none;">
+                      <span id="className" th:text="${uniClass.uniClassName}"></span><br/>
+                      <span id="lectureData" style="display: none;"
+                        th:text="${uniClass.lectureProfile.firstName}"
+                      ></span>
+                      <select id="optionLecture">
+                        <option th:each="lecture : ${lectures}" 
+                                th:value="a"
+                                th:text="${lecture.firstName}"></option>
+                      </select>
+                      <span id="roomData"
+                        th:text="'Phòng ' + ${uniClass.uniClassRoom}"
+                      ></span>
+                      <select id="optionRoom">
+                        <option>Phòng 201</option>
+                        <option>Phòng 202</option>
+                        <option>Phòng 203</option>
+                        <option>Phòng 204</option>
+                        <option>Phòng 205</option>
+                        <option>Phòng 206</option>
+                        <option>Phòng 207</option>
+                        <option>Phòng 208</option>
+                        <option>Phòng 209</option>
+                        <option>Phòng 210</option>
+                        <option>Phòng 211</option>
+                        <option>Phòng 212</option>
+                        <option>Phòng 213</option>
+                        <option>Phòng 214</option>
+                        <option>Phòng 215</option>
+                        <option>Phòng 301</option>
+                        <option>Phòng 302</option>
+                        <option>Phòng 303</option>
+                        <option>Phòng 304</option>
+                        <option>Phòng 305</option>
+                        <option>Phòng 306</option>
+                        <option>Phòng 307</option>
+                        <option>Phòng 308</option>
+                        <option>Phòng 309</option>
+                        <option>Phòng 310</option>
+                        <option>Phòng 311</option>
+                        <option>Phòng 312</option>
+                        <option>Phòng 313</option>
+                        <option>Phòng 314</option>
+                        <option>Phòng 315</option>
+                        <option>Phòng 401</option>
+                        <option>Phòng 402</option>
+                        <option>Phòng 403</option>
+                        <option>Phòng 404</option>
+                        <option>Phòng 405</option>
+                        <option>Phòng 406</option>
+                        <option>Phòng 407</option>
+                        <option>Phòng 408</option>
+                        <option>Phòng 409</option>
+                        <option>Phòng 410</option>
+                      </select>
+                      <span
+                        style="display: none"
+                        class="scheduceTime"
+                        th:text="${scheduce.timeScheduce} + ' - ' + ${scheduce.dateScheduce}"
+                      >
+                        Giờ học - Ngày
+                        </span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button id="saveButton" style="display: none;">Lưu</button>
     </div>
   </body>
 </html>
