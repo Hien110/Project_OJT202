@@ -38,10 +38,7 @@ public class LoginController {
         return "taiLieu"; 
     }
 
-    @GetMapping("/homeAdmin")
-    public String showHomeAdminPage() {
-        return "homeAdmin"; 
-    }
+    
     @GetMapping("/classRoom")
     public String showClassRoom() {
         return "classRoom"; 
@@ -49,6 +46,10 @@ public class LoginController {
     @GetMapping("/homeParent")
     public String showHomeParentPage() {
         return "homeParent"; 
+    }
+    @GetMapping("/test")
+    public String showHomeTestPage() {
+        return "test"; 
     }
 
     @PostMapping("/login")

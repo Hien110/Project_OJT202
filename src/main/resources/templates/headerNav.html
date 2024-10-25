@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+</head>
+<body>
+    <div th:fragment="header">
+        <div class="header">
+            <div class="logo">
+                <img src="/assets/images/Logo.png" alt="Logo">
+            </div>
+            <div class="search-bar">
+                <input placeholder="Enter your search here..." type="text" />
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <button class="logout-button">
+                Log out
+            </button>
+        </div>
+    </div>
+
+    <div th:fragment="nav">
+        <div class="sidebar">
+            <a href="#" class="menu-item active">
+                <i class="fas fa-tv"></i>
+                <span>Thong Bao</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>Thong tin Hoc Sinh</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Lop Hoc</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-medal"></i>
+                <span>Diem</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Lich Hoc</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Khac</span>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="view-icons">
-                    <i class="fas fa-th-large"></i>
+                    <button type="button" class="btn btn-primary mb-3" onclick="openModal()">Tạo Thông Báo</button>
                     <i class="fas fa-th active"></i>
                     <i class="fas fa-th-list"></i>
                 </div>
@@ -133,35 +133,34 @@
                     </button>
                     </div>
                 </div>
-                <div class="card">
-                    <img alt="Hands holding game controllers with a soccer game on the TV in the background" height="200" src="https://storage.googleapis.com/a1aa/image/4wf54XdVjOVAeUx5rNWxPCKAfrC8xi6VHhsqHUHEPgW3JmOnA.jpg" width="350"/>
-                    <div class="card-content">
-                    <span class="category">
-                    GAMING
-                    </span>
-                    <span class="date">
-                    - OCTOBER 13, 2020
-                    </span>
-                    <h2>
-                    Here’s the X-mas Gamer Box from Powerstation and it packs some surprises
-                    </h2>
-                    <p>
-                    A video game console is an electronic or computer device that outputs a video signal or visual image to display a video game that one or more people can play through some type of game controller. These may be home consol...
-                    </p>
-                    <a class="read-more" href="#">
-                    READ MORE...
-                    </a>
+                <div th:each="notification : ${notifications}">
+                    <div class="card">
+                        <img th:src="${notification.notificationImage}" alt="Notification Image" />
+                
+                        <div class="card-content">
+                            <span class="category">
+                                GAMING
+                            </span>
+                            <span class="date" th:text="${#dates.format(notification.notificationDate, 'MMMM dd, yyyy')}"></span>
+                            
+                            <h2 th:text="${notification.notificationName}"></h2>
+                            <p th:text="${notification.notificationContent}"></p>
+                            <a class="read-more" th:href="@{'/notifications/' + ${notification.notificationid}}">READ MORE...</a>
+                        </div>
+                
+                        <div class="card-actions">
+                            <button class="edit" th:onclick="'window.location.href=\'/notifications/edit/' + ${notification.notificationid} + '\''">
+                                EDIT
+                            </button>
+                            <button class="delete" th:onclick="'window.location.href=\'/notifications/delete/' + ${notification.notificationid} + '\''">
+                                DELETE
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-actions">
-                    <button class="edit">
-                    EDIT
-                    </button>
-                    <button class="delete">
-                    DELETE
-                    </button>
                 </div>
             </div>
         </div>
+        
         </div>
 
 
@@ -178,5 +177,31 @@
                 });
             });
         </script>
+       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+       
+       <script>
+           function openModal(isEdit = false, notification = null) {
+               document.getElementById("notificationForm").reset();
+               document.getElementById("notificationId").value = isEdit ? notification.notificationid : '';
+               document.getElementById("modalTitle").innerText = isEdit ? "Chỉnh Sửa Thông Báo" : "Tạo Thông Báo";
+               if (isEdit) {
+                   document.getElementById("notificationName").value = notification.notificationName;
+                   document.getElementById("notificationContent").value = notification.notificationContent;
+               }
+               $('#notificationModal').modal('show');
+           }
+       
+           function saveNotification() {
+               const id = document.getElementById("notificationId").value;
+               const name = document.getElementById("notificationName").value;
+               const content = document.getElementById("notificationContent").value;
+               const image = document.getElementById("notificationImage").files[0];
+       
+               // Logic lưu hoặc cập nhật thông báo
+               $('#notificationModal').modal('hide');
+           }
+       </script>
 </body>
 </html>
