@@ -92,6 +92,13 @@
 			<version>5.0.0</version> <!-- để xử lý tệp Excel -->
 		</dependency>
 
+		<!-- sendmail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
