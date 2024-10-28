@@ -43,6 +43,10 @@ public class LoginController {
     public String showClassRoom() {
         return "classRoom"; 
     }
+
+    @GetMapping("/test1")
+    public String showTest1() {
+        return "test";}
     @GetMapping("/homeParent")
     public String showHomeParentPage() {
         return "homeParent"; 

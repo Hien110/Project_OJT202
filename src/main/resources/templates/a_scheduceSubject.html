@@ -16,50 +16,13 @@
       th:href="@{/assets/css/a_scheduceSubject.css}"
     />
     <script src="/assets/js/a_scheduceSubject.js"></script>
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
   </head>
   <body>
-    <div class="header">
-      <img
-        alt="Logo"
-        height="50"
-        src="https://storage.googleapis.com/a1aa/image/KAjVFn40HaKsFhScPLGL6VwrPe3fIfMn39G2zRyenfHFDp5cC.jpg"
-        width="50"
-      />
-      <input placeholder="Enter your search here..." type="text" />
-      <button>Log out</button>
-    </div>
-    <div class="sidebar">
-      <ul>
-        <li>
-          <i class="fas fa-newspaper"> </i>
-          Newsfeed
-        </li>
-        <li>
-          <i class="fas fa-user"> </i>
-          Students Info
-        </li>
-        <li>
-          <i class="fas fa-chalkboard-teacher"> </i>
-          Class Room
-        </li>
-        <li>
-          <i class="fas fa-chart-bar"> </i>
-          Score
-        </li>
-        <li class="active">
-          <i class="fas fa-calendar-alt"> </i>
-          Calendar
-        </li>
-        <li>
-          <i class="fas fa-comments"> </i>
-          Chat
-        </li>
-        <li>
-          <i class="fas fa-ellipsis-h"> </i>
-          Other
-        </li>
-      </ul>
-    </div>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: nav}"></div>
     <div class="content">
       <h1>Calendar</h1>
       <div class="select">
@@ -173,8 +136,9 @@
                       ></span>
                       <select id="optionLecture">
                         <option th:each="lecture : ${lectures}" 
-                                th:value="a"
-                                th:text="${lecture.firstName}"></option>
+                                th:value="${lecture.lectureID}"
+                                th:text="${lecture.firstName}">
+                        </option>
                       </select>
                       <span id="roomData"
                         th:text="'Phòng ' + ${uniClass.uniClassRoom}"
@@ -238,5 +202,34 @@
       </table>
       <button id="saveButton" style="display: none;">Lưu</button>
     </div>
+    <script>
+      // Thêm sự kiện cho nút Lưu
+      document.addEventListener("DOMContentLoaded", function() {
+    // Lưu giá trị ban đầu của tất cả các select
+    const selectElements = document.querySelectorAll("#optionLecture");
+    const initialValues = {};
+
+    selectElements.forEach(select => {
+        initialValues[select.id] = select.value;
+    });
+
+    // Gán sự kiện click cho nút Lưu
+    document.getElementById("saveButton").addEventListener("click", function() {
+        let hasChanges = false;
+
+        selectElements.forEach(select => {
+            if (select.value !== initialValues[select.id]) {
+                console.log(`Giá trị thay đổi cho ${select.id}: ${select.value}`);
+                hasChanges = true;
+            }
+        });
+
+        if (!hasChanges) {
+            console.log("Không có thay đổi nào.");
+        }
+    });
+});
+
+    </script>
   </body>
 </html>

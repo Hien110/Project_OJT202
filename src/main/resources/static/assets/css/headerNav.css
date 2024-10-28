@@ -6,11 +6,14 @@ body {
   /* header */
   }
   .header {
-    background-color: #6C63FF;
+    background-color: #4da6fb;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    height: 65px;
   }
   .logo {
     display: flex;
@@ -30,21 +33,20 @@ body {
     margin: 0px 80px 0px 0px;
   }
   .search-bar input {
-   
-    height: 54px;
-    width: 350px; /* Giảm kích thước của thanh tìm kiếm */
+    height: 20px;
+    width: 400px;
     padding: 10px;
     border: none;
-    border-radius: 25px;
-    background-color: #5A55D6;
+    background-color: #ffffff;
     color: #B0AEE6;
-    font-size: 16px;
+    font-size: 10px;
+    border-radius: 25px;
   }
   .search-bar input::placeholder {
     color: #B0AEE6;
   }
   .search-bar i {
-    margin-left: -30px;
+    margin-left: -140px;
     color: #B0AEE6;
   }
   .search-button {
@@ -70,6 +72,12 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    margin-right: 60px;
+  }
+
+  .logout-button:hover{
+    background-color: #00ccf5;
+    transition: 0.3s;
   }
   
   /*   nav trai   */
@@ -89,7 +97,7 @@ body {
     font-size: 20px;
   }
   .menu-item.active {
-    background: linear-gradient(to right, red 3%, #5A55D6 20%);
+    background: linear-gradient(to right, #005aff 0%, #4da6fb 55%);
     color: #ffffff;
     margin-left: -19px;
   }
@@ -97,12 +105,21 @@ body {
     color: #ffffff;
   }
   .menu-item:hover {
-    background-color: #5A55D6;
+    background-size: 100% 100%; /* Expand background on hover */
     color: #ffffff;
+    margin-left: -19px;
+    transition: 0.5s;
   }
-  .menu-item.active:hover {
-    background-color: #5A55D6 ;
-  }
+
+  .menu-item {
+    background: linear-gradient(to right, #005aff 0%, #4da6fb 55%);
+    background-size: 0% 100%; /* Start with no background fill */
+    background-repeat: no-repeat;
+    transition: background-size 0.5s ease, color 0.3s ease; /* Transition on both background-size and color */
+}
+  /* .menu-item.active:hover {
+    background-color: linear-gradient(to right, #005aff 0%, #4da6fb 55%);
+  } */
   .menu-item a {
     color: inherit;
     text-decoration: none;
@@ -112,13 +129,13 @@ body {
   }
   .sidebar {
     margin-bottom: 10px;
-    position: sticky;
-    top: 0; /* Vị trí cố định của sidebar */
+    position: fixed;
+    top: 85px; /* Vị trí cố định của sidebar */
     width: 250px;
     height: 100vh;
     background-color: #ffffff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding-top: 0px;
+    padding-top: 10px;
     padding-left: 20px;
   }
   .main-container {
