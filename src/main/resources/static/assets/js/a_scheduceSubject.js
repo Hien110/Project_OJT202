@@ -158,7 +158,6 @@ const dayEnd = String(endDateOjt.getDate()).padStart(2, '0');
 const formattedDateEnd = `${yearEnd}-${monthEnd}-${dayEnd-2}`;
 
 const saveButton = document.querySelector("#saveButton");
-console.log(formattedDateStart <=  todayObj && formattedDateEnd >= todayObj);
 
 if ( formattedDateEnd >= todayObj) {
   saveButton.style.display = "block"
