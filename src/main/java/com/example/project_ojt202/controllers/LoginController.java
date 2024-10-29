@@ -28,6 +28,11 @@ public class LoginController {
     public String showLoginPage() {
         return "login"; 
     }
+
+    @GetMapping("/login")
+    public String showLoginPage1() {
+        return "login"; 
+    }
     @GetMapping("/homeStudent")
     public String showHomeStudentPage(Model model ) {
         List<Notification> notifications = notificationService.findAll();
@@ -53,21 +58,17 @@ public class LoginController {
         return "homeAdmin"; 
     }
 
-    
     @GetMapping("/classRoom")
     public String showClassRoom() {
         return "classRoom"; 
     }
 
-    @GetMapping("/test1")
-    public String showTest1() {
-        return "test";}
     @GetMapping("/homeParent")
     public String showHomeParentPage() {
         return "homeParent"; 
     }
     @GetMapping("/test")
-    public String showHomeTestPage() {
+    public String test() {
         return "test"; 
     }
 

@@ -54,47 +54,107 @@
     </div>
   </div>
 
-  <div th:fragment="nav">
-    <div class="sidebar">
-      <a href="#" class="menu-item active">
-        <i class="fas fa-tv"></i>
-        <span>Trang chủ</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-user"></i>
-        <span>Quản lí sinh viên</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-user-tie"></i>
-        <span>Quản lí giảng viên</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-users"></i>
-        <span>Quản lí lớp học</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-medal"></i>
-        <span>Quản lí thông báo</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-calendar-alt"></i>
-        <span>Thời khoá biểu</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-comment-alt"></i>
-        <span>Quản lí feedback</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-comments"></i>
-        <span>Chat</span>
-      </a>
-      <a href="#" class="menu-item">
-        <i class="fas fa-cog"></i>
-        <span>Cài đặt tài khoản</span>
-      </a>
+    <div th:fragment="navAdmin">
+      <div class="sidebar">
+        <a th:href="@{/homeAdmin}" class="menu-item active">
+          <i class="fas fa-tv"></i>
+          <span>Trang chủ</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-user"></i>
+          <span>Quản lí sinh viên</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-user-tie"></i>
+          <span>Quản lí giảng viên</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-users"></i>
+          <span>Quản lí lớp học</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-medal"></i>
+          <span>Quản lí thông báo</span>
+        </a>
+        <a th:href="@{/scheduceMajor}" class="menu-item">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Thời khoá biểu</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fas fa-comment-alt"></i>
+          <span>Quản lí feedback</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-comments"></i>
+          <span>Chat</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Cài đặt tài khoản</span>
+        </a>
+      </div>
     </div>
-  </div>
 
-</body>
 
+    <div th:fragment="navLecture">
+      <div class="sidebar">
+        <a href="#" class="menu-item active">
+          <i class="fas fa-tv"></i>
+          <span>Trang chủ</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-user-tie"></i>
+          <span>Lớp học</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-users"></i>
+          <span>Quản lí môn học</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Thời khoá biểu</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fas fa-comment-alt"></i>
+          <span>Feedback của sinh viên</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-comments"></i>
+          <span>Chat</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Cài đặt tài khoản</span>
+        </a>
+      </div>
+    </div>
+   
+
+    <div th:fragment="navStudent">
+      <div class="sidebar">
+        <a href="#" class="menu-item active">
+          <i class="fas fa-tv"></i>
+          <span>Trang chủ</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-user-tie"></i>
+          <span>Lớp học</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Thời khoá biểu</span>
+        </a>
+
+        <a href="#" class="menu-item">
+          <i class="fas fa-comments"></i>
+          <span>Chat</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Cài đặt tài khoản</span>
+        </a>
+      </div>
+    </div>
+   
+  </body>
 </html>

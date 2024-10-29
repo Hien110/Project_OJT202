@@ -1,7 +1,7 @@
 package com.example.project_ojt202.controllers;
 
-import com.example.project_ojt202.models.StudentProfile;
-import com.example.project_ojt202.services.RegisterStudentAccountService;
+import com.example.project_ojt202.models.LectureProfile;
+import com.example.project_ojt202.services.RegisterLecturerAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,26 +15,26 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class RegisterStudentAccountController {
+public class RegisterLecturerAccountController {
 
     @Autowired
-    private RegisterStudentAccountService excelService;
+    private RegisterLecturerAccountService excelService;
 
     // Display upload page
-    @GetMapping("/uploadFileStudentAccount")
+    @GetMapping("/uploadFileLecturerAccount")
     public String index() {
-        return "uploadFileStudentAccount"; // Render the upload page without any data initially
+        return "uploadFileLecturerAccount"; // Render the upload page without any data initially
     }
 
     // Handle file upload and process Excel file
-    @PostMapping("/uploadFileStudentAccountDetail")
+    @PostMapping("/uploadFileLecturerAccountDetail")
     public String uploadExcel(@RequestParam("file") MultipartFile file, Model model) {
         try {
             // Process the uploaded file and extract the data
-            List<StudentProfile> studentProfiles = excelService.processExcelFile(file);
+            List<LectureProfile> lectureProfiles = excelService.processExcelFile(file);
 
             // Add the list of students to the model to display on the page
-            model.addAttribute("studentProfiles", studentProfiles);
+            model.addAttribute("lectureProfiles", lectureProfiles);
 
             // Add a flag to indicate that the file was uploaded successfully
             model.addAttribute("fileUploaded", true);
@@ -45,11 +45,11 @@ public class RegisterStudentAccountController {
         }
 
         // Render the same page with the uploaded data displayed
-        return "uploadFileStudentAccount"; // The same Thymeleaf template is reused
+        return "uploadFileLecturerAccount"; // The same Thymeleaf template is reused
     }
 
     // Save uploaded data to the database
-    @PostMapping("/submitUploadStudentAccount")
+    @PostMapping("/submitUploadLecturerAccount")
     @ResponseBody
     public String submitData() {
         excelService.saveDataToDatabase();
