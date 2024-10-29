@@ -60,6 +60,7 @@
     position: relative;
   }
   .popular-groups {
+    z-index: -1;
     position: fixed;
     height: 100vh;
     top: 85px;
