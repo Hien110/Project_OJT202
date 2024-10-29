@@ -3,187 +3,93 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
-    <link rel="preload" href="/assets/images/68.jpg" as="image">
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet" />
+    <link rel="preload" href="/assets/images/68.jpg" as="image" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet"type="text/css" th:href="@{/assets/css/homestudent.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/homestudent.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
 </head>
 <!-- hi -->
-<body>
-    <div class="header">
-        <div class="logo">
-            <img src="/assets/images/Logo.png" alt="">
-        </div>
-        <div class="search-bar">
-            <input placeholder="Enter your search here..." type="text" />
-            <button class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-        <button class="logout-button">
-            Log out
-        </button>
-    </div>
-    <div class="main-container">
-        <div class="sidebar">
-            <a href="#" class="menu-item active">
-                <i class="fas fa-tv"></i>
-                <span>Thông Báo</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-user"></i>
-                <span>Thong tin Hoc Sinh</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-users"></i>
-                <span>Lop Hoc</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-medal"></i>
-                <span>Diem</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Lich Hoc</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-comments"></i>
-                <span>Chat</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-ellipsis-h"></i>
-                <span>Khac</span>
-            </a>
-        </div>
 
-        
-        <div class="container">
-            
-            <div class="updates">
-                <div class="update-header">
-                    <h2>
-                        All Updates
-                    </h2>
-                    <select>
-                        <option>
-                            TIME
-                        </option>
-                    </select>
-                </div>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: nav}"></div>
+
+    <div class="container">
+        <div class="updates">
+            <div class="update-header">
+                <h2>All Updates</h2>
+                <select>
+                    <option>TIME</option>
+                </select>
+            </div>
+            <div th:each="notification : ${notifications}">
                 <div class="update-card">
                     <div class="update-card-header">
                         <div class="user-info">
                             <img alt="User profile picture" src="https://placehold.co/50x50" />
                             <div>
                                 <div class="user-name">
-                                    AAAAAAAAAA
+                                    <!-- Nếu có thông tin người dùng, bạn có thể hiển thị tại đây -->
                                 </div>
                                 <div class="user-role">
-                                    Teacher
+                                    Notification
                                 </div>
                             </div>
                         </div>
-                        <div class="post-time">
-                            3 years ago
+                        <div th:if="${notification != null}">
+                            <div class="post-time" 
+                                 th:text="${notification.formattedDate}">
+                                <!-- Notification Date -->
+                            </div>
                         </div>
                     </div>
                     <div class="update-card-body">
-                        <div class="notification-title">
-                            Notification Title Here
-                        </div>
                         <div class="notification-content">
-                            This is the content of the notification that provides more details.
+                            <span th:text="${notification.notificationName}"></span>
+                            <p th:text="${notification.notificationContent}"></p>
+                        </div>
+                        <div class="notification-file" th:if="${notification.notificationFile != null}">
+                            <a th:href="${notification.notificationFile}" download>Tải về File</a>
                         </div>
                     </div>
-                    <img alt="Image of a Ferris wheel and cityscape" src="https://placehold.co/600x400" />
+                    <img th:src="${notification.notificationImage}" alt="Image" />
                 </div>
-                
-                <div class="update-card">
-                    <div class="update-card-header">
-                        <div class="user-info">
-                            <img alt="User profile picture" src="https://placehold.co/50x50" />
-                            <div>
-                                <div class="user-name">
-                                    AAAAAAAAAA
-                                </div>
-                                <div class="user-role">
-                                    Teacher
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-time">
-                            3 years ago
-                        </div>
-                    </div>
-                    <img alt="Image of a Ferris wheel and cityscape" src="https://placehold.co/600x400" />
-                    <div class="update-card-footer">
-                        <div>
-                            0 Comments
-                        </div>
-                        <div>
-                            0 Shares
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            </div>                                
         </div>
         <div class="popular-groups post">
-            <div >
-                <h3>
-                    Popular Groups
-                </h3>
+            <div>
+                <h3>Popular Groups</h3>
                 <div class="group">
                     <img alt="Icon representing Street Artists group" src="https://placehold.co/40x40" />
                     <div class="group-info">
-                        <div class="group-name">
-                            Street Artists
-                        </div>
-                        <div class="group-members">
-                            4 members
-                        </div>
+                        <div class="group-name">Street Artists</div>
+                        <div class="group-members">4 members</div>
                     </div>
                 </div>
                 <div class="group">
                     <img alt="Icon representing Cosplayers of the World group" src="https://placehold.co/40x40" />
                     <div class="group-info">
-                        <div class="group-name">
-                            Cosplayers of the World
-                        </div>
-                        <div class="group-members">
-                            3 members
-                        </div>
+                        <div class="group-name">Cosplayers of the World</div>
+                        <div class="group-members">3 members</div>
                     </div>
                 </div>
                 <div class="group">
                     <img alt="Icon representing Stream Designers group" src="https://placehold.co/40x40" />
                     <div class="group-info">
-                        <div class="group-name">
-                            Stream Designers
-                        </div>
-                        <div class="group-members">
-                            3 members
-                        </div>
+                        <div class="group-name">Stream Designers</div>
+                        <div class="group-members">3 members</div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
-            <script>
-                const menuItems = document.querySelectorAll('.menu-item');
-
-                menuItems.forEach(item => {
-                    item.addEventListener('click', function () {
-                        // Remove 'active' class from all menu items
-                        menuItems.forEach(i => i.classList.remove('active'));
-
-                        // Add 'active' class to the clicked menu item
-                        this.classList.add('active');
-                    });
-                });
-            </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>

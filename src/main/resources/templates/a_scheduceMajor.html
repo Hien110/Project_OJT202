@@ -4,22 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scheduce Major</title>
+    <link
+    rel="stylesheet"
+    type="text/css"
+    th:href="@{/assets/css/a_scheduceMajor.css}"
+  />
+  <script src="/assets/js/headerNav.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+
 </head>
 <body>
-    <br>
-        <h3>Lịch học của các ngành</h3>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: nav}"></div>   
+    <div class="container_scheduceMajor">
+    <p class="title_scheduce" >Chọn ngành học</p>
         <form th:action="@{/scheduceMajor}" method="post">
-                <button type="submit" name="major" value="DE">DE - Developer Engineering (Kỹ thuật phần mềm)</button></br>
-                <button type="submit" name="major" value="IA">IA - Information Assurance (An toàn thông tin)</button></br>
-                <button type="submit" name="major" value="AI">AI - Artificial Intelligence (Trí tuệ nhân tạo)</button></br>
-                <button type="submit" name="major" value="DA">DA - Digital Art (Thiết kế mỹ thuật số)</button></br>
-                <button type="submit" name="major" value="DM">DM - Digital Marketing</button></br>
-                <button type="submit" name="major" value="IB">IB - International Business (Kinh doanh quốc tế)</button></br>
-                <button type="submit" name="major" value="HM">HM - Hospitality Management (Quản trị khách sạn)</button></br>
-                <button type="submit" name="major" value="EL">EL - English Language (Ngôn ngữ Anh)</button></br>
-                <button type="submit" name="major" value="JL">JL - Japan Language (Ngôn ngữ Nhật)</button></br>
-                <button type="submit" name="major" value="MC">MC - Multimedia Communication (Truyền thông đa phương tiện)</button></br>
+        <div class="scheduceMajor">
+            <button class="image-button" style="background-image: url('/assets/images/DeveloperEngineer.jpg');" type="submit" name="major" value="DE">
+                <span class="button-text"> DE - Developer Engineering <br/> Kỹ thuật phần mềm</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/InformationAssurance.jpg');" type="submit" name="major" value="IA">
+                <span class="button-text">IA - Information Assurance  <br/> An toàn thông tin</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/ArtificialIntelligence.jpg');" type="submit" name="major" value="AI">
+                <span class="button-text">AI - Artificial Intelligence  <br/> Trí tuệ nhân tạo</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/DigitalArt.png');" type="submit" name="major" value="DA">
+                <span class="button-text">DA - Digital Art  <br/> Thiết kế mỹ thuật số</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/DigitalMarketing.jpg');" type="submit" name="major" value="DM">
+                <span class="button-text" style="padding-bottom: 15px;"> DM - Digital Marketing</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/InternationalBusiness.jpg');" type="submit" name="major" value="IB">
+                <span class="button-text">IB - International Business  <br/> Kinh doanh quốc tế</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/HospitalityManagement.jpg');" type="submit" name="major" value="HM">
+            <span class="button-text">HM - Hospitality Management  <br/> Quản trị khách sạn</span>
+             </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/EnglishLanguage.png');" type="submit" name="major" value="EL">
+                <span class="button-text"> EL - English Language  <br/> Ngôn ngữ Anh</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/JapanLanguage.jpg');" type="submit" name="major" value="JL">
+                <span class="button-text"> JL - Japan Language  <br/> Ngôn ngữ Nhật</span>
+            </button></br>
+            <button class="image-button" style="background-image: url('/assets/images/MultimediaCommunication.jpg');" type="submit" name="major" value="MC">
+                <span class="button-text" style="padding: 0;">MC - Multimedia Communication<br/>Truyền thông đa phương tiện</span>
+            </button></br>
+        </div>
         </form>
+    </div> 
     </div> 
 </body>
 </html>

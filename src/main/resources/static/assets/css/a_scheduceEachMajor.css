@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    padding: 0;
+  }
+
+  .container-EachMajor{
+    padding-top: 100px;
+    padding-left: 280px;
+    padding-bottom: 20px;
+  }
+
+  .title_Eachscheduce{
+    text-align: center; 
+    font-size: 40px; 
+    font-weight: bold; 
+    margin-bottom: 5px;
+    margin-top: 0;
+    color: #4da6fb;
+  }
+  .specialization {
+    height: 22vh;
+    border: 2px solid #4da6fb;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-basis: calc(32%);
+    border-radius: 10px;
+    background-color: #fff;
+    transition: all 0.5s;
+
+}
+
+.specialization:hover {
+    background-color: #4da6fb;
+    font-size: 16px;
+}
+
+  .scheduceEachMajor{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }

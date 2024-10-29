@@ -9,25 +9,29 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import io.github.cdimascio.dotenv.Dotenv;
 
 @Controller
-@RequestMapping("/homeAdmin")
+
 public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
 
-    private final String UPLOAD_DIR = "uploads/"; // Đường dẫn thư mục lưu trữ file
+    Dotenv dotenv = Dotenv.load();
+    Cloudinary cloudinary = new Cloudinary(dotenv.get("CLOUDINARY_URL"));
 
     @GetMapping("/notifications")
     public String listNotifications(Model model) {
         List<Notification> notifications = notificationService.findAll();
         model.addAttribute("notifications", notifications);
-        return "admin/homeAdmin"; // Chỉ định view cho homeAdmin
+        return "a_createNotification"; // Chỉ định view cho homeAdmin
     }
 
     @GetMapping("/notifications/list")
@@ -40,23 +44,17 @@ public class NotificationController {
     @ResponseBody
     public String createNotification(@ModelAttribute Notification notification,
                                       @RequestParam("file") MultipartFile file,
-                                      @RequestParam("image") MultipartFile image) {
+                                      @RequestParam("notificationImage") String notificationImage) {
         try {
-            // Lưu file và image vào thư mục
+            // Tải lên file nếu có
             if (!file.isEmpty()) {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
-                Files.write(path, bytes);
-                notification.setNotificationFile(file.getOriginalFilename());
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
 
-            if (!image.isEmpty()) {
-                byte[] bytes = image.getBytes();
-                Path path = Paths.get(UPLOAD_DIR + image.getOriginalFilename());
-                Files.write(path, bytes);
-                notification.setNotificationImage(image.getOriginalFilename());
-            }
-
+            // Sử dụng URL hình ảnh từ form
+            notification.setNotificationImage(notificationImage);
+            notification.setNotificationDate(LocalDate.now());
             notificationService.save(notification);
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,22 +68,19 @@ public class NotificationController {
     public String updateNotification(@PathVariable Long id,
                                       @ModelAttribute Notification notification,
                                       @RequestParam("file") MultipartFile file,
-                                      @RequestParam("image") MultipartFile image) {
+                                      @RequestParam("notificationImage") String notificationImage) {
         try {
             if (!file.isEmpty()) {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
-                Files.write(path, bytes);
-                notification.setNotificationFile(file.getOriginalFilename());
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
 
-            if (!image.isEmpty()) {
-                byte[] bytes = image.getBytes();
-                Path path = Paths.get(UPLOAD_DIR + image.getOriginalFilename());
-                Files.write(path, bytes);
-                notification.setNotificationImage(image.getOriginalFilename());
-            }
+            // Sử dụng URL hình ảnh từ form
+            notification.setNotificationImage(notificationImage);
 
+            if (notification.getNotificationDate() == null) {
+                notification.setNotificationDate(LocalDate.now());
+            }
             notification.setNotificationID(id);
             notificationService.save(notification);
         } catch (IOException e) {
@@ -100,5 +95,12 @@ public class NotificationController {
     public String deleteNotification(@PathVariable Long id) {
         notificationService.deleteById(id);
         return "success";
+    }
+
+    @GetMapping("/notification")
+    public String viewStudentNotifications(Model model) {
+        List<Notification> notifications = notificationService.findAll();
+        model.addAttribute("notifications", notifications);
+        return "homeStudent"; 
     }
 }

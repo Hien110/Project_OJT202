@@ -1,11 +1,15 @@
 package com.example.project_ojt202.controllers;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.project_ojt202.models.Account;
+import com.example.project_ojt202.models.Notification;
 import com.example.project_ojt202.services.AccountService;
+import com.example.project_ojt202.services.NotificationService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,9 +18,10 @@ import org.springframework.ui.Model;
 @Controller
 public class LoginController {
     private final AccountService accountService;
-
-    public LoginController (AccountService accountService){
+    private final NotificationService notificationService;
+    public LoginController (AccountService accountService, NotificationService notificationService){
         this.accountService = accountService;
+        this.notificationService= notificationService;
     }
 
     @GetMapping("/")
@@ -24,12 +29,16 @@ public class LoginController {
         return "login"; 
     }
     @GetMapping("/homeStudent")
-    public String showHomeStudentPage() {
+    public String showHomeStudentPage(Model model ) {
+        List<Notification> notifications = notificationService.findAll();
+        model.addAttribute("notifications", notifications);
         return "homeStudent"; 
     }
     
     @GetMapping("/homeLecture")
-    public String showHomeLecturePage() {
+    public String showHomeLecturePage(Model model ) {
+        List<Notification> notifications = notificationService.findAll();
+        model.addAttribute("notifications", notifications);
         return "homeLecture"; 
     }
 
@@ -38,7 +47,9 @@ public class LoginController {
         return "taiLieu"; 
     }
     @GetMapping("/homeAdmin")
-    public String showHomeAdminPage() {
+    public String showHomeAdminPage(Model model ) {
+        List<Notification> notifications = notificationService.findAll();
+        model.addAttribute("notifications", notifications);
         return "homeAdmin"; 
     }
 
@@ -47,6 +58,10 @@ public class LoginController {
     public String showClassRoom() {
         return "classRoom"; 
     }
+
+    @GetMapping("/test1")
+    public String showTest1() {
+        return "test";}
     @GetMapping("/homeParent")
     public String showHomeParentPage() {
         return "homeParent"; 

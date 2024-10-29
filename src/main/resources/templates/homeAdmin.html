@@ -1,133 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Home Admin</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet" />
+    <link rel="preload" href="/assets/images/68.jpg" as="image" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/homestudent.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
 </head>
+<!-- hi -->
+
 <body>
-    <h1>Notification Management</h1>
-    
-    <form id="notificationForm" enctype="multipart/form-data">
-        <input type="hidden" id="notificationId" name="notificationId"/>
-        <label>Name:</label>
-        <input type="text" id="notificationName" name="notificationName" required/><br/>
-        <label>Content:</label>
-        <textarea id="notificationContent" name="notificationContent" required></textarea><br/>
-        <label>File:</label>
-        <input type="file" name="file"/><br/>
-        <label>Image:</label>
-        <input type="file" name="image"/><br/>
-        <button type="button" id="saveButton">Create</button>
-    </form>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: nav}"></div>
 
-    <h2>Notification List</h2>
-    <table id="notificationTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Content</th>
-                <th>File</th>
-                <th>Image</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="notification : ${notifications}">
-                <td th:text="${notification.notificationID}"></td>
-                <td th:text="${notification.notificationName}"></td>
-                <td th:text="${notification.notificationContent}"></td>
-                <td th:text="${notification.notificationFile}"></td>
-                <td th:text="${notification.notificationImage}"></td>
-                <td>
-                    <button class="editButton" data-id="${notification.notificationID}">Edit</button>
-                    <button class="deleteButton" data-id="${notification.notificationID}">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="updates">
+            <div class="update-header">
+                <h2>All Updates</h2>
+                <select>
+                    <option>TIME</option>
+                </select>
+            </div>
+            <div th:each="notification : ${notifications}">
+                <div class="update-card">
+                    <div class="update-card-header">
+                        <div class="user-info">
+                            <img alt="User profile picture" src="https://placehold.co/50x50" />
+                            <div>
+                                <div class="user-name">
+                                    <!-- Nếu có thông tin người dùng, bạn có thể hiển thị tại đây -->
+                                </div>
+                                <div class="user-role">
+                                    Notification
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${notification != null}">
+                            <div class="post-time" 
+                                 th:text="${notification.formattedDate}">
+                                <!-- Notification Date -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="update-card-body">
+                        <div class="notification-content">
+                            <span th:text="${notification.notificationName}"></span>
+                            <p th:text="${notification.notificationContent}"></p>
+                        </div>
+                        <div class="notification-file" th:if="${notification.notificationFile != null}">
+                            <a th:href="${notification.notificationFile}" download>Tải về File</a>
+                        </div>
+                    </div>
+                    <img th:src="${notification.notificationImage}" alt="Image" />
+                </div>
+            </div>                                
+        </div>
+        <div class="popular-groups post">
+            <div>
+                <h3>Popular Groups</h3>
+                <div class="group">
+                    <img alt="Icon representing Street Artists group" src="https://placehold.co/40x40" />
+                    <div class="group-info">
+                        <div class="group-name">Street Artists</div>
+                        <div class="group-members">4 members</div>
+                    </div>
+                </div>
+                <div class="group">
+                    <img alt="Icon representing Cosplayers of the World group" src="https://placehold.co/40x40" />
+                    <div class="group-info">
+                        <div class="group-name">Cosplayers of the World</div>
+                        <div class="group-members">3 members</div>
+                    </div>
+                </div>
+                <div class="group">
+                    <img alt="Icon representing Stream Designers group" src="https://placehold.co/40x40" />
+                    <div class="group-info">
+                        <div class="group-name">Stream Designers</div>
+                        <div class="group-members">3 members</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        $(document).ready(function() {
-            // Load notifications
-            loadNotifications();
-
-            // Create or update notification
-            $("#saveButton").click(function() {
-                const id = $("#notificationId").val();
-                const url = id ? `/homeAdmin/notifications/edit/${id}` : '/homeAdmin/notifications/create';
-                const formData = new FormData($("#notificationForm")[0]);
-
-                $.ajax({
-                    type: id ? "POST" : "POST",
-                    url: url,
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response === "success") {
-                            loadNotifications();
-                            resetForm();
-                        } else {
-                            alert("Error occurred while saving.");
-                        }
-                    }
-                });
-            });
-
-            // Edit notification
-            $(document).on("click", ".editButton", function() {
-                const id = $(this).data("id");
-                $.get(`/homeAdmin/notifications/list`, function(notifications) {
-                    const notification = notifications.find(n => n.notificationID === id);
-                    if (notification) {
-                        $("#notificationId").val(notification.notificationID);
-                        $("#notificationName").val(notification.notificationName);
-                        $("#notificationContent").val(notification.notificationContent);
-                    }
-                });
-            });
-
-            // Delete notification
-            $(document).on("click", ".deleteButton", function() {
-                const id = $(this).data("id");
-                $.ajax({
-                    type: "GET",
-                    url: `/homeAdmin/notifications/delete/${id}`,
-                    success: function(response) {
-                        if (response === "success") {
-                            loadNotifications();
-                        } else {
-                            alert("Error occurred while deleting.");
-                        }
-                    }
-                });
-            });
-        });
-
-        function loadNotifications() {
-            $.get("/homeAdmin/notifications/list", function(notifications) {
-                const rows = notifications.map(n => `
-                    <tr>
-                        <td>${n.notificationID}</td>
-                        <td>${n.notificationName}</td>
-                        <td>${n.notificationContent}</td>
-                        <td>${n.notificationFile}</td>
-                        <td>${n.notificationImage}</td>
-                        <td>
-                            <button class="editButton" data-id="${n.notificationID}">Edit</button>
-                            <button class="deleteButton" data-id="${n.notificationID}">Delete</button>
-                        </td>
-                    </tr>
-                `).join('');
-                $("#notificationTable tbody").html(rows);
-            });
-        }
-
-        function resetForm() {
-            $("#notificationForm")[0].reset();
-            $("#notificationId").val('');
-        }
-    </script>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+
 </html>
