@@ -36,7 +36,7 @@ public class RegisterStudentAccountService {
 
     private List<StudentProfile> studentProfilesCache;
 
-    public List<StudentProfile> processExcelFile(MultipartFile file) {
+    public List<StudentProfile> processExcelFile(MultipartFile file) throws IOException {
         List<StudentProfile> studentProfiles = new ArrayList<>();
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -79,7 +79,9 @@ public class RegisterStudentAccountService {
                 studentProfiles.add(studentProfile);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
+        } catch (Exception e) {
+            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
         }
 
         this.studentProfilesCache = studentProfiles;
