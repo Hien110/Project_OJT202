@@ -27,9 +27,6 @@ public class Learn {
     @Column(name = "learnID")
     private Long learnID;
 
-    @Column(name = "semester")
-    private String semester;
-
     @Column(name = "learnResult")
     private String learnResult;
 
@@ -39,5 +36,5 @@ public class Learn {
 
     @ManyToOne
     @JoinColumn(name = "classID")
-    private Class class1;
+    private UniClass uniClass;
 }

@@ -1,7 +1,6 @@
 package com.example.project_ojt202.models;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,12 +32,9 @@ public class Scheduce {
     private LocalDate dateScheduce;
 
     @Column(name = "timeScheduce")
-    private LocalTime timeScheduce;
-    
-    @Column(name = "classRoom")
-    private String classRoom;
+    private String timeScheduce;
 
     @ManyToOne
-    @JoinColumn(name = "classID")
-    private Class class1;
+    @JoinColumn(name = "uniClassId")
+    private UniClass uniClass;
 }

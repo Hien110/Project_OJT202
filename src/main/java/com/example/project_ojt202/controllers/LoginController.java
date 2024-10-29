@@ -23,6 +23,11 @@ public class LoginController {
     public String showLoginPage() {
         return "login"; 
     }
+
+    @GetMapping("/login")
+    public String showLoginPage1() {
+        return "login"; 
+    }
     @GetMapping("/homeStudent")
     public String showHomeStudentPage() {
         return "homeStudent"; 
@@ -33,14 +38,23 @@ public class LoginController {
         return "homeLecture"; 
     }
 
-    @GetMapping("/homeAdmin")
-    public String showHomeAdminPage() {
-        return "homeAdmin"; 
+    @GetMapping("/taiLieu")
+    public String showTaiLieuPage() {
+        return "taiLieu"; 
+    }
+
+    @GetMapping("/classRoom")
+    public String showClassRoom() {
+        return "classRoom"; 
     }
 
     @GetMapping("/homeParent")
     public String showHomeParentPage() {
         return "homeParent"; 
+    }
+    @GetMapping("/test")
+    public String test() {
+        return "test"; 
     }
 
     @PostMapping("/login")

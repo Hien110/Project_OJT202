@@ -4,9 +4,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to home of Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet"type="text/css" th:href="@{/assets/css/homeAdmin.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
 </head>
 <body>
-    
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+        <div class="main-content-admin">
+            <div class="title">Blog Posts <span>8</span></div>
+            <div class="container">
+                <div class="filter-group">
+                    <div>
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option>All Categories</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-by">Filter By</label>
+                        <select id="filter-by">
+                            <option>Date</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="view-icons">
+                    <button type="button" class="btn btn-primary mb-3" onclick="openModal()">Tạo Thông Báo</button>
+                    <i class="fas fa-th active"></i>
+                    <i class="fas fa-th-list"></i>
+                </div>
+            </div>
+            <div class="card-group">
+                <div class="card">
+                    <img alt="Hands holding game controllers with a soccer game on the TV in the background" height="200" src="https://storage.googleapis.com/a1aa/image/4wf54XdVjOVAeUx5rNWxPCKAfrC8xi6VHhsqHUHEPgW3JmOnA.jpg" width="350"/>
+                    <div class="card-content">
+                    <span class="category">
+                    GAMING
+                    </span>
+                    <span class="date">
+                    - OCTOBER 13, 2020
+                    </span>
+                    <h2>
+                    Here’s the X-mas Gamer Box from Powerstation and it packs some surprises
+                    </h2>
+                    <p>
+                    A video game console is an electronic or computer device that outputs a video signal or visual image to display a video game that one or more people can play through some type of game controller. These may be home consol...
+                    </p>
+                    <a class="read-more" href="#">
+                    READ MORE...
+                    </a>
+                    </div>
+                    <div class="card-actions">
+                    <button class="edit">
+                    EDIT
+                    </button>
+                    <button class="delete">
+                    DELETE
+                    </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img alt="Hands holding game controllers with a soccer game on the TV in the background" height="200" src="https://storage.googleapis.com/a1aa/image/4wf54XdVjOVAeUx5rNWxPCKAfrC8xi6VHhsqHUHEPgW3JmOnA.jpg" width="350"/>
+                    <div class="card-content">
+                    <span class="category">
+                    GAMING
+                    </span>
+                    <span class="date">
+                    - OCTOBER 13, 2020
+                    </span>
+                    <h2>
+                    Here’s the X-mas Gamer Box from Powerstation and it packs some surprises
+                    </h2>
+                    <p>
+                    A video game console is an electronic or computer device that outputs a video signal or visual image to display a video game that one or more people can play through some type of game controller. These may be home consol...
+                    </p>
+                    <a class="read-more" href="#">
+                    READ MORE...
+                    </a>
+                    </div>
+                    <div class="card-actions">
+                    <button class="edit">
+                    EDIT
+                    </button>
+                    <button class="delete">
+                    DELETE
+                    </button>
+                    </div>
+                </div>
+                <div th:each="notification : ${notifications}">
+                    <div class="card">
+                        <img th:src="${notification.notificationImage}" alt="Notification Image" />
+                
+                        <div class="card-content">
+                            <span class="category">
+                                GAMING
+                            </span>
+                            <span class="date" th:text="${#dates.format(notification.notificationDate, 'MMMM dd, yyyy')}"></span>
+                            
+                            <h2 th:text="${notification.notificationName}"></h2>
+                            <p th:text="${notification.notificationContent}"></p>
+                            <a class="read-more" th:href="@{'/notifications/' + ${notification.notificationid}}">READ MORE...</a>
+                        </div>
+                
+                        <div class="card-actions">
+                            <button class="edit" th:onclick="'window.location.href=\'/notifications/edit/' + ${notification.notificationid} + '\''">
+                                EDIT
+                            </button>
+                            <button class="delete" th:onclick="'window.location.href=\'/notifications/delete/' + ${notification.notificationid} + '\''">
+                                DELETE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+
+
+        <script>
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    // Remove 'active' class from all menu items
+                    menuItems.forEach(i => i.classList.remove('active'));
+
+                    // Add 'active' class to the clicked menu item
+                    this.classList.add('active');
+                });
+            });
+        </script>
+       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+       
+       <script>
+           function openModal(isEdit = false, notification = null) {
+               document.getElementById("notificationForm").reset();
+               document.getElementById("notificationId").value = isEdit ? notification.notificationid : '';
+               document.getElementById("modalTitle").innerText = isEdit ? "Chỉnh Sửa Thông Báo" : "Tạo Thông Báo";
+               if (isEdit) {
+                   document.getElementById("notificationName").value = notification.notificationName;
+                   document.getElementById("notificationContent").value = notification.notificationContent;
+               }
+               $('#notificationModal').modal('show');
+           }
+       
+           function saveNotification() {
+               const id = document.getElementById("notificationId").value;
+               const name = document.getElementById("notificationName").value;
+               const content = document.getElementById("notificationContent").value;
+               const image = document.getElementById("notificationImage").files[0];
+       
+               // Logic lưu hoặc cập nhật thông báo
+               $('#notificationModal').modal('hide');
+           }
+       </script>
 </body>
 </html>

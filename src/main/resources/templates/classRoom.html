@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="preload" href="/assets/images/68.jpg" as="image">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet"type="text/css" th:href="@{/assets/css/classRoom.css}" />
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="/assets/images/Logo.png" alt="">
+        </div>
+        <div class="search-bar">
+            <input placeholder="Enter your search here..." type="text" />
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <button class="logout-button">
+            Log out
+        </button>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="#" class="menu-item active">
+                <i class="fas fa-tv"></i>
+                <span>Thong Bao</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>Thong tin Hoc Sinh</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Lop Hoc</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-medal"></i>
+                <span>Diem</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Lich Hoc</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Khac</span>
+            </a>
+        </div>
+        <div class="title">Blog Posts <span>8</span></div>
+        <div class="card-container">
+            
+            <div class="card">
+              <div class="card-header">
+                <img alt="Profile picture of a bearded man" height="50" src="https://storage.googleapis.com/a1aa/image/gXle8hLtW5yAekWh8g4UfjOHIBhziqMySZj9Jv53TCtXf5ecC.jpg" width="50"/>
+              </div>
+              <div class="card-body">
+                <h1>AAAAAAAAAAAA</h1>
+                <p>AAAAAAA<br/>AAA</p>
+                <div class="schedule">lich trình</div>
+              </div>
+              <div class="card-footer">
+                <a href="#">Xem chi tiết <i class="fas fa-paper-plane"></i></a>
+              </div>
+            </div>
+          
+            <div class="card">
+              <div class="card-header">
+                <img alt="Profile picture of a bearded man" height="50" src="https://storage.googleapis.com/a1aa/image/gXle8hLtW5yAekWh8g4UfjOHIBhziqMySZj9Jv53TCtXf5ecC.jpg" width="50"/>
+              </div>
+              <div class="card-body">
+                <h1>AAAAAAAAAAAA</h1>
+                <p>AAAAAAA<br/>AAA</p>
+                <div class="schedule">lich trình</div>
+              </div>
+              <div class="card-footer">
+                <a href="#">Xem chi tiết <i class="fas fa-paper-plane"></i></a>
+              </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                  <img alt="Profile picture of a bearded man" height="50" src="https://storage.googleapis.com/a1aa/image/gXle8hLtW5yAekWh8g4UfjOHIBhziqMySZj9Jv53TCtXf5ecC.jpg" width="50"/>
+                </div>
+                <div class="card-body">
+                  <h1>AAAAAAAAAAAA</h1>
+                  <p>AAAAAAA<br/>AAA</p>
+                  <div class="schedule">lich trình</div>
+                </div>
+                <div class="card-footer">
+                  <a href="#">Xem chi tiết <i class="fas fa-paper-plane"></i></a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                  <img alt="Profile picture of a bearded man" height="50" src="https://storage.googleapis.com/a1aa/image/gXle8hLtW5yAekWh8g4UfjOHIBhziqMySZj9Jv53TCtXf5ecC.jpg" width="50"/>
+                </div>
+                <div class="card-body">
+                  <h1>AAAAAAAAAAAA</h1>
+                  <p>AAAAAAA<br/>AAA</p>
+                  <div class="schedule">lich trình</div>
+                </div>
+                <div class="card-footer">
+                  <a href="#">Xem chi tiết <i class="fas fa-paper-plane"></i></a>
+                </div>
+            </div>
+              
+        </div>
+    </div>
+    <script>
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function () {
+                // Remove 'active' class from all menu items
+                menuItems.forEach(i => i.classList.remove('active'));
+
+                // Add 'active' class to the clicked menu item
+                this.classList.add('active');
+            });
+        });
+    </script>   
+    </body>
+    </html>
