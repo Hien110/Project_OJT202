@@ -37,6 +37,10 @@ public class LoginController {
     public String showTaiLieuPage() {
         return "taiLieu"; 
     }
+    @GetMapping("/homeAdmin")
+    public String showHomeAdminPage() {
+        return "homeAdmin"; 
+    }
 
     
     @GetMapping("/classRoom")

@@ -1,207 +1,133 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet"type="text/css" th:href="@{/assets/css/homeAdmin.css}" />
+    <title>Home Admin</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <img src="/assets/images/Logo.png" alt="">
-        </div>
-        <div class="search-bar">
-            <input placeholder="Enter your search here..." type="text" />
-            <button class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-        <button class="logout-button">
-            Log out
-        </button>
-    </div>
-    <div class="main-container">
-        <div class="sidebar">
-            <a href="#" class="menu-item active">
-                <i class="fas fa-tv"></i>
-                <span>Thong Bao</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-user"></i>
-                <span>Thong tin Hoc Sinh</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-users"></i>
-                <span>Lop Hoc</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-medal"></i>
-                <span>Diem</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Lich Hoc</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-comments"></i>
-                <span>Chat</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-ellipsis-h"></i>
-                <span>Khac</span>
-            </a>
-        </div>
-        <div class="main-content">
-            <div class="title">Blog Posts <span>8</span></div>
-            <div class="container">
-                <div class="filter-group">
-                    <div>
-                        <label for="category">Category</label>
-                        <select id="category">
-                            <option>All Categories</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="filter-by">Filter By</label>
-                        <select id="filter-by">
-                            <option>Date</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="view-icons">
-                    <button type="button" class="btn btn-primary mb-3" onclick="openModal()">Tạo Thông Báo</button>
-                    <i class="fas fa-th active"></i>
-                    <i class="fas fa-th-list"></i>
-                </div>
-            </div>
-            <div class="card-group">
-                <div class="card">
-                    <img alt="Hands holding game controllers with a soccer game on the TV in the background" height="200" src="https://storage.googleapis.com/a1aa/image/4wf54XdVjOVAeUx5rNWxPCKAfrC8xi6VHhsqHUHEPgW3JmOnA.jpg" width="350"/>
-                    <div class="card-content">
-                    <span class="category">
-                    GAMING
-                    </span>
-                    <span class="date">
-                    - OCTOBER 13, 2020
-                    </span>
-                    <h2>
-                    Here’s the X-mas Gamer Box from Powerstation and it packs some surprises
-                    </h2>
-                    <p>
-                    A video game console is an electronic or computer device that outputs a video signal or visual image to display a video game that one or more people can play through some type of game controller. These may be home consol...
-                    </p>
-                    <a class="read-more" href="#">
-                    READ MORE...
-                    </a>
-                    </div>
-                    <div class="card-actions">
-                    <button class="edit">
-                    EDIT
-                    </button>
-                    <button class="delete">
-                    DELETE
-                    </button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img alt="Hands holding game controllers with a soccer game on the TV in the background" height="200" src="https://storage.googleapis.com/a1aa/image/4wf54XdVjOVAeUx5rNWxPCKAfrC8xi6VHhsqHUHEPgW3JmOnA.jpg" width="350"/>
-                    <div class="card-content">
-                    <span class="category">
-                    GAMING
-                    </span>
-                    <span class="date">
-                    - OCTOBER 13, 2020
-                    </span>
-                    <h2>
-                    Here’s the X-mas Gamer Box from Powerstation and it packs some surprises
-                    </h2>
-                    <p>
-                    A video game console is an electronic or computer device that outputs a video signal or visual image to display a video game that one or more people can play through some type of game controller. These may be home consol...
-                    </p>
-                    <a class="read-more" href="#">
-                    READ MORE...
-                    </a>
-                    </div>
-                    <div class="card-actions">
-                    <button class="edit">
-                    EDIT
-                    </button>
-                    <button class="delete">
-                    DELETE
-                    </button>
-                    </div>
-                </div>
-                <div th:each="notification : ${notifications}">
-                    <div class="card">
-                        <img th:src="${notification.notificationImage}" alt="Notification Image" />
-                
-                        <div class="card-content">
-                            <span class="category">
-                                GAMING
-                            </span>
-                            <span class="date" th:text="${#dates.format(notification.notificationDate, 'MMMM dd, yyyy')}"></span>
-                            
-                            <h2 th:text="${notification.notificationName}"></h2>
-                            <p th:text="${notification.notificationContent}"></p>
-                            <a class="read-more" th:href="@{'/notifications/' + ${notification.notificationid}}">READ MORE...</a>
-                        </div>
-                
-                        <div class="card-actions">
-                            <button class="edit" th:onclick="'window.location.href=\'/notifications/edit/' + ${notification.notificationid} + '\''">
-                                EDIT
-                            </button>
-                            <button class="delete" th:onclick="'window.location.href=\'/notifications/delete/' + ${notification.notificationid} + '\''">
-                                DELETE
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        </div>
+    <h1>Notification Management</h1>
+    
+    <form id="notificationForm" enctype="multipart/form-data">
+        <input type="hidden" id="notificationId" name="notificationId"/>
+        <label>Name:</label>
+        <input type="text" id="notificationName" name="notificationName" required/><br/>
+        <label>Content:</label>
+        <textarea id="notificationContent" name="notificationContent" required></textarea><br/>
+        <label>File:</label>
+        <input type="file" name="file"/><br/>
+        <label>Image:</label>
+        <input type="file" name="image"/><br/>
+        <button type="button" id="saveButton">Create</button>
+    </form>
 
+    <h2>Notification List</h2>
+    <table id="notificationTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Content</th>
+                <th>File</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="notification : ${notifications}">
+                <td th:text="${notification.notificationID}"></td>
+                <td th:text="${notification.notificationName}"></td>
+                <td th:text="${notification.notificationContent}"></td>
+                <td th:text="${notification.notificationFile}"></td>
+                <td th:text="${notification.notificationImage}"></td>
+                <td>
+                    <button class="editButton" data-id="${notification.notificationID}">Edit</button>
+                    <button class="deleteButton" data-id="${notification.notificationID}">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-        <script>
-            const menuItems = document.querySelectorAll('.menu-item');
+    <script>
+        $(document).ready(function() {
+            // Load notifications
+            loadNotifications();
 
-            menuItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    // Remove 'active' class from all menu items
-                    menuItems.forEach(i => i.classList.remove('active'));
+            // Create or update notification
+            $("#saveButton").click(function() {
+                const id = $("#notificationId").val();
+                const url = id ? `/homeAdmin/notifications/edit/${id}` : '/homeAdmin/notifications/create';
+                const formData = new FormData($("#notificationForm")[0]);
 
-                    // Add 'active' class to the clicked menu item
-                    this.classList.add('active');
+                $.ajax({
+                    type: id ? "POST" : "POST",
+                    url: url,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response === "success") {
+                            loadNotifications();
+                            resetForm();
+                        } else {
+                            alert("Error occurred while saving.");
+                        }
+                    }
                 });
             });
-        </script>
-       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-       
-       <script>
-           function openModal(isEdit = false, notification = null) {
-               document.getElementById("notificationForm").reset();
-               document.getElementById("notificationId").value = isEdit ? notification.notificationid : '';
-               document.getElementById("modalTitle").innerText = isEdit ? "Chỉnh Sửa Thông Báo" : "Tạo Thông Báo";
-               if (isEdit) {
-                   document.getElementById("notificationName").value = notification.notificationName;
-                   document.getElementById("notificationContent").value = notification.notificationContent;
-               }
-               $('#notificationModal').modal('show');
-           }
-       
-           function saveNotification() {
-               const id = document.getElementById("notificationId").value;
-               const name = document.getElementById("notificationName").value;
-               const content = document.getElementById("notificationContent").value;
-               const image = document.getElementById("notificationImage").files[0];
-       
-               // Logic lưu hoặc cập nhật thông báo
-               $('#notificationModal').modal('hide');
-           }
-       </script>
+
+            // Edit notification
+            $(document).on("click", ".editButton", function() {
+                const id = $(this).data("id");
+                $.get(`/homeAdmin/notifications/list`, function(notifications) {
+                    const notification = notifications.find(n => n.notificationID === id);
+                    if (notification) {
+                        $("#notificationId").val(notification.notificationID);
+                        $("#notificationName").val(notification.notificationName);
+                        $("#notificationContent").val(notification.notificationContent);
+                    }
+                });
+            });
+
+            // Delete notification
+            $(document).on("click", ".deleteButton", function() {
+                const id = $(this).data("id");
+                $.ajax({
+                    type: "GET",
+                    url: `/homeAdmin/notifications/delete/${id}`,
+                    success: function(response) {
+                        if (response === "success") {
+                            loadNotifications();
+                        } else {
+                            alert("Error occurred while deleting.");
+                        }
+                    }
+                });
+            });
+        });
+
+        function loadNotifications() {
+            $.get("/homeAdmin/notifications/list", function(notifications) {
+                const rows = notifications.map(n => `
+                    <tr>
+                        <td>${n.notificationID}</td>
+                        <td>${n.notificationName}</td>
+                        <td>${n.notificationContent}</td>
+                        <td>${n.notificationFile}</td>
+                        <td>${n.notificationImage}</td>
+                        <td>
+                            <button class="editButton" data-id="${n.notificationID}">Edit</button>
+                            <button class="deleteButton" data-id="${n.notificationID}">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+                $("#notificationTable tbody").html(rows);
+            });
+        }
+
+        function resetForm() {
+            $("#notificationForm")[0].reset();
+            $("#notificationId").val('');
+        }
+    </script>
 </body>
 </html>
