@@ -52,6 +52,10 @@ public class LoginController {
     public String showHomeParentPage() {
         return "homeParent"; 
     }
+    @GetMapping("/test")
+    public String test() {
+        return "test"; 
+    }
 
     @PostMapping("/login")
     public String login(@RequestParam("accountID") String accountID, 

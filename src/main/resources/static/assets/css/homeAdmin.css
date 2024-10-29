@@ -2,36 +2,6 @@
   padding-top: 100px;
   padding-left: 270px;
 }
-  .sidebar {
-    margin-bottom: 10px;
-    position: sticky;
-    top: 0; /* Vị trí cố định của sidebar */
-    width: 250px;
-    height: 100vh;
-    background-color: #ffffff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding-top: 0px;
-    padding-left: 20px;
-  }
-  .main-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    height: auto; /* Đảm bảo container tự điều chỉnh theo nội dung */
-  }
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-left: 50px;
-}
-  /* CARD */
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f4f8;
-    height: 100vh;
-    margin: 0;
-}
 .card {
     flex-direction: column;
     justify-content: space-between;
