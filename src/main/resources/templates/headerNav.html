@@ -73,7 +73,7 @@
 
     <div th:fragment="navLecture">
       <div class="sidebar">
-        <a href="#" class="menu-item active">
+        <a th:href="@{/homeLecture}" class="menu-item active">
           <i class="fas fa-tv"></i>
           <span>Trang chủ</span>
         </a>
@@ -107,7 +107,7 @@
 
     <div th:fragment="navStudent">
       <div class="sidebar">
-        <a href="#" class="menu-item active">
+        <a th:href="@{/homeStudent}" class="menu-item active">
           <i class="fas fa-tv"></i>
           <span>Trang chủ</span>
         </a>

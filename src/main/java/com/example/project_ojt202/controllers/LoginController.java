@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.services.AccountService;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.ui.Model;
@@ -60,13 +62,14 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam("accountID") String accountID, 
                         @RequestParam("accountPassword") String accountPassword, 
-                        Model model) {
+                        Model model,
+                        HttpSession session) {
         
         Account account = accountService.getAccountByAccountIDAndPassword(accountID, accountPassword);
         if (account != null) {
             // Kiểm tra vai trò của tài khoản
             String accountRole = account.getAccountRole(); 
-            
+            session.setAttribute("account", account);
             switch (accountRole) {
                 case "student":
                     return "redirect:/homeStudent"; 
