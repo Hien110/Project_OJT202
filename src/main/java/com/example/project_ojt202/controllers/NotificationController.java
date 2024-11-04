@@ -16,9 +16,9 @@ import java.util.Map;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
-
 public class NotificationController {
 
     @Autowired
@@ -28,34 +28,50 @@ public class NotificationController {
     Cloudinary cloudinary = new Cloudinary(dotenv.get("CLOUDINARY_URL"));
 
     @GetMapping("/notifications")
-    public String listNotifications(Model model) {
+    public String listNotifications(Model model, HttpSession session) {
         List<Notification> notifications = notificationService.findAll();
+        session.setAttribute("notifications", notifications);
         model.addAttribute("notifications", notifications);
         return "a_createNotification"; // Chỉ định view cho homeAdmin
     }
 
     @GetMapping("/notifications/list")
     @ResponseBody
-    public List<Notification> getNotifications() {
-        return notificationService.findAll();
+    public List<Notification> getNotifications(HttpSession session) {
+        List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
+        if (notifications == null) {
+            notifications = notificationService.findAll();
+            session.setAttribute("notifications", notifications);
+        }
+        return notifications;
     }
 
     @PostMapping("/notifications/create")
     @ResponseBody
     public String createNotification(@ModelAttribute Notification notification,
-                                      @RequestParam("file") MultipartFile file,
-                                      @RequestParam("notificationImage") String notificationImage) {
+                                     @RequestParam(value = "file", required = false) MultipartFile file,
+                                     @RequestParam(value = "notificationImage", required = false) String notificationImage,
+                                     HttpSession session) {
         try {
-            // Tải lên file nếu có
-            if (!file.isEmpty()) {
+            // Tải lên file khác nếu có
+            if (file != null && !file.isEmpty()) {
                 Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
                 notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
 
-            // Sử dụng URL hình ảnh từ form
-            notification.setNotificationImage(notificationImage);
+            // Sử dụng URL hình ảnh từ widget nếu có
+            if (notificationImage != null && !notificationImage.isEmpty()) {
+                notification.setNotificationImage(notificationImage);
+            }
+
+            // Thiết lập ngày thông báo
             notification.setNotificationDate(LocalDate.now());
             notificationService.save(notification);
+
+            // Cập nhật session với thông báo mới
+            List<Notification> notifications = notificationService.findAll();
+            session.setAttribute("notifications", notifications);
+
         } catch (IOException e) {
             e.printStackTrace();
             return "error";
@@ -66,23 +82,35 @@ public class NotificationController {
     @PostMapping("/notifications/edit/{id}")
     @ResponseBody
     public String updateNotification(@PathVariable Long id,
-                                      @ModelAttribute Notification notification,
-                                      @RequestParam("file") MultipartFile file,
-                                      @RequestParam("notificationImage") String notificationImage) {
+                                     @ModelAttribute Notification notification,
+                                     @RequestParam(value = "file", required = false) MultipartFile file,
+                                     @RequestParam(value = "notificationImage", required = false) String notificationImage,
+                                     HttpSession session) {
         try {
-            if (!file.isEmpty()) {
+            // Tải lên file khác nếu có
+            if (file != null && !file.isEmpty()) {
                 Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
                 notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
 
-            // Sử dụng URL hình ảnh từ form
-            notification.setNotificationImage(notificationImage);
+            // Sử dụng URL hình ảnh từ widget nếu có
+            if (notificationImage != null && !notificationImage.isEmpty()) {
+                notification.setNotificationImage(notificationImage);
+            }
 
+            // Đảm bảo ngày thông báo tồn tại
             if (notification.getNotificationDate() == null) {
                 notification.setNotificationDate(LocalDate.now());
             }
+
+            // Thiết lập ID để cập nhật thông báo
             notification.setNotificationID(id);
             notificationService.save(notification);
+
+            // Cập nhật session với thông báo mới
+            List<Notification> notifications = notificationService.findAll();
+            session.setAttribute("notifications", notifications);
+
         } catch (IOException e) {
             e.printStackTrace();
             return "error";
@@ -92,15 +120,29 @@ public class NotificationController {
 
     @GetMapping("/notifications/delete/{id}")
     @ResponseBody
-    public String deleteNotification(@PathVariable Long id) {
+    public String deleteNotification(@PathVariable Long id, HttpSession session) {
         notificationService.deleteById(id);
+
+        // Cập nhật session sau khi xóa thông báo
+        List<Notification> notifications = notificationService.findAll();
+        session.setAttribute("notifications", notifications);
+
         return "success";
     }
 
     @GetMapping("/notification")
-    public String viewStudentNotifications(Model model) {
-        List<Notification> notifications = notificationService.findAll();
+    public String viewStudentNotifications(Model model, HttpSession session) {
+        List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
+        if (notifications == null) {
+            notifications = notificationService.findAll();
+            session.setAttribute("notifications", notifications);
+        }
         model.addAttribute("notifications", notifications);
-        return "homeStudent"; 
+        return "homeStudent";
+    }
+
+    @ModelAttribute("notifications")
+    public List<Notification> addNotificationsToModel(HttpSession session) {
+        return (List<Notification>) session.getAttribute("notifications");
     }
 }
