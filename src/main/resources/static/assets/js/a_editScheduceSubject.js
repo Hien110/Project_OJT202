@@ -1,18 +1,18 @@
+const today = new Date(); 
+let day = today.getDate(); 
+if  (day < 10) {
+  day = '0' + day; 
+}
+let month = today.getMonth() + 1; 
+if (month < 10) {
+  month = '0' + month;
+  }
+const year = today.getFullYear(); 
+const currentDate = `${year}-${month}-${day}`;
+
 document.addEventListener("dragstart", function(event) {
     var draggedElement = event.target;
     var itemDate = draggedElement.getAttribute("data-date");
-    
-    const today = new Date(); 
-      let day = today.getDate(); 
-      if  (day < 10) {
-        day = '0' + day; 
-      }
-      let month = today.getMonth() + 1; 
-      if (month < 10) {
-        month = '0' + month;
-        }
-      const year = today.getFullYear(); 
-      const currentDate = `${year}-${month}-${day}`;
       if(currentDate <  itemDate){
         event.dataTransfer.setData("text/plain", event.target.id);
       } else {
@@ -36,43 +36,56 @@ var draggedId = event.dataTransfer.getData("text/plain");
 var draggedElement = document.getElementById(draggedId);
 const semesterSelect = document.getElementById("semester");
 const selectedSemester = semesterSelect.value;
-const year = "20" + selectedSemester.slice(-2); // Năm  
-// Xác định ô thả (dropTarget)
-
-// Lấy giá trị ngày và slot
+const year = "20" + selectedSemester.slice(-2);  
 var dropTarget = event.target.closest('.droptarget');
+
 var day = dropTarget.getAttribute("data-day");
 var slot = dropTarget.closest("tr").getAttribute("data-slot");
 const date =  document.getElementById(day).innerText;
 const valueDate = date.split('\n')
 const dateChange = year +'-' + valueDate[1].split('/')[1] + '-' + valueDate[1].split('/')[0];
 let valueChange = slot + '_' + dateChange;
-mapChangeScheduce.set(draggedId, valueChange);
 const saveButton = document.querySelector("#saveButton");
-if (mapChangeScheduce.size > 0){
-    saveButton.style.display = "block";  
-} else {
-    saveButton.style.display = "none";  
-}
-const dateRoot = draggedElement.getAttribute('data-date');
-console.log(draggedElement.getAttribute('id'));
-console.log(slot);
 
-if (dateChange < dateRoot){
-  updateScheduleError();
+const idSubjectRoot = draggedElement.getAttribute('id');
+
+// Kiểm tra điều kiện đầu tiên (dateChange > currentDate)
+if (dateChange > currentDate) {
+  const calendarLiElements = dropTarget.querySelectorAll('.event');
+  let errorOccurred = false; // Biến flag để kiểm tra lỗi
+
+  // Kiểm tra điều kiện thứ hai trong vòng lặp
+  for (let i = 0; i < calendarLiElements.length - 1; i++) {
+      const calendarLi = calendarLiElements[i];
+      const classId = calendarLi.getAttribute('style');
+      const idTesst = calendarLi.getAttribute('id');
+      
+      if (classId === 'display: block;' && idTesst.split('-')[1] === idSubjectRoot.split('-')[1]) {
+          updateScheduleError2();  // Gọi hàm hiển thị lỗi
+          errorOccurred = true;
+          break;  // Dừng vòng lặp khi phát hiện lỗi
+      }
+  }
+
+  // Nếu không có lỗi trong vòng lặp
+  if (!errorOccurred) {
+      mapChangeScheduce.set(draggedId, valueChange);
+      var existingValue = dropTarget.firstChild;
+  dropTarget.appendChild(draggedElement);
+  dropTarget.appendChild(existingValue);
+  } else {
+      return ''; // Ngừng thực thi nếu có lỗi
+  }
+} else {
+  updateScheduleError(); // Gọi hàm hiển thị lỗi nếu điều kiện đầu tiên không thỏa
   return '';
 }
-if (dropTarget) {
-// Thêm phần tử được kéo vào dropTarget
-if (dropTarget.innerHTML !== '') {
-    var existingValue = dropTarget.firstChild;
-    dropTarget.appendChild(draggedElement);
-    dropTarget.appendChild(existingValue);
+
+// Hiển thị nút saveButton khi mapChangeScheduce có phần tử
+if (mapChangeScheduce.size > 0) {
+  saveButton.style.display = "block";  
 } else {
-    dropTarget.appendChild(draggedElement);
-}
-
-
+  saveButton.style.display = "none";  
 }
 });
 
@@ -87,6 +100,12 @@ function closeModal() {
 
 function updateScheduleError() {
   var x = document.getElementById("updateScheduleError");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+function updateScheduleError2() {
+  var x = document.getElementById("updateScheduleError2");
   x.className = "show";
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
