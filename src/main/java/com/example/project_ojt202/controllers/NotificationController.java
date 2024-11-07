@@ -31,9 +31,19 @@ public class NotificationController {
     public String listNotifications(Model model, HttpSession session) {
         List<Notification> notifications = notificationService.findAll();
         session.setAttribute("notifications", notifications);
+    
+        LocalDate today = LocalDate.now();
+        List<Notification> todayNotifications = notifications.stream()
+                .filter(notification -> notification.getNotificationDate().isEqual(today))
+                .toList();
+    
+        session.setAttribute("todayNotifications", todayNotifications); // Lưu thông báo hôm nay vào session
+    
         model.addAttribute("notifications", notifications);
+        model.addAttribute("todayNotifications", todayNotifications); // Danh sách thông báo hôm nay
         return "a_createNotification"; // Chỉ định view cho homeAdmin
     }
+    
 
     @GetMapping("/notifications/list")
     @ResponseBody
