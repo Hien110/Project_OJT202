@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Student</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>Notification Management</h1>
+    
+    <form id="notificationForm" method="POST" action="/notifications/create" enctype="multipart/form-data">
+        <input type="hidden" id="notificationId" name="notificationId"/>
+        <label>Name:</label>
+        <input type="text" id="notificationName" name="notificationName" required/><br/>
+        <label>Content:</label>
+        <textarea id="notificationContent" name="notificationContent" required></textarea><br/>
+        <label>File:</label>
+        <input type="file" name="file" accept="*/*"><br/>
+        <label>Image:</label>
+        <input type="hidden" id="notificationImage" name="notificationImage">
+        <button type="button" id="upload_widget">Upload Image</button>
+        <button type="submit">Create Notification</button>
+    </form>
+
+    <h2>Notification List</h2>
+    <table id="notificationTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Content</th>
+                <th>File</th>
+                <th>Image</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="notification : ${notifications}">
+                <td th:text="${notification.notificationID}"></td>
+                <td th:text="${notification.notificationName}"></td>
+                <td th:text="${notification.notificationContent}"></td>
+                <td th:text="${notification.notificationFile}"></td>
+                <td><img th:src="${notification.notificationImage}" alt="Image" style="width:100px;"/></td>
+                
+                <td>
+                    <button class="editButton" data-id="${notification.notificationID}">Edit</button>
+                    <button class="deleteButton" data-id="${notification.notificationID}">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            // Load notifications
+            loadNotifications();
+
+            // Create or update notification
+            $("#notificationForm").submit(function(e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định của form
+                const id = $("#notificationId").val();
+                const url = id ? `/notifications/edit/${id}` : '/notifications/create';
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response === "success") {
+                            loadNotifications();
+                            resetForm();
+                        } else {
+                            alert("Error occurred while saving.");
+                        }
+                    },
+                    error: function() {
+                        alert("An error occurred while processing the request.");
+                    }
+                });
+            });
+
+            // Edit notification
+            $(document).on("click", ".editButton", function() {
+                const id = $(this).data("id");
+                $.get(`/notifications/list`, function(notifications) {
+                    const notification = notifications.find(n => n.notificationID === id);
+                    if (notification) {
+                        $("#notificationId").val(notification.notificationID);
+                        $("#notificationName").val(notification.notificationName);
+                        $("#notificationContent").val(notification.notificationContent);
+                        // Load the image URL into the hidden input field
+                        $("#notificationImage").val(notification.notificationImage);
+                    }
+                });
+            });
+
+            // Delete notification
+            $(document).on("click", ".deleteButton", function() {
+                const id = $(this).data("id");
+                $.ajax({
+                    type: "GET",
+                    url: `/notifications/delete/${id}`,
+                    success: function(response) {
+                        if (response === "success") {
+                            loadNotifications();
+                        } else {
+                            alert("Error occurred while deleting.");
+                        }
+                    }
+                });
+            });
+        });
+
+        function loadNotifications() {
+            $.get("/notifications/list", function(notifications) {
+                const rows = notifications.map(n => `
+                    <tr>
+                        <td>${n.notificationID}</td>
+                        <td>${n.notificationName}</td>
+                        <td>${n.notificationContent}</td>
+                        <td>${n.notificationFile}</td>
+                        <td><img src="${n.notificationImage}" alt="Image" style="width:100px;"/></td>
+                        <td>${n.notificationDate ? new Date(n.notificationDate).toISOString().split('T')[0] : 'N/A'}</td>
+                        <td>
+                            <button class="editButton" data-id="${n.notificationID}">Edit</button>
+                            <button class="deleteButton" data-id="${n.notificationID}">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+                $("#notificationTable tbody").html(rows);
+            });
+        }
+
+        function resetForm() {
+            $("#notificationForm")[0].reset();
+            $("#notificationId").val('');
+            $("#notificationImage").val(''); // Reset the hidden input for image URL
+        }
+
+    </script>
+    <script type="text/javascript">  
+        var myWidget = cloudinary.createUploadWidget({
+            cloudName: 'dk6pemrxq', 
+            uploadPreset: 'notification'
+        }, (error, result) => { 
+            if (!error && result && result.event === "success") { 
+                console.log('Done! Here is the image info: ', result.info.url); 
+                // Save URL into a hidden field
+                document.getElementById("notificationImage").value = result.info.secure_url;
+            }
+        });
+        
+        document.getElementById("upload_widget").addEventListener("click", function(){
+            myWidget.open();
+        }, false);
+    </script>
+    
+</body>
+</html>

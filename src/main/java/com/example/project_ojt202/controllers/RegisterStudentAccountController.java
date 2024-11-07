@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -28,14 +29,20 @@ public class RegisterStudentAccountController {
     // Handle file upload and process Excel file
     @PostMapping("/uploadFileStudentAccountDetail")
     public String uploadExcel(@RequestParam("file") MultipartFile file, Model model) {
-        // Process the uploaded file and extract the data
-        List<StudentProfile> studentProfiles = excelService.processExcelFile(file);
+        try {
+            // Process the uploaded file and extract the data
+            List<StudentProfile> studentProfiles = excelService.processExcelFile(file);
 
-        // Add the list of students to the model to display on the page
-        model.addAttribute("studentProfiles", studentProfiles);
+            // Add the list of students to the model to display on the page
+            model.addAttribute("studentProfiles", studentProfiles);
 
-        // Add a flag to indicate that the file was uploaded successfully
-        model.addAttribute("fileUploaded", true);
+            // Add a flag to indicate that the file was uploaded successfully
+            model.addAttribute("fileUploaded", true);
+        } catch (IOException e) {
+            model.addAttribute("uploadError", e.getMessage());
+        } catch (Exception e) {
+            model.addAttribute("uploadError", e.getMessage());
+        }
 
         // Render the same page with the uploaded data displayed
         return "uploadFileStudentAccount"; // The same Thymeleaf template is reused

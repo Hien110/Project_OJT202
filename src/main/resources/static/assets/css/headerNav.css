@@ -3,24 +3,28 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     
-  /* header */
   }
   .header {
-    background-color: #6C63FF;
+    background-color: #4da6fb;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 10px 0px;
+    position: fixed;
+    width: 100%;
+    height: 65px;
+    z-index: 1;
   }
   .logo {
     display: flex;
     align-items: center;
-    justify-content: center; /* Đặt logo ở giữa */
+    justify-content: center;
   }
   .logo img {
     height: 89px;
-    width: 211px; /* Đặt kích thước của logo */
+    width: 211px; 
     margin-right: 10px;
+    margin-left: 20px;
   }
   .search-bar {
     flex-grow: 1;
@@ -30,27 +34,26 @@ body {
     margin: 0px 80px 0px 0px;
   }
   .search-bar input {
-   
-    height: 54px;
-    width: 350px; /* Giảm kích thước của thanh tìm kiếm */
+    height: 20px;
+    width: 400px;
     padding: 10px;
     border: none;
-    border-radius: 25px;
-    background-color: #5A55D6;
+    background-color: #ffffff;
     color: #B0AEE6;
-    font-size: 16px;
+    font-size: 10px;
+    border-radius: 25px;
   }
   .search-bar input::placeholder {
     color: #B0AEE6;
   }
   .search-bar i {
-    margin-left: -30px;
+    margin-left: -140px;
     color: #B0AEE6;
   }
   .search-button {
     background-color: transparent;
     border: none;
-    margin-left: 40px;
+    margin-left: 65px;
     color: #B0AEE6;
     cursor: pointer;
   }
@@ -70,26 +73,35 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    margin-right: 60px;
+  }
+
+  .logout-button:hover{
+    background-color: #00ccf5;
+    transition: 0.3s;
   }
   
   /*   nav trai   */
   .menu-item {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 0px;
     margin-bottom: 30px;
     border-radius: 10px;
     color: #6c757d;
     text-decoration: none;
     font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background: linear-gradient(to right, #005aff 0%, #4da6fb 55%);
+    background-size: 0% 100%; 
+    background-repeat: no-repeat;
+    transition: all 0.3s ease, color 0.3s ease;
   }
   .menu-item i {
     margin-right: 10px;
     font-size: 20px;
   }
   .menu-item.active {
-    background: linear-gradient(to right, red 3%, #5A55D6 20%);
+    background: linear-gradient(to right, #005aff 0%, #4da6fb 55%);
     color: #ffffff;
     margin-left: -19px;
   }
@@ -97,12 +109,12 @@ body {
     color: #ffffff;
   }
   .menu-item:hover {
-    background-color: #5A55D6;
+    background-size: 100% 100%; /* Expand background on hover */
     color: #ffffff;
+    margin-left: -19px;
+    transition: 0.5s;
   }
-  .menu-item.active:hover {
-    background-color: #5A55D6 ;
-  }
+
   .menu-item a {
     color: inherit;
     text-decoration: none;
@@ -112,14 +124,15 @@ body {
   }
   .sidebar {
     margin-bottom: 10px;
-    position: sticky;
-    top: 0; /* Vị trí cố định của sidebar */
+    position: fixed;
+    top: 85px; /* Vị trí cố định của sidebar */
     width: 250px;
-    height: 100vh;
+    height: calc(100vh - 85px);
     background-color: #ffffff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding-top: 0px;
+    padding-top: 10px;
     padding-left: 20px;
+    overflow-y: auto;
   }
   .main-container {
     display: flex;
@@ -127,3 +140,203 @@ body {
     margin-top: 20px;
     height: auto; /* Đảm bảo container tự điều chỉnh theo nội dung */
   }
+
+  a{
+  text-decoration: none;
+  color: black;
+}
+
+
+.box::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+.box::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+.box::-webkit-scrollbar-thumb
+{
+	background-color: black;
+	border: 2px solid black;
+  border-radius: 5px
+}
+
+header{
+  -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  height: 110px;
+  vertical-align: middle;
+}
+
+h1{
+ float: left;
+  padding: 10px 30px
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+}
+
+.notification{
+  position: relative;
+  display: inline-block;
+}
+
+.number{
+  height: 10px;
+  width: 10px;
+  background-color: #d63031;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: -8px;
+  left: 42px;
+  font-size: 10px;
+  padding: 3px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.number:empty {
+   display: none;
+}
+
+.notBtn{
+  transition: 0.5s;
+  cursor: pointer
+}
+
+.fas{
+  font-size: 25pt;
+  margin-right: 40px;
+  margin-left: 30px;
+}
+
+.box{
+  width: 400px;
+  z-index: 1;
+  height: 0px;
+  border-radius: 10px;
+  transition: 0.5s;
+  position: absolute;
+  overflow-y: scroll;
+  padding: 0px;
+  left: -300px;
+  margin-top: 5px;
+  background-color: #F4F4F4;
+  -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  cursor: context-menu;
+}
+
+.fa-bell:hover {
+  color: #d63031;
+}
+
+.notBtn:hover > .box{
+  height: 60vh
+}
+
+.gry{
+  background-color: #F4F4F4;
+}
+
+.top{
+  color: black;
+  padding: 10px
+}
+
+.display{
+  position: relative;
+}
+
+.cont{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+
+.cont:empty{
+  display: none;
+}
+
+.stick{
+  text-align: center;  
+  display: block;
+  font-size: 50pt;
+  padding-top: 70px;
+  padding-left: 80px
+}
+
+.stick:hover{
+  color: black;
+}
+
+.cent{
+  text-align: center;
+  display: block;
+}
+
+.sec{
+  padding: 25px 10px;
+  background-color: #F4F4F4;
+  transition: 0.5s;
+}
+
+.profCont{
+  padding-left: 15px;
+}
+
+.profile{
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+  width: 75px;
+  float: left;
+}
+
+.txt{
+  vertical-align: top;
+  font-size: 1.25rem;
+  padding: 5px 10px 0px 115px;
+}
+
+.sub{
+  font-size: 1rem;
+  color: grey;
+}
+
+.new{
+  border-style: none none solid none;
+  border-color: red;
+}
+
+.sec:hover{
+  background-color: #BFBFBF;
+}
+
+.nameAccount{
+  margin-right: 20px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.nameAccount:hover{
+  cursor: default ;
+}
+
+.fa-bell{
+  font-size: 25px;
+}
