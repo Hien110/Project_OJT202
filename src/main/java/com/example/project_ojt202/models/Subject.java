@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -19,6 +20,7 @@ import jakarta.persistence.ManyToOne;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Subject {
     @Id
     @Column(name = "subjectID")

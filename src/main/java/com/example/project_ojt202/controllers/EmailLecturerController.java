@@ -14,6 +14,6 @@ public class EmailLecturerController {
     @PostMapping("/sendEmailsLecturer")
     public String sendEmails() {
         emailLecturerService.sendEmails();
-        return "redirect:/homeAdmin";
+        return "redirect:/home";
     }
 }
