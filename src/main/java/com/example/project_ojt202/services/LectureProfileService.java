@@ -1,18 +1,29 @@
 package com.example.project_ojt202.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.LectureProfile;
+import com.example.project_ojt202.models.StudentProfile;
+import com.example.project_ojt202.models.UniClass;
+import com.example.project_ojt202.repositories.LearnRepository;
 import com.example.project_ojt202.repositories.LectureProfileRepository;
+import com.example.project_ojt202.repositories.UniClassRepository;
 
 @Service
 public class LectureProfileService {
     private final LectureProfileRepository lectureProfileRepository;
+    private final UniClassRepository uniClassRepository;
+    private final LearnRepository learnRepository;
 
-    public LectureProfileService (LectureProfileRepository lectureProfileRepository){
+    public LectureProfileService (LectureProfileRepository lectureProfileRepository, UniClassRepository uniClassRepository,
+                                LearnRepository learnRepository){
         this.lectureProfileRepository = lectureProfileRepository;
+        this.uniClassRepository = uniClassRepository;
+        this.learnRepository = learnRepository;
     }
 
     public LectureProfile getLecProfileByLectureID(String lectureID){
@@ -24,4 +35,17 @@ public class LectureProfileService {
         List<LectureProfile> majLectureProfile = lectureProfileRepository.findByMajor_majorID(majorID);
         return majLectureProfile;
     }
+        public List<UniClass> getClassesForLecturer(String lectureID) {
+        return uniClassRepository.findByLectureProfile_LectureID(lectureID);
+    }
+
+    public List<StudentProfile> getStudentsForClass(Long uniClassId) {
+        return learnRepository.findByUniClass_UniClassId(uniClassId)
+                              .stream()
+                              .map(Learn::getStudentProfile)
+                              .collect(Collectors.toList());
+    }
+    public List<UniClass> filterClassesBySemester(String lectureID, String semester) {
+        return uniClassRepository.findByLectureProfile_LectureIDAndSemester(lectureID, semester);
+    } 
 }
