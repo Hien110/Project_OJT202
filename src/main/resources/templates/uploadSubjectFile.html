@@ -76,6 +76,7 @@
               <th>Số Tín Chỉ</th>
               <th>Kỳ</th>
               <th>Mã Chuyên Ngành</th>
+              <th>Môn Tiên Quyết</th>
             </tr>
           </thead>
           <tbody id="studentTableBody">
@@ -91,6 +92,7 @@
               <th:block th:unless="${subject.major != null}">
                 <td>No Major Available</td>
               </th:block>
+              <td th:text="${subject.ternNo}"></td>
             </tr>
           </tbody>
         </table>
