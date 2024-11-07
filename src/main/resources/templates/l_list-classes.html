@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách lớp học</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        li:hover {
+            background-color: #e9e9e9;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 18px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function handleSemesterChange() {
+            const selectedSemester = document.getElementById("semesterSelect").value;
+            const classItems = document.querySelectorAll("li[data-semester]");
+
+            classItems.forEach(item => {
+                if (item.getAttribute("data-semester") === selectedSemester) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        // Initialize filter on page load
+        window.onload = function() {
+            handleSemesterChange();
+        };
+    </script>
+</head>
+<body>
+    <h1>Danh sách lớp học của giảng viên</h1>
+
+    <label for="semester">Kỳ học</label>
+    <select name="semester" id="semesterSelect" onchange="handleSemesterChange()">
+        <option value="Fall23">Fall23</option>
+        <option value="Spring24">Spring24</option>
+        <option value="Summer24">Summer24</option>
+        <option value="Fall24">Fall24</option>
+        <option value="Spring25">Spring25</option>
+        <option value="Summer25">Summer25</option>
+    </select>
+
+    <ul>
+        <li th:each="uniClass : ${classes}" 
+            th:data-semester="${uniClass.semester}" 
+            th:style="${uniClass.semester == 'Fall23' ? 'display:block;' : 'display:none;'}">
+            <a th:text="${uniClass.uniClassName}" 
+               th:href="@{/lecture/l_list-classes/{uniClassId}/l_list-students(uniClassId=${uniClass.uniClassId})}">
+            </a>
+        </li>
+    </ul>
+</body>
+</html>

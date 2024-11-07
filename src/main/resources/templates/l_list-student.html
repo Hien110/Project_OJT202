@@ -1,0 +1,81 @@
+<!-- list-students.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students List</title>
+    <style>
+        /* Embedded CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Students in Class</h1>
+    <div>
+        <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterate over the list of students and display each student's information -->
+            <tr th:each="student : ${students}">
+                <td th:text="${student.studentID}">Student ID</td>
+                <td th:text="${student.firstName}">First Name</td>
+                <td th:text="${student.lastName}">Last Name</td>
+                <td th:text="${student.dob}">Date of Birth</td>
+                <td th:text="${student.email}">Email</td>
+                <td th:text="${student.phoneNumber}">Phone Number</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
