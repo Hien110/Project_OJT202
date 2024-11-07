@@ -1,7 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
   const semesterSelect = document.getElementById("semester");
-  // Mặc định thiết lập kỳ là Fall23 khi trang tải
-  semesterSelect.value = "Fall23";
+  const dateSelect = document.getElementById("week");
+  const today = new Date(); 
+  const day = today.getDate(); 
+  const month = today.getMonth() + 1; 
+  const year = today.getFullYear(); 
+  const yearSemmester = year%2000;
+  if(month  >= 1 && month <= 4) {
+    semesterSelect.value = "Spring" + yearSemmester;
+  } else  if(month >= 5 && month <= 8) {
+    semesterSelect.value = "Summer" + yearSemmester;
+  }  else {
+    semesterSelect.value = "Fall" + yearSemmester;
+  }
+
+
+
   updateWeeks(); // Gọi để cập nhật các tuần của kỳ Fall23
   updateClassCounts(); // Cập nhật số lượng lớp khi thay đổi kỳ học
 
@@ -39,7 +53,7 @@ function updateWeeks() {
     startMonth = 5;
     endMonth = 8;
   } else if (season === "Fall") {
-    startMonth = 8;
+    startMonth = 9;
     endMonth = 12; // Fall chỉ đến hết tháng 12
   }
 
@@ -84,15 +98,36 @@ function updateWeeks() {
   }
 
   const weeks = getWeeks(startMonth, endMonth, year);
-
+  
+  const dateSelect = document.getElementById("week");
+  const today = new Date(); 
+  let day = today.getDate(); 
+  if (day < 10){
+    day = '0' + day;
+  }
+  let month = today.getMonth() + 1; 
+  if (month < 10){
+    month = '0' + month;
+  }
+  const yearCurrent = today.getFullYear(); 
+  const currentDate = `${yearCurrent}-${month}-${day}`
+  let indexWeek = 0;
   weeks.forEach((week) => {
+  const startWeek = year + '-' + week.split("-")[0].split("/")[1].trim() + '-' +  week.split("-")[0].split("/")[0];
+  const endWeek = year + '-' + week.split("-")[1].split("/")[1].trim() + '-' +  week.split("-")[1].split("/")[0].trim() ;
+  if(currentDate >= startWeek &  currentDate <= endWeek === false){
+    indexWeek += 1;
+  };
+
+    
+    
+
     const option = document.createElement("option");
     option.text = week;
     weekSelect.add(option);
   });
-
   // Thiết lập tuần đầu tiên mặc định được chọn sau khi cập nhật
-  weekSelect.value = weekSelect.options[0].value;
+  weekSelect.value = weekSelect.options[indexWeek].value;
 
   // Gọi để cập nhật lịch dựa trên tuần đầu tiên
   updateCalendarDates();
@@ -157,13 +192,13 @@ const monthEnd = String(endDateOjt.getMonth() + 1).padStart(2, '0'); // Tháng b
 const dayEnd = String(endDateOjt.getDate()).padStart(2, '0');
 const formattedDateEnd = `${yearEnd}-${monthEnd}-${dayEnd-2}`;
 
-const saveButton = document.querySelector("#saveButton");
+// const saveButton = document.querySelector("#saveButton");
 
-if ( formattedDateEnd >= todayObj) {
-  saveButton.style.display = "block"
-} else {
-  saveButton.style.display = "none"
-}
+// if ( formattedDateEnd >= todayObj) {
+//   saveButton.style.display = "block"
+// } else {
+//   saveButton.style.display = "none"
+// }
 
   updateSchedule(calendarDates);
 }
@@ -228,19 +263,27 @@ function updateSchedule(calendarDates) {
 
               const dateScheduce = item.querySelector(".scheduceTime").innerText.split(" - ")[1].trim()
               const today = new Date(); 
-              const day = today.getDate(); 
-              const month = today.getMonth() + 1; 
+              let day = today.getDate(); 
+              if  (day < 10) {
+                day = '0' + day; 
+              }
+              let month = today.getMonth() + 1; 
+              if (month < 10) {
+                month = '0' + month;
+                }
               const year = today.getFullYear(); 
               const currentDate = `${year}-${month}-${day}`;
               // Hiển thị nếu cả slot và ngày đều khớp
               if (isSlotMatched && isDateMatched) {
                 item.style.display = "block"; // Hiển thị mục lịch trình
-                const optionLecture = item.querySelectorAll("#optionLecture");
-                const optionRoom = item.querySelectorAll("#optionRoom");
-                const lectureData = item.querySelectorAll("#lectureData");
-                const roomData = item.querySelectorAll("#roomData");
+                const optionLecture = item.querySelectorAll(".optionLecture");
+                const optionRoom = item.querySelectorAll(".optionRoom");
+                const lectureData = item.querySelectorAll(".lectureData");
+                const roomData = item.querySelectorAll(".roomData");
                 
                 if (dateScheduce <= currentDate){
+                  item.style.color = "black";
+                  item.style.backgroundColor = "#c4c4c4";
                   optionLecture.forEach((option) => {
                     option.style.display = "none";
                   })

@@ -18,4 +18,12 @@ public class ScheduceService {
         List<Scheduce> scheduces = scheduceRepository.findByUniClass_UniClassId(uniClassID);
         return scheduces;
     }
+
+    public void saveScheduce(Scheduce scheduce){
+        scheduceRepository.save(scheduce);
+    }
+
+    public Scheduce getScheduceById(Long id){
+        return scheduceRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
 }
