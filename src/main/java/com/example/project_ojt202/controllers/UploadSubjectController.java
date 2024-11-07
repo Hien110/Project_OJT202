@@ -35,10 +35,12 @@ public class UploadSubjectController {
             // Process the uploaded file and extract the data
             List<Subject> subjects = excelService.processExcelFile(file);
             List<PrerequisiteSubject> prerequisiteSubjects = excelService.processExcelFile1(file);
+            List<String> prerequisites = excelService.processExcelFile2(file);
 
             // Add the list of students to the model to display on the page
             model.addAttribute("subjects", subjects);
             model.addAttribute("prerequisiteSubjects", prerequisiteSubjects);
+            model.addAttribute("prerequisites", prerequisites);
 
             // Add a flag to indicate that the file was uploaded successfully
             model.addAttribute("fileUploaded", true);
