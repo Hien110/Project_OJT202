@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.project_ojt202.models.UniClass;
 
-public interface UniClassRepository extends JpaRepository<UniClass, Long>{
+public interface UniClassRepository extends JpaRepository<UniClass, Long> {
     List<UniClass> findBySubject_subjectID(String subjectID);
+
+    // Linh
+    List<UniClass> findByLectureProfileLectureID(String lectureID);
 }

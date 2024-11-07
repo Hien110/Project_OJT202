@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 public class SubjectService {
     private final SubjectRepository subjectRepository;
 
-    public SubjectService (SubjectRepository subjectRepository){
+    public SubjectService(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
     }
 
-    public List<Subject> getSubjectByMajorIDAndTernNo(String majorID, int ternNo){
+    public List<Subject> getSubjectByMajorIDAndTernNo(String majorID, int ternNo) {
         List<Subject> subjects = subjectRepository.findByMajor_MajorIDAndTernNo(majorID, ternNo);
         return subjects;
     }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo bài kiểm tra</title>
+</head>
+
+<body>
+    <form action="submitTest" onsubmit="getValue()" method="post"
+        class="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md">
+        <select id="classSelect" class="w-full p-2 border rounded" required>
+            <option value="">Chọn lớp</option>
+            <option th:each="uniClass : ${uniClasses}" th:value="${uniClass.uniClassId}"
+                th:text="${uniClass.uniClassName}"></option>
+        </select>
+
+        <select id="testSelect" class="w-full p-2 border rounded">
+            <option value="">Chọn bài kiểm tra</option>
+            <option th:each="scoreTranscript : ${scoreTranscripts}" th:value="${scoreTranscript.scoreTranscriptID}"
+                th:text="${scoreTranscript.nameTest}"></option>
+        </select>
+
+        <input type="hidden" name="hiddenClassSelect" id="hiddenClassSelect">
+
+        <div>
+            <label>Số lượng câu hỏi</label>
+            <input type="number" min="1" max="60" class="p-2 border rounded" placeholder="Nhập số câu"
+                name="questionCount" id="questionCount" oninput="validateInput()">
+        </div>
+
+        <div>
+            <label>Câu khó</label>
+            <input name="hardCount" id="hard" type="number" min="1" max="60" class="p-2 border rounded">
+            <label>Câu trung bình</label>
+            <input name="mediumCount" id="medium" type="number" min="1" max="60" class="p-2 border rounded">
+            <label>Câu dễ</label>
+            <input name="easyCount" id="easy" type="number" min="1" max="60" class="p-2 border rounded">
+        </div>
+
+        <div>
+            <label>Thời gian bắt đầu</label>
+            <input type="date" id="startExamDate" name="startExamDate" class="w-full p-2 border rounded" required>
+            <input type="time" id="startExamTime" name="startExamTime" class="w-full p-2 border rounded" required>
+        </div>
+
+        <div>
+            <label>Thời gian kết thúc</label>
+            <input type="date" id="endExamDate" name="endExamDate" class="w-full p-2 border rounded" required>
+            <input type="time" id="endExamTime" name="endExamTime" class="w-full p-2 border rounded" required>
+        </div>
+
+        <div>
+            <label>Mức độ</label>
+            <select name="levelTest" class="w-full p-2 border rounded" id="levelTest">
+                <option value="Dễ">Dễ</option>
+                <option value="Trung Bình">Trung Bình</option>
+                <option value="Khó">Khó</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Nhập mật khẩu</label>
+            <input type="password" name="passwordInput" id="passwordInput" class="p-2 border rounded">
+            <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
+        </div>
+
+        <button type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+            Tạo bài kiểm tra
+        </button>
+    </form>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("passwordInput");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+
+        function validateInput() {
+            const input = document.getElementById("questionCount");
+            if (input.value > 60) {
+                input.value = 60;
+            } else if (input.value < 1) {
+                input.value = 1;
+            }
+        }
+
+        function getValue() {
+            const classSelect = document.getElementById("classSelect").value;
+            document.getElementById("hiddenClassSelect").value = classSelect; // Gán giá trị vào thẻ input ẩn
+
+            const testInfor = {
+                classSelect: classSelect,
+                testSelect: document.getElementById("testSelect").value,
+                questionCount: document.getElementById("questionCount").value,
+                hardCount: document.getElementById("hard").value,
+                mediumCount: document.getElementById("medium").value,
+                easyCount: document.getElementById("easy").value,
+                startExamDate: document.getElementById("startExamDate").value,
+                startExamTime: document.getElementById("startExamTime").value,
+                endExamDate: document.getElementById("endExamDate").value,
+                endExamTime: document.getElementById("endExamTime").value,
+                levelTest: document.getElementById("levelTest").value,
+                password: document.getElementById("passwordInput").value
+            };
+
+            console.log("testInfor:", testInfor);
+        }
+    </script>
+</body>
+
+</html>
