@@ -21,16 +21,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SubjectService {
-    public SubjectService (SubjectRepository subjectRepository){
+    public SubjectService(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
     }
 
-    public List<Subject> getSubjectByMajorIDAndTernNo(String majorID, int ternNo){
+    public List<Subject> getSubjectByMajorIDAndTernNo(String majorID, int ternNo) {
         List<Subject> subjects = subjectRepository.findByMajor_MajorIDAndTernNo(majorID, ternNo);
         return subjects;
     }
-    
-    //H.anh
+
+    // H.anh
     @Autowired
     private SubjectRepository subjectRepository;
 
@@ -58,7 +58,6 @@ public class SubjectService {
                 int ternNo = (int) row.getCell(4).getNumericCellValue();
                 String majorId = row.getCell(5).getStringCellValue();
 
-
                 // Lấy đối tượng Major từ majorID
                 Major major = majorRepository.findByMajorID(majorId);
 
@@ -70,12 +69,10 @@ public class SubjectService {
             }
         } catch (IOException e) {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
         }
 
-        
         this.subjectCache = subjects;
         return subjects;
     }
@@ -95,7 +92,6 @@ public class SubjectService {
                 int ternNo = (int) row.getCell(4).getNumericCellValue();
                 String majorId = row.getCell(5).getStringCellValue();
 
-
                 // Lấy đối tượng Major từ majorID
                 Major major = majorRepository.findByMajorID(majorId);
 
@@ -104,31 +100,46 @@ public class SubjectService {
 
                 subjects.add(subject);
 
-
                 String prerequisiteSubjects = row.getCell(6).getStringCellValue(); // Cột môn tiên quyết
 
                 // Xử lý môn tiên quyết
-                String[] prerequisiteIds = prerequisiteSubjects.split(",");  // Phân tách danh sách môn tiên quyết
+                String[] prerequisiteIds = prerequisiteSubjects.split(","); // Phân tách danh sách môn tiên quyết
                 for (String prerequisiteId : prerequisiteIds) {
-                    prerequisiteId = prerequisiteId.trim();  // Loại bỏ khoảng trắng nếu có
+                    prerequisiteId = prerequisiteId.trim(); // Loại bỏ khoảng trắng nếu có
 
-                        // Tạo đối tượng PrerequisiteSubject
-                        PrerequisiteSubject prerequisite = new PrerequisiteSubject(prerequisiteId, subject);
-                        // System.out.println(prerequisite.getPrerequisiteSubjectID() + '+' + prerequisite.getSubject().getSubjectID());
-                        listPrerequisiteSubjects.add(prerequisite);
+                    // Tạo đối tượng PrerequisiteSubject
+                    PrerequisiteSubject prerequisite = new PrerequisiteSubject(null, prerequisiteId, subject);
+                    listPrerequisiteSubjects.add(prerequisite);
                 }
-               
+
             }
         } catch (IOException e) {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
         }
 
-        
         this.prerequisiteSubjectCache = listPrerequisiteSubjects;
         return listPrerequisiteSubjects;
+    }
+
+    public List<String> processExcelFile2(MultipartFile file) throws IOException {
+        List<String> presite = new ArrayList<>();
+        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+
+                String prerequisiteSubjects = row.getCell(6).getStringCellValue(); // Cột môn tiên quyết
+                presite.add(prerequisiteSubjects);
+            }
+        } catch (IOException e) {
+            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
+        } catch (Exception e) {
+            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
+        }
+        return presite;
     }
 
     public void saveDataToDatabase() {
@@ -138,8 +149,7 @@ public class SubjectService {
                 // Lưu dữ liệu vào subject
                 subjectRepository.save(subject);
             }
-            for (PrerequisiteSubject prerequisiteSubject  : prerequisiteSubjectCache) {
-                System.out.println(prerequisiteSubject.getPrerequisiteSubjectID() + "+" + prerequisiteSubject.getSubject().getSubjectID());
+            for (PrerequisiteSubject prerequisiteSubject : prerequisiteSubjectCache) {
                 PrerequisiteSubjectRepository.save(prerequisiteSubject);
             }
         }

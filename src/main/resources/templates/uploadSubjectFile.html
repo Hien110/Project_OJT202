@@ -92,7 +92,7 @@
               <th:block th:unless="${subject.major != null}">
                 <td>No Major Available</td>
               </th:block>
-              <td th:text="${subject.ternNo}"></td>
+              <td th:text="${prerequisites[stat.index]}"></td>
             </tr>
           </tbody>
         </table>
