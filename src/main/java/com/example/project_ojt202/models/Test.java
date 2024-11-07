@@ -53,7 +53,7 @@ public class Test {
     private int hardQuestion;
     
     @ManyToOne
-    @JoinColumn(name = "classID")
+    @JoinColumn(name = "uniClassID")
     private UniClass uniClass;
 
     @ManyToOne
