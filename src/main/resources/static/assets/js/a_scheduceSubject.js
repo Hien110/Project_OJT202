@@ -278,10 +278,13 @@ function updateSchedule(calendarDates) {
               // Hiển thị nếu cả slot và ngày đều khớp
               if (isSlotMatched && isDateMatched) {
                 item.style.display = "block"; // Hiển thị mục lịch trình
-                if (dateScheduce <= currentDate){
+                if (dateScheduce < currentDate){
                   item.style.color = "black";
                   item.style.backgroundColor = "#c4c4c4";
-                } 
+                } else if (dateScheduce == currentDate){
+                  item.style.color = "#ffae00";
+                  item.style.backgroundColor = "#fff58d";
+                }
               } else {
                 item.style.display = "none"; // Ẩn mục lịch trình
               }
