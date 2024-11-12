@@ -1,163 +1,231 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home Student</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet" />
+    <link rel="preload" href="/assets/images/68.jpg" as="image" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/a_createNotification.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>        
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+    
 </head>
 <body>
-    <h1>Notification Management</h1>
-    
-    <form id="notificationForm" method="POST" action="/notifications/create" enctype="multipart/form-data">
-        <input type="hidden" id="notificationId" name="notificationId"/>
-        <label>Name:</label>
-        <input type="text" id="notificationName" name="notificationName" required/><br/>
-        <label>Content:</label>
-        <textarea id="notificationContent" name="notificationContent" required></textarea><br/>
-        <label>File:</label>
-        <input type="file" name="file" accept="*/*"><br/>
-        <label>Image:</label>
-        <input type="hidden" id="notificationImage" name="notificationImage">
-        <button type="button" id="upload_widget">Upload Image</button>
-        <button type="submit">Create Notification</button>
-    </form>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="main-content">
+        <div class="title">Blog Posts <span></span></div>
+        <div class="container">
+            <div class="filter-group">
+                <div>
+                    <label for="filter-by">Filter By</label>
+                    <select id="filter-by">
+                        <option>Date</option>
+                    </select>
+                </div>
+            </div>
+            <div class="view-icons">
+                <button id="openModalButton" class="styled-button">Tạo Thông Báo</button>
+            </div>
+        </div>
 
-    <h2>Notification List</h2>
-    <table id="notificationTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Content</th>
-                <th>File</th>
-                <th>Image</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="notification : ${notifications}">
-                <td th:text="${notification.notificationID}"></td>
-                <td th:text="${notification.notificationName}"></td>
-                <td th:text="${notification.notificationContent}"></td>
-                <td th:text="${notification.notificationFile}"></td>
-                <td><img th:src="${notification.notificationImage}" alt="Image" style="width:100px;"/></td>
-                
-                <td>
-                    <button class="editButton" data-id="${notification.notificationID}">Edit</button>
-                    <button class="deleteButton" data-id="${notification.notificationID}">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <script>
-        $(document).ready(function() {
-            // Load notifications
-            loadNotifications();
-
-            // Create or update notification
-            $("#notificationForm").submit(function(e) {
-                e.preventDefault(); // Ngăn chặn hành vi mặc định của form
-                const id = $("#notificationId").val();
-                const url = id ? `/notifications/edit/${id}` : '/notifications/create';
-                const formData = new FormData(this);
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response === "success") {
-                            loadNotifications();
-                            resetForm();
-                        } else {
-                            alert("Error occurred while saving.");
-                        }
-                    },
-                    error: function() {
-                        alert("An error occurred while processing the request.");
-                    }
-                });
-            });
-
-            // Edit notification
-            $(document).on("click", ".editButton", function() {
-                const id = $(this).data("id");
-                $.get(`/notifications/list`, function(notifications) {
-                    const notification = notifications.find(n => n.notificationID === id);
-                    if (notification) {
-                        $("#notificationId").val(notification.notificationID);
-                        $("#notificationName").val(notification.notificationName);
-                        $("#notificationContent").val(notification.notificationContent);
-                        // Load the image URL into the hidden input field
-                        $("#notificationImage").val(notification.notificationImage);
-                    }
-                });
-            });
-
-            // Delete notification
-            $(document).on("click", ".deleteButton", function() {
-                const id = $(this).data("id");
-                $.ajax({
-                    type: "GET",
-                    url: `/notifications/delete/${id}`,
-                    success: function(response) {
-                        if (response === "success") {
-                            loadNotifications();
-                        } else {
-                            alert("Error occurred while deleting.");
-                        }
-                    }
-                });
-            });
-        });
-
-        function loadNotifications() {
-            $.get("/notifications/list", function(notifications) {
-                const rows = notifications.map(n => `
-                    <tr>
-                        <td>${n.notificationID}</td>
-                        <td>${n.notificationName}</td>
-                        <td>${n.notificationContent}</td>
-                        <td>${n.notificationFile}</td>
-                        <td><img src="${n.notificationImage}" alt="Image" style="width:100px;"/></td>
-                        <td>${n.notificationDate ? new Date(n.notificationDate).toISOString().split('T')[0] : 'N/A'}</td>
-                        <td>
-                            <button class="editButton" data-id="${n.notificationID}">Edit</button>
-                            <button class="deleteButton" data-id="${n.notificationID}">Delete</button>
-                        </td>
-                    </tr>
-                `).join('');
-                $("#notificationTable tbody").html(rows);
-            });
-        }
-
-        function resetForm() {
-            $("#notificationForm")[0].reset();
-            $("#notificationId").val('');
-            $("#notificationImage").val(''); // Reset the hidden input for image URL
-        }
-
-    </script>
-    <script type="text/javascript">  
-        var myWidget = cloudinary.createUploadWidget({
-            cloudName: 'dk6pemrxq', 
-            uploadPreset: 'notification'
-        }, (error, result) => { 
-            if (!error && result && result.event === "success") { 
-                console.log('Done! Here is the image info: ', result.info.url); 
-                // Save URL into a hidden field
-                document.getElementById("notificationImage").value = result.info.secure_url;
-            }
-        });
         
-        document.getElementById("upload_widget").addEventListener("click", function(){
-            myWidget.open();
-        }, false);
-    </script>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Tạo Thông Báo Mới</h2> 
+                <form id="notificationForm" method="POST" action="/notifications/create" enctype="multipart/form-data">
+                    <input type="hidden" id="notificationId" name="notificationId" />
+                    
+                    <div class="form-group">
+                        <label for="notificationName">Tên:</label>
+                        <input type="text" id="notificationName" name="notificationName" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notificationContent">Nội dung:</label>
+                        <textarea id="notificationContent" name="notificationContent" required style="resize: none;"></textarea>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="notificationImage">Hình ảnh và tệp:</label>
+                        <input type="hidden" id="notificationFile" name="notificationFile">
+                        <input type="hidden" id="notificationImage" name="notificationImage">
+                        <button type="button" id="upload_widget">Tải lên Hình ảnh</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit">Tạo Thông Báo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h2>Notification List</h2>
+        <div class="card-container">
+            <div th:each="notification : ${notifications}" class="card">
+                <img th:src="${notification.notificationImage}" alt="Notification Image" />
+                <div class="card-content">
+                    <span th:text="${#temporals.format(notification.notificationDate, 'yyyy-MM-dd')}"></span>
+                    <h2 th:text="${notification.notificationName}"></h2>
+                    <p th:text="${notification.notificationContent}"></p>
+                </div>
+                <div class="card-actions">
+                    <button class="edit" data-id="${notification.notificationID}">Edit</button>
+                    <button class="delete" data-id="${notification.notificationID}">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const textarea = document.getElementById("notificationContent");
+            textarea.addEventListener("input", function() {
+                this.style.height = "auto"; 
+                this.style.height = (this.scrollHeight) + "px"; 
+            });
+
+            $(document).ready(function() {
+                loadNotifications();
+
+                $("#openModalButton").click(function() {
+                    $("#myModal").css("display", "block");
+                    // Reset modal title and button text when opening the modal
+                    $(".modal-content h2").text("Tạo Thông Báo Mới");
+                    $("#notificationForm .form-group button[type='submit']").text("Tạo Thông Báo");
+                    resetForm(); // Reset form fields
+                });
+
+                $(".close").click(function() {
+                    $("#myModal").css("display", "none");
+                });
+
+                $(window).click(function(event) {
+                    if ($(event.target).is("#myModal")) {
+                        $("#myModal").css("display", "none");
+                    }
+                });
+
+                // Create or update notification
+                $("#notificationForm").submit(function(e) {
+                    e.preventDefault(); // Ngăn chặn hành vi mặc định của form
+                    const id = $("#notificationId").val();
+                    const url = id ? `/notifications/edit/${id}` : '/notifications/create';
+                    const formData = new FormData(this);
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response === "success") {
+                                loadNotifications();
+                                resetForm();
+                                $("#myModal").css("display", "none"); // Đóng modal
+                            } else {
+                                alert("Error occurred while saving.");
+                            }
+                        },
+                        error: function() {
+                            alert("An error occurred while processing the request.");
+                        }
+                    });
+                });
+
+                // Edit notification
+                $(document).on("click", ".edit", function() {
+                    const id = $(this).data("id");
+                    $.get(`/notifications/list`, function(notifications) {
+                        const notification = notifications.find(n => n.notificationID === id);
+                        if (notification) {
+                            $("#notificationId").val(notification.notificationID);
+                            $("#notificationName").val(notification.notificationName);
+                            $("#notificationContent").val(notification.notificationContent);
+                            $("#notificationImage").val(notification.notificationImage);
+                            $("#myModal").css("display", "block"); // Mở modal khi chỉnh sửa
+                            
+                            // Thay đổi tiêu đề của modal
+                            $(".modal-content h2").text("Chỉnh sửa thông báo");
+                            // Thay đổi nội dung nút bấm
+                            $("#notificationForm .form-group button[type='submit']").text("Chỉnh sửa thông báo");
+                        }
+                    });
+                });
+
+                // Delete notification
+                $(document).on("click", ".delete", function() {
+                    const id = $(this).data("id");
+                    $.ajax({
+                        type: "GET",
+                        url: `/notifications/delete/${id}`,
+                        success: function(response) {
+                            if (response === "success") {
+                                loadNotifications();
+                            } else {
+                                alert("Error occurred while deleting.");
+                            }
+                        }
+                    });
+                });
+            });
+
+            function loadNotifications() {
+                $.get("/notifications/list", function(notifications) {
+                    // Sắp xếp thông báo theo ngày, mới nhất trước
+                    notifications.sort((a, b) => new Date(b.notificationDate) - new Date(a.notificationDate));
+                    
+                    const cards = notifications.map(n => `
+                        <div class="card">
+                            <img src="${n.notificationImage}" alt="Notification Image" />
+                            <div class="card-content">
+                                <span>${new Date(n.notificationDate).toISOString().split('T')[0]}</span>
+                                <h2>${n.notificationName}</h2>
+                                <p>${n.notificationContent}</p>
+                            </div>
+                            <div class="card-actions">
+                                <button class="edit" data-id="${n.notificationID}">Edit</button>
+                                <button class="delete" data-id="${n.notificationID}">Delete</button>
+                            </div>
+                        </div>
+                    `).join('');
+                    $(".card-container").html(cards);
+                });
+            }
+
+
+            function resetForm() {
+                $("#notificationForm")[0].reset();
+                $("#notificationId").val('');
+                $("#notificationImage").val(''); // Reset the hidden input for image URL
+                $("#preview").empty();
+            }
+        </script>
+<script type="text/javascript">  
+    var myWidget = cloudinary.createUploadWidget({
+        cloudName: 'dk6pemrxq', 
+        uploadPreset: 'notification'
+    }, (error, result) => { 
+        if (!error && result && result.event === "success") { 
+        // Phân biệt giữa hình ảnh và các loại tệp khác
+        if (result.info.resource_type === 'image') {
+            console.log('Done! Here is the image info: ', result.info.secure_url);
+            // Lưu URL vào ô ẩn cho hình ảnh
+            document.getElementById("notificationImage").value = result.info.secure_url;
+        } else {
+            console.log('Done! Here is the file info: ', result.info.secure_url);
+            // Lưu URL vào ô ẩn cho tệp khác
+            document.getElementById("notificationFile").value = result.info.secure_url;
+        }
+    }
+});
     
-</body>
-</html>
+    document.getElementById("upload_widget").addEventListener("click", function(){
+        myWidget.open();
+    }, false);
+</script>
