@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const month = today.getMonth() + 1; 
   const year = today.getFullYear(); 
   const yearSemmester = year%2000;
+
   if(month  >= 1 && month <= 4) {
     semesterSelect.value = "Spring" + yearSemmester;
   } else  if(month >= 5 && month <= 8) {
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }  else {
     semesterSelect.value = "Fall" + yearSemmester;
   }
+
 
 
 
@@ -111,23 +113,23 @@ function updateWeeks() {
   }
   const yearCurrent = today.getFullYear(); 
   const currentDate = `${yearCurrent}-${month}-${day}`
+
   let indexWeek = 0;
+  let checkIndex = 0;
   weeks.forEach((week) => {
   const startWeek = year + '-' + week.split("-")[0].split("/")[1].trim() + '-' +  week.split("-")[0].split("/")[0];
   const endWeek = year + '-' + week.split("-")[1].split("/")[1].trim() + '-' +  week.split("-")[1].split("/")[0].trim() ;
-  if(currentDate >= startWeek &  currentDate <= endWeek === false){
-    indexWeek += 1;
+  indexWeek += 1;
+  if (currentDate >= startWeek && currentDate <= endWeek){
+      checkIndex = indexWeek-1;
   };
-
-    
-    
 
     const option = document.createElement("option");
     option.text = week;
     weekSelect.add(option);
   });
   // Thiết lập tuần đầu tiên mặc định được chọn sau khi cập nhật
-  weekSelect.value = weekSelect.options[indexWeek].value;
+  weekSelect.value = weekSelect.options[checkIndex].value;
 
   // Gọi để cập nhật lịch dựa trên tuần đầu tiên
   updateCalendarDates();
@@ -276,40 +278,10 @@ function updateSchedule(calendarDates) {
               // Hiển thị nếu cả slot và ngày đều khớp
               if (isSlotMatched && isDateMatched) {
                 item.style.display = "block"; // Hiển thị mục lịch trình
-                const optionLecture = item.querySelectorAll(".optionLecture");
-                const optionRoom = item.querySelectorAll(".optionRoom");
-                const lectureData = item.querySelectorAll(".lectureData");
-                const roomData = item.querySelectorAll(".roomData");
-                
                 if (dateScheduce <= currentDate){
                   item.style.color = "black";
                   item.style.backgroundColor = "#c4c4c4";
-                  optionLecture.forEach((option) => {
-                    option.style.display = "none";
-                  })
-                  optionRoom.forEach((option) => {
-                    option.style.display = "none";
-                  })
-                  lectureData.forEach((option) => {
-                    option.style.display = "block";
-                  })
-                  roomData.forEach((option) => {
-                    option.style.display = "block";
-                  })
-                }  else {
-                  optionLecture.forEach((option) => {
-                    option.style.display = "block";
-                  })
-                  optionRoom.forEach((option) => {
-                    option.style.display = "block";
-                  })
-                  lectureData.forEach((option) => {
-                    option.style.display = "none";
-                  })
-                  roomData.forEach((option) => {
-                    option.style.display = "none";
-                  })
-                }
+                } 
               } else {
                 item.style.display = "none"; // Ẩn mục lịch trình
               }
@@ -333,20 +305,20 @@ function updateClassCounts() {
     const [className, semester] = key.split("-"); // Tách key thành tên lớp và kỳ học
     const subjects = document.querySelectorAll(".filter-box");
     let selectedSemester;
-
+    
     switch (selectedSemester_S.slice(0, -2)) {
       case "Fall":
         selectedSemester = "FA" + selectedSemester_S.slice(-2); // FA23 -> Fa23
         break;
       case "Summer":
-        selectedSemester = "Su" + selectedSemester_S.slice(-2); // Summer -> Su
+        selectedSemester = "SU" + selectedSemester_S.slice(-2); // Summer -> Su
         break;
       case "Spring":
         selectedSemester = "SP" + selectedSemester_S.slice(-2); // Spring -> Sp
         break;
     }
 
-    if (semester === selectedSemester) {
+    if (semester.toUpperCase() === selectedSemester) {
       subjects.forEach((subject) => {
         const subjectID = subject.querySelector(".subjectID").value.trim(); // Lấy mã môn học
 

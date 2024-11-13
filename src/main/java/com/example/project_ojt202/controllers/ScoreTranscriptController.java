@@ -1,8 +1,7 @@
 package com.example.project_ojt202.controllers;
 
-import com.example.project_ojt202.models.PrerequisiteSubject;
-import com.example.project_ojt202.models.Subject;
-import com.example.project_ojt202.services.SubjectService;
+import com.example.project_ojt202.models.ScoreTranscript;
+import com.example.project_ojt202.services.ScoreTranscriptService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,30 +16,26 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class UploadSubjectController {
+public class ScoreTranscriptController {
 
     @Autowired
-    private SubjectService excelService;
+    private ScoreTranscriptService excelService;
 
     // Display upload page
-    @GetMapping("/uploadSubjectFile")
+    @GetMapping("/uploadFileScoreTranscript")
     public String index() {
-        return "uploadSubjectFile"; // Render the upload page without any data initially
+        return "uploadFileScoreTranscript"; // Render the upload page without any data initially
     }
 
     // Handle file upload and process Excel file
-    @PostMapping("/uploadSubjectFileDetail")
+    @PostMapping("/uploadFileScoreTranscriptDetail")
     public String uploadExcel(@RequestParam("file") MultipartFile file, Model model) {
         try {
             // Process the uploaded file and extract the data
-            List<Subject> subjects = excelService.processExcelFile(file);
-            List<PrerequisiteSubject> prerequisiteSubjects = excelService.processExcelFile1(file);
-            List<String> prerequisites = excelService.processExcelFile2(file);
+            List<ScoreTranscript> scoreTranscripts = excelService.processExcelFile(file);
 
             // Add the list of students to the model to display on the page
-            model.addAttribute("subjects", subjects);
-            model.addAttribute("prerequisiteSubjects", prerequisiteSubjects);
-            model.addAttribute("prerequisites", prerequisites);
+            model.addAttribute("scoreTranscripts", scoreTranscripts);
 
             // Add a flag to indicate that the file was uploaded successfully
             model.addAttribute("fileUploaded", true);
@@ -51,20 +46,14 @@ public class UploadSubjectController {
         }
 
         // Render the same page with the uploaded data displayed
-        return "uploadSubjectFile"; // The same Thymeleaf template is reused
+        return "uploadFileScoreTranscript"; // The same Thymeleaf template is reused
     }
 
     // Save uploaded data to the database
-    @PostMapping("/submitUploadSubjectFile")
+    @PostMapping("/submitUploadScoreTranscript")
     @ResponseBody
     public String submitData() {
         excelService.saveDataToDatabase();
         return "Dữ liệu đã được lưu thành công!";
     }
-
-    @PostMapping("/backToHome")
-    public String backToHome() {
-        return "redirect:/home";
-    }
 }
-

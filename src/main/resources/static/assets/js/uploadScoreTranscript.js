@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 5000); // Ẩn toast sau 5 giây
     }
   });
-
   function cancelUpload() {
     // Clear the file input
     document.getElementById("fileInput").value = "";
@@ -53,9 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Trigger form submit when a file is selected through the input
   fileInput.addEventListener("change", () => form.submit());
 
-
   function submitData() {
-    fetch("/submitUploadSubjectFile", {
+    fetch("/submitUploadScoreTranscript", {
       method: "POST",
     })
       .then((response) => response.text())
@@ -76,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
   }
-
   let currentPage = 1;
   const rowsPerPage = 20;
 

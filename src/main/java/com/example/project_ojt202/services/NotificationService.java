@@ -29,4 +29,8 @@ public class NotificationService {
     public void deleteById(Long id) {
         notificationRepository.deleteById(id);
     }
+    public List<Notification> findAllByDateDesc() {
+        return notificationRepository.findAllByOrderByNotificationDateDesc();
+    }
+
 }

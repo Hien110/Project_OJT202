@@ -1,98 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link
       rel="stylesheet"
       type="text/css"
       th:href="@{/assets/css/uploadFileStudentAccount.css}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      th:href="@{/assets/css/headerNav.css}"
     />
     <script src="/assets/js/headerNav.js"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-
-    <title>Tạo Môn Học</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <title>Tạo Khung Chương Trình</title>
   </head>
   <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navAdmin}"></div>
     <div class="upload-file-content">
       <div class="upload-file">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="10"
-            width="11.25"
-            viewBox="0 0 576 512"
-          >
-            <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-            <path
-              fill="#65dde6"
-              d="M88.7 223.8L0 375.8 0 96C0 60.7 28.7 32 64 32l117.5 0c17 0 33.3 6.7 45.3 18.7l26.5 26.5c12 12 28.3 18.7 45.3 18.7L416 96c35.3 0 64 28.7 64 64l0 32-336 0c-22.8 0-43.8 12.1-55.3 31.8zm27.6 16.1C122.1 230 132.6 224 144 224l400 0c11.5 0 22 6.1 27.7 16.1s5.7 22.2-.1 32.1l-112 192C453.9 474 443.4 480 432 480L32 480c-11.5 0-22-6.1-27.7-16.1s-5.7-22.2 .1-32.1l112-192z"
-            />
-          </svg>
-          <h3>Tạo Môn Học</h3>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="10"
+          width="11.25"
+          viewBox="0 0 576 512"
+        >
+          <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            fill="#65dde6"
+            d="M88.7 223.8L0 375.8 0 96C0 60.7 28.7 32 64 32l117.5 0c17 0 33.3 6.7 45.3 18.7l26.5 26.5c12 12 28.3 18.7 45.3 18.7L416 96c35.3 0 64 28.7 64 64l0 32-336 0c-22.8 0-43.8 12.1-55.3 31.8zm27.6 16.1C122.1 230 132.6 224 144 224l400 0c11.5 0 22 6.1 27.7 16.1s5.7 22.2-.1 32.1l-112 192C453.9 474 443.4 480 432 480L32 480c-11.5 0-22-6.1-27.7-16.1s-5.7-22.2 .1-32.1l112-192z"
+          />
+        </svg>
+        <h3>Tạo Khung Chương Trình</h3>
 
-          <!-- File Upload Section -->
-          <form
-            id="uploadForm"
-            method="post"
-            enctype="multipart/form-data"
-            th:action="@{/uploadSubjectFileDetail}"
-          >
-            <div id="uploadArea" class="upload-area">
-              <p>Kéo và thả tệp của bạn vào đây hoặc nhấp để chọn tệp</p>
-            </div>
-            <input
-              type="file"
-              name="file"
-              id="fileInput"
-              accept=".xlsx, .xls"
-            />
-          </form>
+        <!-- File Upload Section -->
+        <form
+          id="uploadForm"
+          method="post"
+          enctype="multipart/form-data"
+          th:action="@{/uploadFileScoreTranscriptDetail}"
+        >
+          <div id="uploadArea" class="upload-area">
+            <p>Kéo và thả tệp của bạn vào đây hoặc nhấp để chọn tệp</p>
+          </div>
+          <input type="file" name="file" id="fileInput" accept=".xlsx, .xls" />
+        </form>
 
-          <button type="button" id="cancelUpload" onclick="cancelUpload()">
-            Hủy
-          </button>
+        <button type="button" id="cancelUpload" onclick="cancelUpload()">
+          Hủy
+        </button>
       </div>
 
       <!-- Display Student Data Section (this will be populated after the file upload) -->
       <!-- Display Student Data Section (Paginated) -->
-      <div id="studentDataContainer" th:if="${subjects != null}">
-        <h3>Thông tin môn học</h3>
+      <div id="studentDataContainer" th:if="${scoreTranscripts != null}">
+        <h2>Khung Chương Trình</h2>
         <table id="studentTable">
           <thead>
             <tr>
               <th>STT</th>
-              <th>Tên Môn Học</th>
-              <th>Mã Môn Học</th>
-              <th>Số Tín Chỉ</th>
-              <th>Kỳ</th>
-              <th>Mã Chuyên Ngành</th>
-              <th>Môn Tiên Quyết</th>
+              <th>Tên Bài Kiểm Tra</th>
+              <th>Số Cột Điểm</th>
+              <th>Tỉ Lệ Điểm</th>
+              <th>Mã Môn</th>
             </tr>
           </thead>
           <tbody id="studentTableBody">
-            <tr th:each="subject, stat : ${subjects}">
+            <tr th:each="score, stat : ${scoreTranscripts}">
               <td th:text="${stat.count}"></td>
-              <td th:text="${subject.subjectName}"></td>
-              <td th:text="${subject.subjectID}"></td>
-              <td th:text="${subject.subjectCredit}"></td>
-              <td th:text="${subject.ternNo}"></td>
-              <th:block th:if="${subject.major != null}">
-                <td th:text="${subject.major.majorID}"></td>
+              <td th:text="${score.nameTest}"></td>
+              <td th:text="${score.numberColumn}"></td>
+              <td th:text="${score.totalPercent}"></td>
+              <th:block th:if="${score.subject != null}">
+                <td th:text="${score.subject.subjectID}"></td>
               </th:block>
-              <th:block th:unless="${subject.major != null}">
-                <td>No Major Available</td>
+              <th:block th:unless="${score.subject != null}">
+                <td>No Subject Available</td>
               </th:block>
-              <td th:text="${prerequisites[stat.index]}"></td>
             </tr>
           </tbody>
         </table>
@@ -106,10 +94,10 @@
             th:if="${fileUploaded}"
             id="saveDataForm"
             method="post"
-            th:action="@{/submitUploadSubjectFile}"
+            th:action="@{/submitUploadScoreTranscript}"
           >
             <button type="button" onclick="submitData()">
-              Lưu thông tin môn học
+              Lưu thông tin giảng viên
             </button>
           </form>
         </div>
@@ -153,6 +141,7 @@
       <p th:text="${uploadError}"></p>
     </div>
 
+    <!-- Hide the upload area after file is uploaded -->
     <script th:if="${fileUploaded}">
       document.addEventListener("DOMContentLoaded", function () {
         // Ẩn khu vực kéo thả sau khi tải file thành công
@@ -162,6 +151,6 @@
         }
       });
     </script>
-    <script src="/assets/js/uploadSubjectFile.js"></script>
+    <script src="/assets/js/uploadScoreTranscript.js"></script>
   </body>
 </html>
