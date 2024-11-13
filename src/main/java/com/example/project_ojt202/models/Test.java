@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "TEST")
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 
 public class Test {
     @Id
@@ -51,7 +53,7 @@ public class Test {
 
     @Column(name = "hardQuestion")
     private int hardQuestion;
-    
+
     @ManyToOne
     @JoinColumn(name = "uniClassID")
     private UniClass uniClass;
@@ -59,4 +61,6 @@ public class Test {
     @ManyToOne
     @JoinColumn(name = "scoreTranscriptID")
     private ScoreTranscript scoreTranscript;
+
+    
 }
