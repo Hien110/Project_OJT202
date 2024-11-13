@@ -23,6 +23,16 @@ public class ScoreTranscriptService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+  
+    public ScoreTranscriptService(ScoreTranscriptRepository scoreTranscriptRepository) {
+        this.scoreTranscriptRepository = scoreTranscriptRepository;
+    }
+
+    public List<ScoreTranscript> findAllScoreTranscripts() {
+        return scoreTranscriptRepository.findAll();
+    }
+  
+  //H Anh
 
     private List<ScoreTranscript> scoreTranscriptCache;
 
@@ -66,4 +76,5 @@ public class ScoreTranscriptService {
             }
         }
     }
+
 }
