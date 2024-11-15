@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,8 @@
             margin-top: 30px;
         }
 
-        .button-link, .button-container button {
+        .button-link,
+        .button-container button {
             display: inline-block;
             width: 250px;
             padding: 15px;
@@ -46,7 +48,8 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .button-link:hover, .button-container button:hover {
+        .button-link:hover,
+        .button-container button:hover {
             background-color: #455da0;
             transform: translateY(-3px);
         }
@@ -57,6 +60,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <h1>Chức năng Giảng viên</h1>
@@ -67,7 +71,7 @@
         <form th:action="@{/scheduceMajor}" method="post">
             <button type="submit">Tài Liệu</button>
         </form>
-        <form th:action="@{/scheduceMajor}" method="post">
+        <form th:action="@{/createTest}" method="get">
             <button type="submit">Tạo Bài Kiểm Tra</button>
         </form>
         <form th:action="@{/scheduceMajor}" method="post">
@@ -82,4 +86,5 @@
     </div>
 
 </body>
+
 </html>
