@@ -54,6 +54,9 @@ public class Test {
     @Column(name = "hardQuestion")
     private int hardQuestion;
 
+    @Column(name = "statusTest")
+    private boolean statusTest;
+    
     @ManyToOne
     @JoinColumn(name = "uniClassID")
     private UniClass uniClass;
