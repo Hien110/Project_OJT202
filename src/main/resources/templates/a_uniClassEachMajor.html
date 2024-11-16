@@ -16,7 +16,7 @@
     <div class="container-EachMajor">
         <p class="title_Eachscheduce">Chọn kì học</p>
         <p style="text-align: center; margin-top: 0px; color: #6fb9ff;">Chuyên ngành: <span th:text = "${selectedMajor}"></span></p>
-        <form th:action="@{/scheduceOfSubject/{major}/{specialization}(major=${selectedMajor})}" method="get" id="scheduceForm">
+        <form th:action="@{/uniClassManager/{major}/{specialization}(major=${selectedMajor})}" method="get" id="scheduceForm">
             <div class="scheduceEachMajor">
                 <input type="hidden" name="major" th:value="${selectedMajor}"/>
                 <button type="button" class="specialization" onclick="submitForm(1)">Specialization 1 (Chuyên Ngành 1)</button><br>
@@ -34,7 +34,7 @@
         <script>
             function submitForm(specialization) {
                 const form = document.getElementById("scheduceForm");
-                form.action = `/scheduceOfSubject/${form.major.value}/${specialization}`;
+                form.action = `/uniClassManager/${form.major.value}/${specialization}`;
                 form.submit();
             }
         </script>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manager Class</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/a_managerUniClass.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <script src="/assets/js/headerNav.js"></script>
+    <script src="/assets/js/a_managerUniClass.js"></script>
+</head>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="content">
+        <h1>Danh sách lớp học</h1>
+        <div class="semesters" id="semesters" th:each="semester : ${semesterList}">
+            <h4 class="semester" th:text ="${semester}"></h4>
+            <div class="filters">
+                <div th:each="subject, subjStat : ${Subjects}" class="subjectOfUni">
+                    <div class="filter-box">
+                        <h3>Môn học</h3>
+                        <label class="labelSelect">Mã môn học</label>
+                        <input type="text" th:value="${subject.subjectID}" class="form-control subjectID" readonly />
+                        <label class="labelSelect">Tên môn học</label>
+                        <input type="text" th:value="${subject.subjectName}" class="form-control" readonly />
+                        <label class="labelSelect">Số lượng lớp</label>
+                        <input type="text" class="classCountInput form-control" id="classCount_${subjStat.index}" readonly />
+                    </div>
+                
+                    <div th:each="entry : ${subjectClassMap}" data-subjectMap="${subjectClassMap}">
+                        <div th:if="${entry.key.subjectID == subject.subjectID}" class="uniClassEachSemester">
+                            <div th:each="uniClass : ${entry.value}" th:if="${uniClass.semester == semester}" class="filter-box uniClassBox" style="margin-top: 10px;">
+                                <h3 style="background-color: black;">Lớp học</h3>
+                                <input th:value="${uniClass.uniClassId}" class="UniClassID" type="hidden"/>
+                                <label class="labelSelect">Tên lớp học</label>
+                                <input type="text" th:value="${uniClass.uniClassName}" class="form-control" readonly />
+                                <label class="labelSelect">Giáo viên</label>
+                                <input type="text" th:value="${uniClass.lectureProfile.firstName + ' ' + uniClass.lectureProfile.lastName}" class="form-control lectureData" readonly style="display: none;" />
+                                <select class="optionLecture form-control" th:each="lecture : ${lectures}" style="display: none;">
+                                    <option th:if="${uniClass.lectureProfile != null}" 
+                                        th:value="${uniClass.lectureProfile.lectureID}" 
+                                        th:text="${uniClass.lectureProfile.firstName + ' ' + uniClass.lectureProfile.lastName}">
+                                    </option>
+                                    <option th:each="lecture : ${lectures}" th:if="${lecture.lectureID != uniClass.lectureProfile.lectureID}"
+                                        th:value="${lecture.lectureID}" 
+                                        th:text="${lecture.firstName + ' ' + lecture.lastName}">
+                                    </option>
+                                </select> 
+                                
+                                <div th:each="entry : ${countStudentEachUniClass}">
+                                    <div th:if="${entry.key == uniClass.uniClassName}">
+                                        <label class="labelSelect">Số lượng học sinh</label>
+                                        <input type="text" th:value="${entry.value}" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <label class="labelSelect">Số lượng học sinh tối đa</label>
+                                <input type="text" th:value="${uniClass.numberStudent}" class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="createUniClass" th:action="@{/createUniClass/{major}/{specialization}(major=${major}, specialization=${specialization})}" method="get">
+                <input type="hidden" id="semesterValue" class="semesterValue" name="semester"> 
+                <input type="submit" id="createClass" class="createClass" value="Tạo lớp học" style="display: none;">
+            </form>
+        </div>
+        <button id="saveButton" style="display: none;"  onclick="openModal()">Lưu</button>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+            <h5 class="saveModal">Xác nhận thay đổi</h5>
+            <div class="buttonChange">
+                    <form id="editUniClass" th:action="@{/editUniClass/{major}/{specialization}(major=${major}, specialization=${specialization})}" method="post">
+                        <input type="hidden" id="mapDataInputLecture" name="mapDataInputLecture"> 
+                        <input type="submit" id="saveButtonModel1" value="Xác nhận" onclick="updateUniClassSucces()">
+                    </form>
+                    <button class="cancelModal" onclick="closeModal()">Huỷ</button>
+            </div>
+            </div>
+        </div>
+        <div id="createUniClassSuccess">Tạo lớp học thành công</div>
+        <div id="updateUniClassSucces">Cập nhập giáo viên thành công</div>
+
+    </div>  
+</body>
+</html>

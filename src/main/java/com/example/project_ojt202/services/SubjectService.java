@@ -30,6 +30,10 @@ public class SubjectService {
         return subjects;
     }
 
+    public Subject getSubjectBySubjectID(String subjectID) {
+        Subject subject = subjectRepository.findBySubjectID(subjectID);
+        return subject;
+    }
     // H.anh
     @Autowired
     private SubjectRepository subjectRepository;

@@ -14,7 +14,7 @@
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navAdmin}"></div>
     <div class="content">
-        <h1>Calendar</h1>
+        <h1>Lịch học</h1>
         <div class="select">
             <div>
                 <label class="labelSelect" for="semester">Semester</label>
@@ -76,7 +76,7 @@
                                         <span id="className" th:text="${uniClass.uniClassName}"></span><br />
                                         <span class="lectureData" style="display: block;" th:text="${uniClass.lectureProfile.firstName} +  ' ' + ${uniClass.lectureProfile.lastName}"></span>
 
-                                        <span class="roomData" th:text="'Phòng ' + ${uniClass.uniClassRoom}"></span>
+                                        <span class="roomData" th:text="'Phòng ' + ${scheduce.uniClassRoom}"></span>
                                         <span style="display: none" class="scheduceTime" th:text="${scheduce.timeScheduce} + ' - ' + ${scheduce.dateScheduce}">Giờ học - Ngày</span>
                                     </li>
                                 </ul>
@@ -104,7 +104,7 @@
                     </form>
             </div>
             <button class="cancelModal" onclick="closeModal()">Huỷ</button>
-        </div>
+            </div>
         </div>
     </div>
 
