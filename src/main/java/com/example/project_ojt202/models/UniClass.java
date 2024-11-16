@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "UNICLASS")
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class UniClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +32,9 @@ public class UniClass {
 
     @Column(name = "semester")
     private String semester;
-    
-    @Column(name = "uniClassRoom")
-    private String uniClassRoom;
+   
+    @Column(name = "numberStudentMax")
+    private String numberStudent;
 
     @ManyToOne
     @JoinColumn(name = "subjectID")  

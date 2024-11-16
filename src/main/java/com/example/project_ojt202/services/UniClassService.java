@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.UniClassRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UniClassService {
     private final UniClassRepository uniClassRepository;
@@ -23,5 +25,18 @@ public class UniClassService {
     // Linh
     public List<UniClass> getClassesByLectureID(String lectureID) {
         return uniClassRepository.findByLectureProfileLectureID(lectureID);
+    }
+
+    public void saveUniClass(UniClass uniClass){
+        uniClassRepository.save(uniClass);
+    }
+
+    public UniClass getUniClassById(Long id){
+        return uniClassRepository.findById(id).orElseThrow(() -> new RuntimeException("UniClass not found"));
+    }
+
+    @Transactional
+    public void deleteUniClass(String subjectID){
+        uniClassRepository.deleteBySubject_SubjectID(subjectID);
     }
 }

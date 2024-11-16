@@ -55,7 +55,7 @@ public class CreateScheduceController {
     }
     @GetMapping("/scheduceOfSubject/{major}/{specialization}")
     public String showScheduceSubjectPage(@PathVariable String major, @PathVariable int specialization, Model model ) {
-        List<Subject> subjects = subjectService.getSubjectByMajorIDAndTernNo(major, specialization);
+    List<Subject> subjects = subjectService.getSubjectByMajorIDAndTernNo(major, specialization);
     List<LectureProfile> lectures = lectureProfileService.getLecProfileByMajorID(major);
     model.addAttribute("subjects", subjects);
     model.addAttribute("lectures", lectures);

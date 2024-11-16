@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Class</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/a_managerUniClass.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/a_createUniClass.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <script src="/assets/js/a_createUniClass.js"></script>
+</head>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="content">
+        <h1>Tạo lớp học</h1>
+        <div class="filters">
+            <div th:each="subject, subjStat : ${Subjects}" class="subjectOfUni">
+                <div class="filter-box">
+                    <h3>Môn học</h3>
+                    <label class="labelSelect">Mã môn học</label>
+                    <input type="text" th:value="${subject.subjectID}" class="form-control subjectID" readonly />
+                    <label class="labelSelect">Tên môn học</label>
+                    <input type="text" th:value="${subject.subjectName}" class="form-control" readonly />
+                    <label class="labelSelect">Số lượng học sinh</label>
+                    <input type="text" class="classCountInput form-control numberStudent" required/>
+                    <label class="labelSelect">Tổng số lượng lớp</label>
+                    <input type="text" class="classCountInput form-control numberClass" required/>
+                </div>
+                <!-- Container để hiển thị danh sách lớp học -->
+                <div class="displayClasses"></div>
+            </div>
+        </div>
+            <div th:each="lecture : ${lectures}">
+                <input type="hidden" th:value="${lecture.firstName + ' ' + lecture.lastName}" th:data-lecture="${lecture.lectureID}" class="lectureID" />
+            </div>
+            <input type="hidden" th:value="${semester}" class="semesterValue">
+            <button class="autoCreate">Tạo lớp học</button>
+            <button id="saveButton" style="display: none;" >Lưu</button>
+            <div class="modal" id="modal">
+                <div class="modal-content">
+                <h4 class="saveModal" style="margin-bottom: 5px;">Xác nhận tạo lớp học</h4>
+                <span class="saveModal" style="color: red; margin-bottom: 15px;">Lưu ý: Lớp học chỉ tạo được một lần</span>
+                <div class="buttonChange">
+                    <form id="createUniClass" th:action="@{/createUniClass/{major}/{specialization}(major=${major}, specialization=${specialization})}" method="post">
+                            <input type="hidden" id="mapDataUniClass" name="mapDataUniClass"> 
+                            <input type="submit" id="createClass" value="Xác nhận" onclick="createUniClass()">
+                    </form>
+                        <button class="cancelModal" onclick="closeModal()">Huỷ</button>
+                </div>
+                </div>
+            </div>
+            
+        <div id="createUniClassError">Chưa chọn giáo viên cho lớp học</div>
+        <div id="createUniClassError2">Chưa nhập dữ liệu đầy đủ</div>
+    </div>
+</body>
+</html>
