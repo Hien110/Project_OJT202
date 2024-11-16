@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SubjectService {
+
     public SubjectService(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
     }

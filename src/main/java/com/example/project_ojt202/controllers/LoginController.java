@@ -30,6 +30,7 @@ public class LoginController {
     private final StudentProfileService studentProfileService;
     private final LectureProfileService lectureProfileService;
     private final ParentProfileService parentProfileService;
+    
     public LoginController(AccountService accountService, NotificationService notificationService,
             StudentProfileService studentProfileService, LectureProfileService lectureProfileService,
             ParentProfileService parentProfileService) {
@@ -63,6 +64,10 @@ public class LoginController {
         return "taiLieu";
     }
 
+    @GetMapping("/feedBack")
+    public String showFeedBackPage() {
+        return "a_feedBack";
+    }
 
 
     @GetMapping("/classRoom")
@@ -79,6 +84,11 @@ public class LoginController {
             @RequestParam("accountPassword") String accountPassword,
             Model model,
             HttpSession session) {
+            List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
+        if (notifications == null) {
+            notifications = notificationService.findAll();
+            session.setAttribute("notifications", notifications);
+        }
         Account account = accountService.getAccountByAccountIDAndPassword(accountID, accountPassword);
         if (account != null) {
             session.setAttribute("account", account);

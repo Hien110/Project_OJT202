@@ -133,6 +133,7 @@
     width: 100%;
     border-radius: 10px;
     margin: 20px 0;
+    object-fit: contain;
   }
   .update-card-footer {
     display: flex;

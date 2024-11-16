@@ -13,13 +13,18 @@ import jakarta.transaction.Transactional;
 public class UniClassService {
     private final UniClassRepository uniClassRepository;
 
-    public UniClassService(UniClassRepository uniClassRepository){
+    public UniClassService(UniClassRepository uniClassRepository) {
         this.uniClassRepository = uniClassRepository;
     }
 
-    public List<UniClass> getUniClassBySubjectID(String subjectID){
+    public List<UniClass> getUniClassBySubjectID(String subjectID) {
         List<UniClass> uniClasses = uniClassRepository.findBySubject_subjectID(subjectID);
         return uniClasses;
+    }
+
+    // Linh
+    public List<UniClass> getClassesByLectureID(String lectureID) {
+        return uniClassRepository.findByLectureProfileLectureID(lectureID);
     }
 
     public void saveUniClass(UniClass uniClass){
