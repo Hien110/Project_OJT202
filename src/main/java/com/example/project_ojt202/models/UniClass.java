@@ -1,5 +1,7 @@
 package com.example.project_ojt202.models;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,12 @@ public class UniClass {
    
     @Column(name = "numberStudentMax")
     private String numberStudent;
+
+    @Column(name = "dateStartLearn")
+    private LocalDate dateStartLearn;
+
+    @Column(name = "dateEndLearn")
+    private LocalDate dateEndLearn;
 
     @ManyToOne
     @JoinColumn(name = "subjectID")  
