@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -37,5 +38,18 @@ public class StudentProfileController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", studentPage.getTotalPages());
         return "allOfStudentList"; // Trang sẽ render
+    }
+
+    // Endpoint to view a student's profile details
+    @GetMapping("/student/{studentID}")
+    public String viewStudentDetails(@PathVariable String studentID, Model model) {
+        // Fetch the student profile based on the studentID
+        StudentProfile studentProfile = studentProfileService.getStudentProfileById(studentID);
+        Account account = studentProfileService.getStudentAccountById(studentID);
+
+        // Add the student profile to the model
+        model.addAttribute("studentProfile", studentProfile);
+        model.addAttribute("account", account);
+        return "studentProfileDetail";  // Return to the view that will display the student details
     }
 }
