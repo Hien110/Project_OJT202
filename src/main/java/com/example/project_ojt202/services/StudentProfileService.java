@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.project_ojt202.models.Account;
+import com.example.project_ojt202.models.ParentProfile;
 import com.example.project_ojt202.models.StudentProfile;
 import com.example.project_ojt202.repositories.AccountRepository;
 import com.example.project_ojt202.repositories.StudentProfileRepository;
@@ -35,5 +36,13 @@ public class StudentProfileService {
     // Lấy tất cả các tài khoản với accountRole là 'student'
     public List<Account> getStudentAccounts() {
         return accountRepository.findByAccountRole("student");
+    }
+
+    public StudentProfile getStudentProfileById(String studentID) {
+        return studentProfileRepository.findById(studentID).orElse(null);
+    }
+
+    public Account getStudentAccountById(String studentID) {
+        return accountRepository.findByAccountID(studentID);
     }
 }
