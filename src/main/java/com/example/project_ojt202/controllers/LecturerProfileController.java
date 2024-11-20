@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.Major;
-import com.example.project_ojt202.models.StudentProfile;
 import com.example.project_ojt202.services.LectureProfileService;
 import com.example.project_ojt202.services.MajorService;
 
