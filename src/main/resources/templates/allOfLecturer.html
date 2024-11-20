@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Giảng Viên</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/allOfLecturer.css}" />
+</head>
+
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="student-list-container">
+        <h1>Danh Sách Giảng Viên</h1>
+
+        <!-- Phần lọc -->
+        <div class="filter-container">
+            <!-- Dropdown lọc theo chuyên ngành -->
+            <select id="majorFilter" onchange="filterLecturers()">
+                <option value>Mã Chuyên Ngành</option>
+                <th:block th:each="major : ${majorIds}">
+                    <option th:value="${major.majorID}" th:text="${major.majorName}"></option>
+                </th:block>
+            </select>
+
+            <!-- Dropdown lọc theo năm nhập học -->
+            <select id="yearFilter" onchange="filterLecturers()">
+                <option value>Năm Giảng Dạy</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+
+            <!-- Ô tìm kiếm theo tên sinh viên -->
+            <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên giảng viên"
+                onkeyup="filterLecturers()" />
+        </div>
+
+        <!-- Bảng Sinh Viên -->
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
+                    <th>Mã Giảng Viên</th>
+                    <th>Ngày Sinh</th>
+                    <th>Giới Tính</th>
+                    <th>Mã Chuyên Ngành</th>
+                    <th>Năm Giảng Dạy</th>
+                    <th>Tùy Chọn</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="lecturer, iterStat : ${lecturers.content}">
+                    <tr class="student-row" th:data-major="${lecturer.major.majorID}"
+                        th:data-year="${lecturer.yearOfAdmission}">
+                        <td th:text="${iterStat.index + 1}"></td>
+                        <td>
+                            <!-- Avatar -->
+                            <img th:src="@{${accounts[iterStat.index].avatar}}" alt="Avatar"
+                                onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'">
+                            <!-- Tên sinh viên -->
+                            <span class="student-name"
+                                th:text="${lecturer.firstName} + ' ' + ${lecturer.lastName}"></span>
+                        </td>
+                        <td th:text="${lecturer.lectureID}"></td>
+                        <td th:text="${lecturer.dob}"></td>
+                        <td th:text="${lecturer.gender ? 'Nam' : 'Nữ'}"></td>
+                        <td th:text="${lecturer.major.majorID}"></td>
+                        <td th:text="${lecturer.yearOfAdmission}"></td>
+                        <td>
+                            <a th:href="@{/lecturer/{lecturerID}(lecturerID=${lecturer.lectureID})}"
+                                class="btn btn-info btn-sm">Xem Chi Tiết</a>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+
+        </table>
+
+        <!-- Phân trang -->
+        <div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                        <a class="page-link" href="#"
+                            th:href="@{/allOfLecturer(page=${currentPage - 1}, size=${lecturers.getSize()})}">&laquo;</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#"
+                            th:href="@{/allOfLecturer(page=${i}, size=${lecturers.getSize()})}"
+                            th:text="${i + 1}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#"
+                            th:href="@{/allOfLecturer(page=${currentPage + 1}, size=${lecturers.getSize()})}">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="/assets/js/allOfLecturer.js"></script>
+</body>
+
+</html>

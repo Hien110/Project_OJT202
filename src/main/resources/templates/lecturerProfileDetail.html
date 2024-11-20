@@ -17,7 +17,7 @@
     <link
       rel="stylesheet"
       type="text/css"
-      th:href="@{/assets/css/studentProfileDetail.css}"
+      th:href="@{/assets/css/lecturerProfileDetail.css}"
     />
   </head>
   <body>
@@ -25,7 +25,7 @@
     <div th:insert="~{headerNav :: navAdmin}"></div>
     <div class="content-page">
       <div class="student-container">
-        <h1 class="title-page">Chi Tiết Hồ Sơ Sinh Viên</h1>
+        <h1 class="title-page">Chi Tiết Hồ Sơ Giảng viên</h1>
         <div class="student-profile">
           <img
             th:src="@{${account.avatar}}"
@@ -36,48 +36,43 @@
           <div class="student-info">
             <p
               class="student-name"
-              th:text="${studentProfile.firstName} + ' ' + ${studentProfile.lastName}"
+              th:text="${lecturerProfile.firstName} + ' ' + ${lecturerProfile.lastName}"
             ></p>
             <p>
-              <strong>Mã Sinh Viên:</strong>
-              <span th:text="${studentProfile.studentID}"></span>
+              <strong>Mã Giảng Viên:</strong>
+              <span th:text="${lecturerProfile.lectureID}"></span>
             </p>
             <p>
               <strong>Ngày Sinh:</strong>
-              <span th:text="${studentProfile.dob}"></span>
+              <span th:text="${lecturerProfile.dob}"></span>
             </p>
             <p>
               <strong>Giới Tính:</strong>
-              <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span>
+              <span th:text="${lecturerProfile.gender ? 'Nam' : 'Nữ'}"></span>
             </p>
             <p>
               <strong>Chuyên Ngành:</strong>
-              <span th:text="${studentProfile.major.majorName}"></span>
+              <span th:text="${lecturerProfile.major.majorName}"></span>
             </p>
             <p>
-              <strong>Năm Nhập Học:</strong>
-              <span th:text="${studentProfile.yearOfAdmission}"></span>
+              <strong>Năm Giảng Dạy:</strong>
+              <span th:text="${lecturerProfile.yearOfAdmission}"></span>
             </p>
             <p>
               <strong>Địa Chỉ:</strong>
-              <span th:text="${studentProfile.address}"></span>
+              <span th:text="${lecturerProfile.address}"></span>
             </p>
             <p>
               <strong>Số Điện Thoại:</strong>
-              <span th:text="${studentProfile.phoneNumber}"></span>
+              <span th:text="${lecturerProfile.phoneNumber}"></span>
             </p>
             <p>
               <strong>Email:</strong>
-              <span th:text="${studentProfile.email}"></span>
-            </p>
-            <!-- Phụ huynh -->
-            <p>
-              <strong>Phụ Huynh:</strong>
-              <span th:text="${studentProfile.parent.parentName}"></span>
+              <span th:text="${lecturerProfile.email}"></span>
             </p>
           </div>
 
-          <a href="/allOfStudentList" class="back-btn">Quay Lại</a>
+          <a href="/allOfLecturer" class="back-btn">Quay Lại</a>
         </div>
       </div>
     </div>
