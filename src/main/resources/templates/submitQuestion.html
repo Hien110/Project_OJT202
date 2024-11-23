@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách câu hỏi và đáp án</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Danh sách câu hỏi và đáp án</h1>
+
+    <!-- Lặp qua danh sách câu hỏi -->
+    <table>
+        <thead>
+            <tr>
+                <th>SST</th>
+                <th>Câu hỏi</th>
+                <th>Chương</th>
+                <th>Cấp độ</th>
+                <th>Đáp án</th>
+                <th>Đáp án đúng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="question, stat : ${questions}">
+                <!-- Hiển thị thông tin câu hỏi -->
+                <td th:text="${stat.index + 1}">1</td>
+                <td th:text="${question.questionTestContent}">Câu hỏi</td>
+                <td th:text="${question.questionChapter}">Chương</td>
+                <td th:text="${question.questionLevel}">Cấp độ</td>
+
+                <!-- Hiển thị đáp án -->
+                <td>
+                    <ul>
+                        <li th:each="answer : ${answers}"
+                            th:if="${answer.questionTest.questionTestContent == question.questionTestContent}"
+                            th:text="${answer.answerTestContent}">
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="answer : ${answers}"
+                            th:if="${answer.questionTest.questionTestContent == question.questionTestContent}"
+                            th:text="${(answer.answerTestTrue ? 'true' : 'false')}">
+                        </li>
+                    </ul>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
