@@ -60,5 +60,7 @@ public class StudentProfile {
     @OneToOne
     @JoinColumn(name = "parentID")
     private ParentProfile parent;
-
+    public StudentProfile(String studentID) {
+        this.studentID = studentID;
+    }
 }

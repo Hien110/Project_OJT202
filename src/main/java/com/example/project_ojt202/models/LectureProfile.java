@@ -57,5 +57,5 @@ public class LectureProfile {
     @ManyToOne
     @JoinColumn(name = "majorID")
     private Major major;
-
+    
 }

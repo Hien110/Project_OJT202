@@ -36,6 +36,10 @@ public class QuestionTest {
     private String questionLevel;
 
     @ManyToOne
+    @JoinColumn(name = "lectureID")
+    private LectureProfile lectureProfile;
+    
+    @ManyToOne
     @JoinColumn(name = "subjectID")
     private Subject subject;
 }

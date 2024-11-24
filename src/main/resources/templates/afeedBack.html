@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Feedback</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Quản lý Câu Hỏi và Lựa Chọn</h1>
+    
+        <h2>Thêm Câu Hỏi</h2>
+        <form action="/afeedBack/save" method="post">
+            <div class="mb-3">
+                <label for="feedbackName" class="form-label">Tên Câu Hỏi</label>
+                <input type="text" class="form-control" id="feedbackName" name="feedbackName" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+        </form>
+    
+        <hr>
+    
+        <h2 class="my-4">Danh sách Câu Hỏi</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên Câu Hỏi</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Kiểm tra xem danh sách có câu hỏi không -->
+                <tr th:if="${#lists.isEmpty(feedbacks)}">
+                    <td colspan="2">Không có câu hỏi nào để hiển thị</td>
+                </tr>
+
+                <!-- Lặp qua danh sách câu hỏi và chỉ hiển thị các câu hỏi có status là 'show' -->
+                <tr th:each="feedback : ${feedbacks}" th:if="${feedback.status == 'show'}">
+                    <td th:text="${feedback.feedbackName}"></td>
+                    <td>
+                        <!-- Chỉ hiển thị nút 'Quản lý lựa chọn' nếu status là 'show' -->
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#choiceModal"
+                                th:onclick="'loadChoices(' + ${feedback.feedbackID} + ')'">Quản lý lựa chọn</button>
+                        
+                        <!-- Nút xóa (cập nhật status thành 'hidden' thay vì xóa) -->
+                        <a th:href="@{/afeedBack/delete/{id}(id=${feedback.feedbackID})}" class="btn btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>   
+
+        <div class="modal fade" id="choiceModal" tabindex="-1" aria-labelledby="choiceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="choiceModalLabel">Quản lý Lựa Chọn</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="feedbackID"> 
+                        
+                        <h5>Danh Sách Lựa Chọn</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nội Dung Lựa Chọn</th>
+                                    <th>Ghi Chú</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="choiceList"></tbody>
+                        </table>
+
+                        <button class="btn btn-primary" onclick="saveAllChoices()">Lưu các chỉnh sửa</button>
+
+                        <hr>
+
+                        <h5>Thêm Lựa Chọn Mới</h5>
+                        <form id="addChoiceForm" onsubmit="addNewChoice(); return false;">
+                            <div class="mb-3">
+                                <label for="newChoiceContent" class="form-label">Nội Dung Lựa Chọn</label>
+                                <input type="text" class="form-control" id="newChoiceContent" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="newChoiceNote" class="form-label">Ghi Chú</label>
+                                <input type="text" class="form-control" id="newChoiceNote" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">Thêm Lựa Chọn</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadChoices(feedbackID) {
+            $("#feedbackID").val(feedbackID);
+            $.getJSON('/afeedBack/choices/' + feedbackID, function(data) {
+                var choicesHtml = '';
+                $.each(data, function(index, choice) {
+                    choicesHtml += `<tr data-id="${choice.feedbackChoiceID}">
+                        <td contenteditable="true">${choice.feedbackChoiceContent}</td>
+                        <td contenteditable="true">${choice.feedbackChoiceNote}</td>
+                        <td><button onclick="deleteChoice(${choice.feedbackChoiceID})" class="btn btn-danger">Xóa</button></td>
+                    </tr>`;
+                });
+                $("#choiceList").html(choicesHtml);
+            });
+        }
+
+        function addNewChoice() {
+    const feedbackID = $("#feedbackID").val();
+    const content = $("#newChoiceContent").val().trim();
+    const note = $("#newChoiceNote").val().trim();
+
+    // Check the current number of choices
+    if ($("#choiceList tr").length >= 4) {
+        alert("Bạn chỉ có thể thêm tối đa 4 lựa chọn.");
+        return;
+    }
+
+    if (content && note) {
+        $.post('/afeedBack/choices/save', {
+            feedbackID: feedbackID,
+            feedback_choice_content: content,
+            feedback_choice_note: note
+        }, function(response) {
+            alert("Lựa chọn đã được thêm thành công.");
+            $("#newChoiceContent").val('');
+            $("#newChoiceNote").val('');
+            loadChoices(feedbackID);
+        }).fail(function() {
+            alert("Có lỗi khi thêm lựa chọn.");
+        });
+    } else {
+        alert("Vui lòng nhập đầy đủ nội dung và ghi chú.");
+    }
+}
+
+
+        function saveAllChoices() {
+            const feedbackID = $("#feedbackID").val();
+            const choices = [];
+
+            $('#choiceList tr').each(function() {
+                const choiceID = $(this).data("id");
+                const choiceContent = $(this).find('td').eq(0).text().trim();
+                const choiceNote = $(this).find('td').eq(1).text().trim();
+
+                if (choiceContent && choiceNote) {
+                    choices.push({
+                        feedbackChoiceID: choiceID,
+                        feedbackChoiceContent: choiceContent,
+                        feedbackChoiceNote: choiceNote
+                    });
+                }
+            });
+
+            if (choices.length === 0) {
+                alert("Không có thay đổi nào để lưu.");
+                return;
+            }
+
+            $.ajax({
+                url: '/afeedBack/choices/updateAll',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(choices),
+                success: function() {
+                    alert("Lưu các thay đổi thành công.");
+                    loadChoices(feedbackID);
+                },
+                error: function() {
+                    alert("Có lỗi khi lưu các thay đổi.");
+                }
+            });
+        }
+
+        function deleteChoice(choiceID) {
+            $.ajax({
+                url: '/afeedBack/choices/delete/' + choiceID,  
+                type: 'DELETE',
+                success: function() {
+                    loadChoices($("#feedbackID").val());
+                },
+                error: function() {
+                    alert("Lỗi khi xóa lựa chọn.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

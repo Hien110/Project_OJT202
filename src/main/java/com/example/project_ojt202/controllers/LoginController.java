@@ -58,7 +58,6 @@ public class LoginController {
         return "home";
     }
 
-
     @GetMapping("/taiLieu")
     public String showTaiLieuPage() {
         return "taiLieu";
@@ -66,10 +65,14 @@ public class LoginController {
 
     @GetMapping("/feedBack")
     public String showFeedBackPage() {
-        return "a_feedBack";
+        return "afeedBack";
     }
-
-
+    
+    @GetMapping("/viewfeedBack")
+    public String showViewFeedBackPage() {
+        return "viewfeedback";
+    }
+    
     @GetMapping("/classRoom")
     public String showClassRoom() {
         return "classRoom";
@@ -102,6 +105,7 @@ public class LoginController {
                         StudentProfile student = studentProfileService
                                 .getStudentProfileByStudentID(studentProfile.getStudentID());
                         session.setAttribute("profileAccount", student);
+                        
                         break;
                     case "lecture": 
                         LectureProfile lectureProfile = account.getLectureProfile();

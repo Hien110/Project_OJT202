@@ -35,4 +35,5 @@ public class FeedbackChoice {
     @ManyToOne
     @JoinColumn(name = "feedbackID", nullable = false) 
     private Feedback feedback;
+    
 }

@@ -35,6 +35,6 @@ public class Learn {
     private StudentProfile studentProfile;
 
     @ManyToOne
-    @JoinColumn(name = "classID")
+    @JoinColumn(name = "uniClassID")
     private UniClass uniClass;
 }

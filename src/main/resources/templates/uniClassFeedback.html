@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Feedback Lớp Học</title>
+    <style>
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Phản hồi lớp học: <span th:text="${uniClass.uniClassName}"></span></h1>
+
+    <!-- Hiển thị thông báo lỗi -->
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Hiển thị thông báo thành công -->
+    <div th:if="${message}" class="success-message">
+        <p th:text="${message}"></p>
+    </div>
+
+    <form action="/submitFeedback" method="post">
+        <input type="hidden" name="uniClassId" th:value="${uniClass.uniClassId}" />
+
+        <div th:each="entry : ${feedbackChoicesByQuestion.entrySet()}" class="question">
+            <h3 th:text="${entry.key.feedbackName}"></h3>
+            <div th:each="choice : ${entry.value}">
+                <label>
+                    <input type="radio"
+                           th:name="'feedbackChoices[' + ${entry.key.feedbackID} + ']'"
+                           th:value="${choice.feedbackChoiceID}"
+                           th:id="'choice_' + ${choice.feedbackChoiceID}" />
+                    <span th:text="${choice.feedbackChoiceContent}"></span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="feedbackText">Nội dung phản hồi:</label>
+            <textarea name="feedbackText" id="feedbackText" rows="4" cols="50"
+                      placeholder="Nhập ý kiến của bạn..."></textarea>
+        </div>
+
+        <button type="submit">Gửi Feedback</button>
+    </form>
+</body>
+</html>
