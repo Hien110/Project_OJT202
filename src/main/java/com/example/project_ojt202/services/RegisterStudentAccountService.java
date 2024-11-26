@@ -44,22 +44,21 @@ public class RegisterStudentAccountService {
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
-                int stt = (int) row.getCell(0).getNumericCellValue();
-                String firstName = row.getCell(1).getStringCellValue();
-                String lastName = row.getCell(2).getStringCellValue();
-                LocalDate dob = row.getCell(3).getDateCellValue().toInstant()
-                        .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                int stt = getCellValueAsInt(row, 0); // Cột STT
+                String firstName = getCellValueAsString(row, 1); // Cột First Name
+                String lastName = getCellValueAsString(row, 2); // Cột Last Name
+                LocalDate dob = getCellValueAsDate(row, 3); // Cột Date of Birth
                 boolean gender = row.getCell(4).getStringCellValue().equalsIgnoreCase("Nam");
-                String address = row.getCell(5).getStringCellValue();
-                String studentPhoneNumber = row.getCell(6).getStringCellValue();
-                String studentEmail = row.getCell(7).getStringCellValue();
-                String parentName = row.getCell(8).getStringCellValue();
-                String parentPhone = row.getCell(9).getStringCellValue();
-                String parentEmail = row.getCell(10).getStringCellValue();
-                String majorId = row.getCell(11).getStringCellValue();
-                int yearOfSubmission = (int) row.getCell(12).getNumericCellValue();
-                String relationship = row.getCell(13).getStringCellValue();
-                int schoolYear = (int) row.getCell(14).getNumericCellValue();
+                String address = getCellValueAsString(row, 5); // Cột Address
+                String studentPhoneNumber = getCellValueAsString(row, 6); // Cột Student Phone
+                String studentEmail = getCellValueAsString(row, 7); // Cột Student Email
+                String parentName = getCellValueAsString(row, 8); // Cột Parent Name
+                String parentPhone = getCellValueAsString(row, 9); // Cột Parent Phone
+                String parentEmail = getCellValueAsString(row, 10); // Cột Parent Email
+                String majorId = getCellValueAsString(row, 11); // Cột Major ID
+                int yearOfSubmission = getCellValueAsInt(row, 12); // Cột Year of Submission
+                String relationship = getCellValueAsString(row, 13); // Cột Relationship
+                int schoolYear = getCellValueAsInt(row, 14); // Cột School Year
 
                 // Tạo account_id_student, account_id_parent
                 String accountIdStudent = majorId + schoolYear + stt;
@@ -85,7 +84,71 @@ public class RegisterStudentAccountService {
         }
 
         this.studentProfilesCache = studentProfiles;
+        System.out.println(studentProfiles);
         return studentProfiles;
+    }
+
+    // Phương thức lấy giá trị ô dưới dạng String
+    private String getCellValueAsString(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return "";
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return "";
+        }
+    }
+
+    // Phương thức lấy giá trị ô dưới dạng int
+    private int getCellValueAsInt(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return 0;
+        }
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                return (int) cell.getNumericCellValue();
+            case STRING:
+                try {
+                    return Integer.parseInt(cell.getStringCellValue());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            default:
+                return 0;
+        }
+    }
+
+    // Phương thức lấy giá trị ô dưới dạng LocalDate (dành cho ngày tháng)
+    private LocalDate getCellValueAsDate(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return null;
+        }
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return cell.getDateCellValue().toInstant()
+                            .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                }
+            case STRING:
+                try {
+                    return LocalDate.parse(cell.getStringCellValue());
+                } catch (Exception e) {
+                    return null;
+                }
+            default:
+                return null;
+        }
     }
 
     public void saveDataToDatabase() {
