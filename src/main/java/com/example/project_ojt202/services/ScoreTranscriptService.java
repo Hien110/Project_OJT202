@@ -23,7 +23,7 @@ public class ScoreTranscriptService {
 
     @Autowired
     private SubjectRepository subjectRepository;
-  
+
     public ScoreTranscriptService(ScoreTranscriptRepository scoreTranscriptRepository) {
         this.scoreTranscriptRepository = scoreTranscriptRepository;
     }
@@ -31,8 +31,8 @@ public class ScoreTranscriptService {
     public List<ScoreTranscript> findAllScoreTranscripts() {
         return scoreTranscriptRepository.findAll();
     }
-  
-  //H Anh
+
+    // H Anh
 
     private List<ScoreTranscript> scoreTranscriptCache;
 
@@ -44,12 +44,14 @@ public class ScoreTranscriptService {
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
-                String nameTest = row.getCell(1).getStringCellValue();
-                int numberCollum = (int) row.getCell(2).getNumericCellValue();
-                int totalPercent = (int) row.getCell(3).getNumericCellValue();
-                String subjectID = row.getCell(4).getStringCellValue();
+                // Lấy giá trị từ các cột trong bảng Excel bằng cách nhận diện kiểu dữ liệu tự
+                // động
+                String nameTest = getCellValueAsString(row, 1); // Cột NameTest
+                int numberCollum = getCellValueAsInt(row, 2); // Cột NumberCollum
+                int totalPercent = getCellValueAsInt(row, 3); // Cột TotalPercent
+                String subjectID = getCellValueAsString(row, 4); // Cột SubjectID
 
-                // Lấy đối tượng subject
+                // Lấy đối tượng Subject từ subjectID
                 Subject subject = subjectRepository.findBySubjectID(subjectID);
 
                 // Tạo ScoreTranscript
@@ -65,6 +67,46 @@ public class ScoreTranscriptService {
 
         this.scoreTranscriptCache = scoreTranscripts;
         return scoreTranscripts;
+    }
+
+    // Phương thức lấy giá trị ô dưới dạng String
+    private String getCellValueAsString(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return "";
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return "";
+        }
+    }
+
+    // Phương thức lấy giá trị ô dưới dạng int
+    private int getCellValueAsInt(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return 0;
+        }
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                return (int) cell.getNumericCellValue();
+            case STRING:
+                try {
+                    return Integer.parseInt(cell.getStringCellValue());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            default:
+                return 0;
+        }
     }
 
     public void saveDataToDatabase() {
