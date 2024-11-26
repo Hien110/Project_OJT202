@@ -20,25 +20,26 @@ document.addEventListener("DOMContentLoaded", function() {
             
             let startMonth, endMonth;
             if (season === "Summer") {
-            startMonth = 4;
-            endMonth = 5;
+            startMonth = 3;
+            endMonth = 4;
             } else if (season === "Fall") {
-            startMonth = 11;
-            endMonth = 12;
+            startMonth = 7;
+            endMonth = 8;
             } else if (season === "Spring") {
-            startMonth = 12;
-            endMonth = 1; 
+            startMonth = 11;
+            endMonth = 12; 
             }
           
            
            
             const showButton = createButton (startMonth, endMonth, year);
+            
             if(showButton){
                 const test = semester.querySelectorAll(".uniClassBox");
                 if (test.length === 0 ){
                 buttonCreateClass.style.display = "block";
                 }
-                semesterValueString = season.slice(0,2) + yearSeason;
+                semesterValueString = season.slice(0, 2) + yearSeason;
                 semesterValue.forEach((semester1) => {
                     semester1.value = semesterValueString;
                 })
@@ -86,12 +87,16 @@ document.addEventListener("DOMContentLoaded", function() {
         
         const yearCurrent = today.getFullYear(); 
         const currentDate = `${yearCurrent}-${month}-${day}`
-        const endMonthFull = year + '-' + endMonth + '-01';
-        let startMonthFull 
-        if (startMonth === 12){
+        let endMonthFull;
+        let startMonthFull;
+        if (startMonth === 11){
             startMonthFull = year-1 + '-' + startMonth + '-01';
+            endMonthFull = year-1 + '-' + endMonth + '-' + getDaysInMonth(year-1, endMonth);
         } else {
             startMonthFull = year + '-' + startMonth + '-01';
+            endMonthFull = year + '-' + endMonth + '-' + getDaysInMonth(year-1, endMonth);
+            console.log(endMonthFull);
+            
         }
 
         if(startMonthFull <= currentDate && currentDate <= endMonthFull){
@@ -99,9 +104,15 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             return false;
         }
+        
     }
 
-
+    function getDaysInMonth(year, month) {
+            // Sử dụng Date để lấy ngày cuối cùng của tháng
+            const lastDay = new Date(year, month, 0).getDate();
+        return lastDay;
+    }
+    
     // Hàm lắng nghe sự kiện thay đổi cho cả optionRoom và optionLecture
     // let mapChangeRoomUniClass = new Map();
     let mapLectureUniClass = new Map();

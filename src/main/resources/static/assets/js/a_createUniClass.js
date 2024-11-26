@@ -10,6 +10,7 @@ let mapLectureUniClass = new Map();
         document.querySelectorAll('.optionLecture').forEach(selectElement => {
             const semesterValue = document.querySelector(".semesterValue").value;
             let semesterFull;
+            
             switch(semesterValue.slice(0,2)){
                 case 'Fa': 
                     semesterFull = "Fall" + semesterValue.slice(-2);
@@ -87,7 +88,7 @@ let mapLectureUniClass = new Map();
             const totalNumberClass = parseInt(totalNumberClassInput.value);
             const subjectName = subject.querySelector(".subjectID").value;
             const semester = document.querySelector(".semesterValue").value;
-           
+            const semesterUpperCase = semester.toUpperCase();
           
             // Kiểm tra nếu giá trị hợp lệ
                 const numberStudentMax = Math.ceil(totalStudents / totalNumberClass);
@@ -97,7 +98,7 @@ let mapLectureUniClass = new Map();
 
                 // Tạo các lớp học và hiển thị trong displayContainer
                 for (let i = 1; i <= totalNumberClass; i++) {
-                    const className = `${subjectName}_${semester}_${String(i).padStart(2, '0')}`;
+                    const className = `${subjectName}_${semesterUpperCase}_${String(i).padStart(2, '0')}`;
             
                     // Tạo phần tử HTML để hiển thị lớp học
                     const classHtml = `
