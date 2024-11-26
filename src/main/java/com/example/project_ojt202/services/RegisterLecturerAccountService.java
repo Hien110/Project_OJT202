@@ -126,22 +126,6 @@ public class RegisterLecturerAccountService {
         }
     }
 
-    // Phương thức lấy giá trị ô dưới dạng boolean
-    private boolean getCellValueAsBoolean(Row row, int columnIndex) {
-        Cell cell = row.getCell(columnIndex);
-        if (cell == null) {
-            return false;
-        }
-        switch (cell.getCellType()) {
-            case BOOLEAN:
-                return cell.getBooleanCellValue();
-            case STRING:
-                return cell.getStringCellValue().equalsIgnoreCase("Nam");
-            default:
-                return false;
-        }
-    }
-
     // Phương thức lấy giá trị ô dưới dạng LocalDate (dành cho ngày tháng)
     private LocalDate getCellValueAsDate(Row row, int columnIndex) {
         Cell cell = row.getCell(columnIndex);
