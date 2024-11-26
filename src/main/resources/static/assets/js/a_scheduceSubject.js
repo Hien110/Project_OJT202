@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   const semesterSelect = document.getElementById("semester");
-  const dateSelect = document.getElementById("week");
   const today = new Date(); 
   const day = today.getDate(); 
   const month = today.getMonth() + 1; 
@@ -15,12 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
     semesterSelect.value = "Fall" + yearSemmester;
   }
 
-
-
-
   updateWeeks(); // Gọi để cập nhật các tuần của kỳ Fall23
   updateClassCounts(); // Cập nhật số lượng lớp khi thay đổi kỳ học
-
+  createOptionRoom();
   // Lắng nghe sự kiện thay đổi kỳ học
   semesterSelect.addEventListener("change", function () {
     updateWeeks(); // Tự động cập nhật các tuần khi thay đổi kỳ học
@@ -153,8 +149,6 @@ function updateCalendarDates() {
 
   const calendarHeaders = document.querySelectorAll(".calendar thead th");
   let currentDate = new Date(startDate); // Đảm bảo khởi tạo currentDate đúng
-  const dateScheduceText = ["2023-10-18", "2023-10-19", "2023-10-20"]; // Ví dụ dữ liệu từ DB
-
   // Tạo một mảng để lưu trữ các ngày từ lịch
   const calendarDates = [];
 
@@ -172,36 +166,7 @@ function updateCalendarDates() {
       currentDate.setDate(currentDate.getDate() + 1);
     }
   });
-  const today = new Date(); 
-  const day = today.getDate(); 
-  const month = today.getMonth() + 1; 
-  const year = today.getFullYear(); 
-  const todayObj = `${year}-${month}-${day}`;
-  // In ra console để kiểm tra
-
-  const startDateOjt = new Date(startDate);
-  const endDateOjt = new Date(endDate);
-
-// Lấy các giá trị năm, tháng, ngày
-const yearStart = startDateOjt.getFullYear();
-const monthStart = String(startDateOjt.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
-const dayStart = String(startDateOjt.getDate()).padStart(2, '0');
-const formattedDateStart = `${yearStart}-${monthStart}-${dayStart}`;  
-
-
-const yearEnd = endDateOjt.getFullYear();
-const monthEnd = String(endDateOjt.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
-const dayEnd = String(endDateOjt.getDate()).padStart(2, '0');
-const formattedDateEnd = `${yearEnd}-${monthEnd}-${dayEnd-2}`;
-
-// const saveButton = document.querySelector("#saveButton");
-
-// if ( formattedDateEnd >= todayObj) {
-//   saveButton.style.display = "block"
-// } else {
-//   saveButton.style.display = "none"
-// }
-
+ 
   updateSchedule(calendarDates);
 }
 
@@ -241,8 +206,7 @@ function updateSchedule(calendarDates) {
             const timeScheduceElement = item.querySelector(".scheduceTime");
             const classOfSemester = item.querySelector("#className");
             const value1 = classOfSemester.innerText;
-            const key =
-              value1.split("_")[0].trim() + "-" + value1.split("_")[1].trim();
+            const key = value1.split("_")[0].trim() + "-" + value1.split("_")[1].trim();
 
             // Cập nhật classCountMap
             if (!classCountMap.has(key)) {
@@ -278,12 +242,18 @@ function updateSchedule(calendarDates) {
               // Hiển thị nếu cả slot và ngày đều khớp
               if (isSlotMatched && isDateMatched) {
                 item.style.display = "block"; // Hiển thị mục lịch trình
+                const roomData = item.querySelector(".roomData");                
+                const optionRoom = item.querySelector(".optionRoom");                
                 if (dateScheduce < currentDate){
                   item.style.color = "black";
                   item.style.backgroundColor = "#c4c4c4";
+                  optionRoom.style.display = "none"
                 } else if (dateScheduce == currentDate){
                   item.style.color = "#ffae00";
                   item.style.backgroundColor = "#fff58d";
+                  optionRoom.style.display = "none"
+                } else {
+                  roomData.style.display = "none";
                 }
               } else {
                 item.style.display = "none"; // Ẩn mục lịch trình
@@ -340,4 +310,31 @@ function updateClassCounts() {
       classCountInput.value = 0; // Nếu không có giá trị, đặt bằng 0
     }
   });
+}
+
+function createOptionRoom() {
+        const roomSelect = document.querySelectorAll(".optionRoom");
+          roomSelect.className = "optionRoom form-control";
+          
+          const roomOptions = [
+            "201", "202", "203", "204", "205", "206", "207", "208", "209", "210", 
+            "211", "212", "213", "214", "215", "301", "302", "303", "304", "305", 
+            "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", 
+            "401", "402", "403", "404", "405", "406", "407", "408", "409", "410", 
+            "411", "412", "413", "414", "415", "501", "502", "503", "504", "505", 
+            "506", "507", "508", "509", "510", "511", "512", "513", "514", "515"
+          ];
+          roomSelect.forEach((classRoom) => {
+            const parentDiv = classRoom.closest(".event");
+            const roomData =parentDiv.querySelector(".roomData").innerText;
+            const roomDataValue = roomData.split(" ")[1];
+            roomOptions.forEach((room) => {
+              if  (room !== roomDataValue){
+              const option = document.createElement("option");
+                option.value = room;
+                option.textContent = "Phòng " + room;
+                classRoom.appendChild(option);
+              }
+            });
+          })    
 }

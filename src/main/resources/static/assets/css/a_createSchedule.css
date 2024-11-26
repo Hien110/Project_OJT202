@@ -1,6 +1,6 @@
 
 
-  .content {
+.content {
     margin-left: 260px;
     padding: 20px;
     padding-top: 80px;
@@ -94,12 +94,11 @@
 
   .semester,
   .week {
-    width: 100% !important;
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 10px;
-    width: 160px;
     outline: none;
+    border: 1px solid;
   }
 
   .labelSelect{
@@ -234,13 +233,13 @@
 
 .cancelModal{
   padding: 10px 15px;
-  margin-top: 15px;
   border-radius: 8px;
   border: none;
   background-color: #fb4d4d;
   font-size: 12px;
   color: #fff;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 .cancelModal:hover{
@@ -275,7 +274,7 @@
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
-#updateScheduleError, #updateScheduleError2, #updateScheduleError3 {
+#createScheduleError, #createScheduleError2, #createScheduleError3, #createScheduleError4, #createScheduleError5 {
   visibility: hidden;
   min-width: 250px;
   margin-left: -125px;
@@ -291,7 +290,7 @@
   font-size: 15px;
 }
 
-#updateScheduleError.show, #updateScheduleError2.show, #updateScheduleError3.show {
+#createScheduleError.show, #createScheduleError2.show, #createScheduleError3.show, #createScheduleError4.show, #createScheduleError5.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -315,4 +314,20 @@
 @keyframes fadeout {
   from {right: 10px; opacity: 1;}
   to {right: 0; opacity: 0;}
+}
+
+#createScheduleSubmit{
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4da6fb;
+  font-size: 12px;
+  transition: all 0.3s;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+#createScheduleSubmit:hover{
+  background-color:  rgb(0, 85, 255);;
 }

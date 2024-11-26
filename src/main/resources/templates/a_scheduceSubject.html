@@ -75,8 +75,10 @@
                                     <li class="event" style="display: none;" th:id="${scheduce.scheduceID + '-' + uniClass.uniClassId + '-' + day + '-' + slot.name + '-' + uniClass.subject.subjectID}"  th:data-date="${scheduce.dateScheduce}" draggable="true">
                                         <span id="className" th:text="${uniClass.uniClassName}"></span><br />
                                         <span class="lectureData" style="display: block;" th:text="${uniClass.lectureProfile.firstName} +  ' ' + ${uniClass.lectureProfile.lastName}"></span>
-
                                         <span class="roomData" th:text="'Phòng ' + ${scheduce.uniClassRoom}"></span>
+                                        <select class="optionRoom form-control">
+                                            <option class="roomData" th:text="'Phòng ' + ${scheduce.uniClassRoom}"></option>
+                                        </select>
                                         <span style="display: none" class="scheduceTime" th:text="${scheduce.timeScheduce} + ' - ' + ${scheduce.dateScheduce}">Giờ học - Ngày</span>
                                     </li>
                                 </ul>
@@ -87,9 +89,15 @@
             </tbody>
         </table>
         <button id="saveButton" style="display: none;"  onclick="openModal()">Lưu</button>
+        <form th:action="@{/scheduceOfSubject/{major}/{specialization}/createSchedule(major=${major}, specialization=${specialization})}" method="get">
+            <input type="submit" id="saveButton" class="createScheduleButton" value="Tạo thời khoá biểu" />
+        </form>
         <div id="updateScheduleSucces">Thay đổi thời khoá biểu thành công</div>
         <div id="updateScheduleError">Thay đổi ngày không hợp lệ</div>
         <div id="updateScheduleError2">Lớp học đã tồn tại trong slot này</div>
+        <div id="updateScheduleError3">Phòng học đã tồn tại trong slot này</div>
+
+
         <div class="modal" id="modal">
             <div class="modal-content">
             <h5 class="saveModal">Lưu thay đổi</h5>
@@ -108,31 +116,5 @@
         </div>
     </div>
 
-   
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const selectElements = document.querySelectorAll(".optionLecture");
-            const initialValues = {};
-
-            selectElements.forEach(select => {
-                initialValues[select.id] = select.value;
-            });
-
-            document.getElementById("saveButton").addEventListener("click", function() {
-                let hasChanges = false;
-
-                selectElements.forEach(select => {
-                    if (select.value !== initialValues[select.id]) {
-                        console.log(`Giá trị thay đổi cho ${select.id}: ${select.value}`);
-                        hasChanges = true;
-                    }
-                });
-
-                if (!hasChanges) {
-                    console.log("Không có thay đổi nào.");
-                }
-            });
-        });
-    </script>
 </body>
 </html>

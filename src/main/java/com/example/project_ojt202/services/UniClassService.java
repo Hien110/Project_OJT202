@@ -22,6 +22,11 @@ public class UniClassService {
         return uniClasses;
     }
 
+    public List<UniClass> getUniClassBySubjectIDAndSemester(String semester, String subjectID) {
+        List<UniClass> uniClasses = uniClassRepository.findBySemesterAndSubject_subjectID(semester, subjectID);
+        return uniClasses;
+    }
+
     // Linh
     public List<UniClass> getClassesByLectureID(String lectureID) {
         return uniClassRepository.findByLectureProfileLectureID(lectureID);

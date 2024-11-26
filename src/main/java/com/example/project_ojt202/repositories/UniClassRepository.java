@@ -10,6 +10,7 @@ import com.example.project_ojt202.models.UniClass;
 @Repository
 public interface UniClassRepository extends JpaRepository<UniClass, Long>{
     List<UniClass> findBySubject_subjectID(String subjectID);
+    List<UniClass> findBySemesterAndSubject_subjectID(String semester, String subjectID);
 
 
     // Linh

@@ -79,7 +79,7 @@ body {
     font-size: 15px;
   }
   
-  #createUniClassError.show, #createUniClassError2.show {
+  #createUniClassError.show, #createUniClassError2.show{
     visibility: visible;
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -105,7 +105,7 @@ body {
     to {right: 0; opacity: 0;}
   }
 
-  #createClass, #createClass{
+  #createClass{
     padding: 10px 15px;
     border-radius: 8px;
     border: none;
@@ -115,7 +115,7 @@ body {
     color: #fff;
   }
   
-  #createClass:hover, #createClass:hover{
+  #createClass:hover{
     background-color:  rgb(0, 85, 255);;
   }
   
