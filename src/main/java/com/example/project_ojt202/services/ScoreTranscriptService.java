@@ -26,44 +26,60 @@ public class ScoreTranscriptService {
 
     private List<ScoreTranscript> scoreTranscriptCache;
 
+    // Process Excel File
     public List<ScoreTranscript> processExcelFile(MultipartFile file) throws IOException {
         List<ScoreTranscript> scoreTranscripts = new ArrayList<>();
+
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
 
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
+                if (row == null) continue;
 
-                String nameTest = row.getCell(1).getStringCellValue();
-                int numberCollum = (int) row.getCell(2).getNumericCellValue();
+                String nameTest = getCellValueAsString(row.getCell(1));
+                int numberColumn = (int) row.getCell(2).getNumericCellValue();
                 int totalPercent = (int) row.getCell(3).getNumericCellValue();
-                String subjectID = row.getCell(4).getStringCellValue();
+                String subjectID = getCellValueAsString(row.getCell(4));
 
-                // Lấy đối tượng subject
+                // Find subject by ID
                 Subject subject = subjectRepository.findBySubjectID(subjectID);
+                if (subject == null) {
+                    throw new IllegalArgumentException("Không tìm thấy môn học với ID: " + subjectID);
+                }
 
-                // Tạo ScoreTranscript
-                ScoreTranscript scoreTranscript = new ScoreTranscript(null, nameTest, numberCollum, totalPercent,
-                        subject);
+                // Create ScoreTranscript object
+                ScoreTranscript scoreTranscript = new ScoreTranscript(null, nameTest, numberColumn, totalPercent, subject);
                 scoreTranscripts.add(scoreTranscript);
             }
         } catch (IOException e) {
-            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
-        } catch (Exception e) {
-            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
+            throw new IOException("Đã xảy ra lỗi khi đọc file Excel: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new IOException("Lỗi dữ liệu trong file Excel: " + e.getMessage());
         }
 
+        // Cache data for saving
         this.scoreTranscriptCache = scoreTranscripts;
         return scoreTranscripts;
     }
 
+    // Save cached data to database
     public void saveDataToDatabase() {
-        if (scoreTranscriptCache != null) {
-            for (ScoreTranscript scoreTranscript : scoreTranscriptCache) {
-
-                // Lưu dữ liệu vào ScoreTranscript
-                scoreTranscriptRepository.save(scoreTranscript);
-            }
+        if (scoreTranscriptCache != null && !scoreTranscriptCache.isEmpty()) {
+            scoreTranscriptRepository.saveAll(scoreTranscriptCache);
+        } else {
+            throw new IllegalStateException("Không có dữ liệu nào để lưu vào cơ sở dữ liệu.");
         }
     }
+
+    // Helper method to handle null or non-string cells
+    private String getCellValueAsString(Cell cell) {
+        if (cell == null) return "";
+        return cell.getCellType() == CellType.STRING ? cell.getStringCellValue() : String.valueOf((int) cell.getNumericCellValue());
+    }
+
+    public List<ScoreTranscript> getAllScoreTranscripts() {
+        return scoreTranscriptRepository.findAll();
+    }
+    
 }

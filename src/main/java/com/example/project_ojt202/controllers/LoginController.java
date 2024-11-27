@@ -80,59 +80,56 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("accountID") String accountID,
-            @RequestParam("accountPassword") String accountPassword,
-            Model model,
-            HttpSession session) {
-            List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
-        if (notifications == null) {
-            notifications = notificationService.findAll();
-            session.setAttribute("notifications", notifications);
-        }
-        Account account = accountService.getAccountByAccountIDAndPassword(accountID, accountPassword);
-        if (account != null) {
-            session.setAttribute("account", account);
-            try {
-                switch (account.getAccountRole()) {
-                    case "student":
-                        StudentProfile studentProfile = account.getStudentProfile();
-                        if (studentProfile == null || studentProfile.getStudentID() == null) {
-                            throw new Exception("Student profile or StudentID is missing.");
-                        }
-                        StudentProfile student = studentProfileService
-                                .getStudentProfileByStudentID(studentProfile.getStudentID());
-                        session.setAttribute("profileAccount", student);
-                        break;
-                    case "lecture": 
-                        LectureProfile lectureProfile = account.getLectureProfile();
-                        if (lectureProfile == null || lectureProfile.getLectureID() == null) {
-                            throw new Exception("Lecture profile or StudentID is missing.");
-                        }
-                        LectureProfile lecture = lectureProfileService.getLecProfileByLectureID(lectureProfile.getLectureID());
-                        session.setAttribute("profileAccount", lecture);
-                        break;
-                    case "parent": 
-                        ParentProfile parentProfile = account.getParentProfile();
-                        if (parentProfile == null || parentProfile.getParentID() == null) {
-                            throw new Exception("Lecture profile or StudentID is missing.");
-                        }
-                        ParentProfile parent = parentProfileService.getParentProfileByParentID(parentProfile.getParentID());
-                        session.setAttribute("profileAccount", parent);
-                        break;
-                    case "admin":
-                    session.setAttribute("profileAccount", "Admin");
-                        break;
-                    default:
-                        break;
-                }
-            } catch (Exception e) {
-                return "redirect:/";
-            }
-            return "redirect:/home";
-
-        } else {
-            model.addAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
-            return "login";
-        }
+public String login(@RequestParam("accountID") String accountID,
+        @RequestParam("accountPassword") String accountPassword,
+        Model model,
+        HttpSession session) {
+    List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
+    if (notifications == null) {
+        notifications = notificationService.findAll();
+        session.setAttribute("notifications", notifications);
     }
+
+    Account account = accountService.getAccountByAccountIDAndPassword(accountID, accountPassword);
+    if (account != null) {
+        session.setAttribute("account", account);
+
+        try {
+            switch (account.getAccountRole()) {
+                case "student":
+                    StudentProfile studentProfile = account.getStudentProfile();
+                    if (studentProfile == null || studentProfile.getStudentID() == null) {
+                        throw new Exception("Student profile or StudentID is missing.");
+                    }
+                    session.setAttribute("profileAccount", studentProfile);
+                    
+                    return "redirect:/home"; // Sau khi đăng nhập, điều hướng đến trang home
+
+                case "lecture":
+                    // Xử lý giảng viên
+                    break;
+
+                case "parent":
+                    // Xử lý phụ huynh
+                    break;
+
+                case "admin":
+                    // Xử lý admin
+                    break;
+
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            return "redirect:/"; // Nếu có lỗi, quay lại trang đăng nhập
+        }
+    } else {
+        model.addAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
+        return "login"; // Nếu đăng nhập không đúng, quay lại trang login
+    }
+
+    return "redirect:/home"; // Điều hướng về trang home nếu không phải sinh viên
+}
+
+
 }

@@ -60,6 +60,7 @@ public class RegisterStudentAccountService {
                 int yearOfSubmission = (int) row.getCell(12).getNumericCellValue();
                 String relationship = row.getCell(13).getStringCellValue();
                 int schoolYear = (int) row.getCell(14).getNumericCellValue();
+                String avatar = "default-avatar.jpg";  // Nếu không có ảnh đại diện
 
                 // Tạo account_id_student, account_id_parent
                 String accountIdStudent = majorId + schoolYear + stt;
@@ -74,7 +75,7 @@ public class RegisterStudentAccountService {
 
                 // Tạo StudentProfile
                 StudentProfile studentProfile = new StudentProfile(studentId, firstName, lastName, dob, gender, address,
-                        studentPhoneNumber, studentEmail, yearOfSubmission, schoolYear, major, parentProfile);
+                        studentPhoneNumber, studentEmail, yearOfSubmission, schoolYear, major, parentProfile, avatar);
 
                 studentProfiles.add(studentProfile);
             }

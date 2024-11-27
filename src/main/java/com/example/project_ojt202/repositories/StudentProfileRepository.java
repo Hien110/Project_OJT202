@@ -11,7 +11,4 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
     // Tìm kiếm thông tin sinh viên qua studentID
     StudentProfile findByStudentID(String studentID);
 
-    // Giả sử bạn có cách lấy ra thông tin người dùng hiện tại từ session hoặc token
-    // Phương thức này có thể được điều chỉnh tùy theo cách bạn quản lý phiên người dùng
-    StudentProfile findCurrentUser();  // Hàm này có thể được thay thế bằng logic phù hợp
 }

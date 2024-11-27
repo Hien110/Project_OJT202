@@ -17,4 +17,21 @@ public class StudentProfileService {
         StudentProfile student = studentProfileRepository.findByStudentID(studentID);
         return student;
     }
+
+    public void save(StudentProfile studentProfile) {
+        studentProfileRepository.save(studentProfile);
+    }
+
+    public void updateStudentProfile(StudentProfile studentProfile) {
+        // Thực hiện logic lưu dữ liệu (ví dụ: JPA hoặc JDBC)
+        studentProfileRepository.save(studentProfile);
+    }    
+
+    public void updateAvatar(String studentID, String avatarPath) {
+        StudentProfile profile = studentProfileRepository.findById(studentID)
+                              .orElseThrow(() -> new RuntimeException("Student not found"));
+        profile.setAvatar(avatarPath);
+        studentProfileRepository.save(profile);
+    }
+
 }

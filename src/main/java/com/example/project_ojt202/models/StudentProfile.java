@@ -25,6 +25,7 @@ public class StudentProfile {
     @Id
     @Column(name = "studentID")
     private String studentID;
+
     @Column(name = "firstName")
     private String firstName;
 
@@ -52,7 +53,6 @@ public class StudentProfile {
     @Column(name = "schoolYear")
     private int schoolYear;
 
-
     @ManyToOne
     @JoinColumn(name = "majorID")
     private Major major;
@@ -61,4 +61,7 @@ public class StudentProfile {
     @JoinColumn(name = "parentID")
     private ParentProfile parent;
 
+    @Column(name = "avatar")  
+    private String avatar;
+     
 }

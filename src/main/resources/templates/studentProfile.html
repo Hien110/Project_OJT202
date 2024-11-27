@@ -13,43 +13,80 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      th:href="@{/assets/css/homestudent.css}"
-    />
+
     <script src="/assets/js/headerNav.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
     <title>Thông tin tài khoản</title>
+    <link
+    rel="stylesheet"
+    type="text/css"   
+    th:href="@{/assets/css/studentProfile.css}"
+  />
 </head>
 <body>
     <div th:insert="~{headerNav :: header}"></div>
-    <div th:insert="~{headerNav :: nav}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    
     <div class="container">
         <h1>Thông tin tài khoản</h1>
-        <div th:if="${studentProfile != null}">
-            <p>Họ: <span th:text="${studentProfile.firstName}"></span></p>
-            <p>Tên: <span th:text="${studentProfile.lastName}"></span></p>
-            <p>Ngày sinh: <span th:text="${studentProfile.dob}"></span></p>
-            <p>Giới tính: <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span></p>
-            <p>Địa chỉ: <span th:text="${studentProfile.address}"></span></p>
-            <p>Số điện thoại: <span th:text="${studentProfile.phoneNumber}"></span></p>
-            <p>Email: <span th:text="${studentProfile.email}"></span></p>
-            <p>Năm nhập học: <span th:text="${studentProfile.yearOfAdmission}"></span></p>
-            <p>Năm học: <span th:text="${studentProfile.schoolYear}"></span></p>
-            <p>Mã chuyên ngành: <span th:text="${studentProfile.major?.majorID}"></span></p>
-            <p>Mã phụ huynh: <span th:text="${studentProfile.parent?.parentID}"></span></p>
+        <div class="profile-wrapper">
+            <!-- Profile Info (Left) -->
+            <div class="profile-info">
+                <div th:if="${studentProfile != null}">
+                    <p>Họ: <span th:text="${studentProfile.firstName}"></span></p>
+                    <p>Tên: <span th:text="${studentProfile.lastName}"></span></p>
+                    <p>Ngày sinh: <span th:text="${studentProfile.dob}"></span></p>
+                    <p>Giới tính: <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span></p>
+                    <p>Địa chỉ: <span th:text="${studentProfile.address}"></span></p>
+                    <p>Số điện thoại: <span th:text="${studentProfile.phoneNumber}"></span></p>
+                    <p>Email: <span th:text="${studentProfile.email}"></span></p>
+                    <p>Năm nhập học: <span th:text="${studentProfile.yearOfAdmission}"></span></p>
+                    <p>Năm học: <span th:text="${studentProfile.schoolYear}"></span></p>
+                    <p>Mã chuyên ngành: <span th:text="${studentProfile.major?.majorID}"></span></p>
+                    <p>Mã phụ huynh: <span th:text="${studentProfile.parent?.parentID}"></span></p>
 
-            <!-- Logout and Change Password Buttons -->
-            <div>
-                <button onclick="window.location.href='/login.html'" class="btn btn-danger">Đăng xuất</button>
-                <button onclick="window.location.href='/resetpassword.html'" class="btn btn-primary">Đổi mật khẩu</button>
+                    <!-- Logout and Change Password Buttons -->
+                    <div class="button-group">
+                        <button onclick="window.location.href='/resetpassword'" class="btn btn-primary">Đổi mật khẩu</button>
+                        <button onclick="window.location.href='/login'" class="btn btn-danger">Đăng xuất</button>              
+                    </div>
+                </div>
+                <div th:if="${studentProfile == null}">
+                    <p>Không tìm thấy thông tin sinh viên.</p>
+                </div>
             </div>
-        </div>
-        <div th:if="${studentProfile == null}">
-            <p>Không tìm thấy thông tin sinh viên.</p>
-        </div>
-    </div>
+            <!--Profile avatar-->
+            <div class="profile-avatar">
+                <div>
+                    <!-- Kiểm tra xem studentProfile.avatar có null hoặc rỗng không -->
+                    <img id="avatarPreview"
+                         th:src="@{${studentProfile != null && studentProfile.avatar != null && studentProfile.avatar != '' ? '/assets/images/' + studentProfile.avatar : '/assets/images/default-avatar.png'}}"
+                         src="/assets/images/default-avatar.png"
+                         alt="Avatar sinh viên"
+                         class="avatar">
+                </div>
+                <!-- Nút chọn ảnh -->
+                <div class="file-upload">
+                    <label for="fileInput" class="btn btn-secondary">Chọn ảnh</label>
+                    <input type="file" id="fileInput" accept=".png, .jpg, .jpeg" style="display: none;" />
+                </div>
+            </div>
+            
+            <script>
+                document.getElementById('fileInput').addEventListener('change', function (event) {
+                    const file = event.target.files[0]; // Lấy tệp được chọn
+                    if (file) {
+                        const reader = new FileReader(); // Tạo FileReader để đọc tệp
+                        reader.onload = function (e) {
+                            // Cập nhật src của ảnh với URL được đọc
+                            const avatarPreview = document.getElementById('avatarPreview');
+                            avatarPreview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file); // Đọc tệp dưới dạng URL
+                    }
+                });
+            </script>
+            
 </body>
 </html>
