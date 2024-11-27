@@ -23,7 +23,7 @@ public class ScoreTranscriptService {
 
     @Autowired
     private SubjectRepository subjectRepository;
-  
+
     public ScoreTranscriptService(ScoreTranscriptRepository scoreTranscriptRepository) {
         this.scoreTranscriptRepository = scoreTranscriptRepository;
     }
@@ -31,8 +31,8 @@ public class ScoreTranscriptService {
     public List<ScoreTranscript> findAllScoreTranscripts() {
         return scoreTranscriptRepository.findAll();
     }
-  
-  //H Anh
+
+    // H Anh
 
     private List<ScoreTranscript> scoreTranscriptCache;
 
@@ -77,4 +77,8 @@ public class ScoreTranscriptService {
         }
     }
 
+    public ScoreTranscript findById(Long id) {
+        return scoreTranscriptRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ScoreTranscript not found with ID: " + id));
+    }
 }

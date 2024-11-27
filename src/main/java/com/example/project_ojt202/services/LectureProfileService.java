@@ -71,4 +71,8 @@ public class LectureProfileService {
     public Account getLecturerAccountById(String lecturerID) {
         return accountRepository.findByAccountID(lecturerID);
     }
+
+    public LectureProfile findByLectureID(String lectureID) {
+        return lectureProfileRepository.findByLectureID(lectureID);
+    }
 }
