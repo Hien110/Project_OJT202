@@ -103,7 +103,7 @@ public class LoginController {
                                 .getStudentProfileByStudentID(studentProfile.getStudentID());
                         session.setAttribute("profileAccount", student);
                         break;
-                    case "lecture": 
+                    case "lecturer": 
                         LectureProfile lectureProfile = account.getLectureProfile();
                         if (lectureProfile == null || lectureProfile.getLectureID() == null) {
                             throw new Exception("Lecture profile or StudentID is missing.");
