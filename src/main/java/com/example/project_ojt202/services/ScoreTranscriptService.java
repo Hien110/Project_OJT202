@@ -119,4 +119,8 @@ public class ScoreTranscriptService {
         }
     }
 
+    public ScoreTranscript findById(Long id) {
+        return scoreTranscriptRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ScoreTranscript not found with ID: " + id));
+    }
 }

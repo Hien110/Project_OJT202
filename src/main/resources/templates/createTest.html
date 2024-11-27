@@ -3,219 +3,146 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo bài kiểm tra</title>
     <script src="/assets/js/headerNav.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/createTest.css}" />
+    <script src="/assets/js/l_createTest.js"></script>
+    <style>
+  
+    </style>
 </head>
 
 <body>
-    <div th:insert="~{headerNav :: header}"></div>
-    <div th:if="${session.account.accountRole == 'student'}" th:insert="~{headerNav :: navStudent}"></div>
-    <div th:if="${session.account.accountRole == 'lecture'}" th:insert="~{headerNav :: navLecture}"></div>
-    <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
-    <form action="submitTest" method="POST" th:object="${test}"
-        class="flex flex-col items-center bg-gray-100 pt-20 pl-20 rounded-lg shadow-md"
-        onsubmit="return combineDateTime();" enctype="multipart/form-data">
 
-        <!-- Chọn lớp -->
-        <label for="classSelect">Chọn lớp:</label>
-        <select id="classSelect" th:field="*{uniClass}" class="w-3/5 p-2 border rounded" required>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navLecture}"></div>
+    <!-- Form -->
+    <form action="submitTest" method="POST" th:object="${test}"
+    class="form-container" onsubmit="return combineDateTime();"
+    enctype="multipart/form-data">
+    <h1 class="form-title">Tạo bài kiểm tra</h1>
+
+    <!-- Chọn lớp -->
+    <div class="form-group">
+        <label for="classSelect" class="form-label">Chọn lớp:</label>
+        <select id="classSelect" th:field="*{uniClass}"
+            class="form-select" required>
             <option value="">Chọn lớp</option>
             <option th:each="uniClass : ${uniClasses}" th:value="${uniClass.uniClassId}"
                 th:text="${uniClass.uniClassName}"></option>
         </select>
+    </div>
 
-        <!-- Chọn bài kiểm tra -->
-        <label for="testSelect">Chọn bài kiểm tra:</label>
-        <select id="testSelect" th:field="*{scoreTranscript}" class="w-3/5 p-2 border rounded">
+    <!-- Chọn bài kiểm tra -->
+    <div class="form-group">
+        <label for="testSelect" class="form-label">Chọn bài kiểm tra:</label>
+        <select id="testSelect" th:field="*{scoreTranscript}"
+            class="form-select">
             <option value="">Chọn bài kiểm tra</option>
             <option th:each="scoreTranscript : ${scoreTranscripts}" th:value="${scoreTranscript.scoreTranscriptID}"
                 th:text="${scoreTranscript.nameTest}"></option>
         </select>
+    </div>
 
-        <!-- Số lượng câu hỏi -->
-        <div>
-            <label for="questionCount" id="questionCount">Số lượng câu hỏi:</label>
-            <input type="number" min="1" max="60" th:field="*{questionNumber}" class="p-2 border rounded"
-                placeholder="Nhập số câu" oninput="validateInput()">
+    <!-- Mức độ -->
+    <div class="form-group">
+        <label for="levelTest" class="form-label">Mức độ:</label>
+        <select id="levelTest" th:field="*{testLevel}"
+            class="form-select"
+            onchange="updateQuestionDistribution()">
+            <option value="Dễ">Dễ</option>
+            <option value="Trung Bình">Trung Bình</option>
+            <option value="Khó">Khó</option>
+        </select>
+    </div>
+
+    <!-- Số lượng câu hỏi -->
+    <label for="questionCount" class="form-label">Nhập số câu:</label>
+    <input type="number" th:field="*{questionNumber}" id="questionCount"
+        class="form-input" placeholder="Nhập số câu">
+
+    <!-- Câu khó, trung bình, dễ -->
+    <div class="form-group">
+        <label for="hard" class="form-label">Câu khó:</label>
+        <input type="number" th:field="*{hardQuestion}" id="hard"
+            class="form-input"
+            oninput="adjustQuestions('hard')" placeholder="Nhập số câu khó">
+    </div>
+    <div class="form-group">
+        <label for="medium" class="form-label">Câu trung bình:</label>
+        <input type="number" th:field="*{mediumQuestion}" id="medium"
+            class="form-input"
+            oninput="adjustQuestions('medium')" placeholder="Nhập số câu trung bình">
+    </div>
+    <div class="form-group">
+        <label for="easy" class="form-label">Câu dễ:</label>
+        <input type="number" th:field="*{easyQuestion}" id="easy"
+            class="form-input"
+            oninput="adjustQuestions('easy')" placeholder="Nhập số câu dễ">
+    </div>
+
+    <!-- Thời gian bắt đầu -->
+    <div class="form-group">
+        <label for="startExamDate" class="form-label">Thời gian bắt đầu:</label>
+        <input type="date" id="startExamDate"
+            class="form-input" required>
+        <input type="time" id="startExamTime"
+            class="form-input mt-2" required>
+    </div>
+
+    <!-- Thời gian kết thúc -->
+    <div class="form-group">
+        <label for="endExamDate" class="form-label">Thời gian kết thúc:</label>
+        <input type="date" id="endExamDate"
+            class="form-input" required>
+        <input type="time" id="endExamTime"
+            class="form-input mt-2" required>
+    </div>
+
+    <!-- Trường ẩn để lưu thời gian bắt đầu và kết thúc -->
+    <input type="hidden" th:field="*{testStartTime}" id="testStartTime">
+    <input type="hidden" th:field="*{testFinishTime}" id="testFinishTime">
+
+    <!-- Phần upload câu hỏi -->
+    <div class="upload-container">
+        <div class="tabs">
+            <a class="tab" data-value="0" onclick="setStatusTest(this)">Ngân hàng câu hỏi</a>
+            <a class="tab" data-value="1" onclick="setStatusTest(this)">Upload câu hỏi</a>
+            <input type="hidden" id="statusTestInput" name="statusTest" th:field="*{statusTest}" value="">
         </div>
 
-        <!-- Câu khó, câu trung bình, câu dễ -->
-        <div>
-            <label for="hard">Câu khó:</label>
-            <input type="number" min="1" max="60" th:field="*{hardQuestion}" id="hard" class="p-2 border rounded">
-            <label for="medium">Câu trung bình:</label>
-            <input type="number" min="1" max="60" th:field="*{mediumQuestion}" id="medium" class="p-2 border rounded">
-            <label for="easy">Câu dễ:</label>
-            <input type="number" min="1" max="60" th:field="*{easyQuestion}" id="easy" class="p-2 border rounded">
+        <!-- Form upload câu hỏi -->
+        <div id="uploadFileForm" class="upload-form" style="display: none;">
+            <p class="upload-text">Upload gói câu hỏi tự chọn cho bài kiểm tra</p>
+            <label for="fileUpload" class="upload-label">Tải lên tệp:</label>
+            <input type="file" id="fileUpload" name="fileUpload" class="file-input">
+            <a href="/assets/example/Questions.xlsx" class="download-link">Tải mẫu Question.xlsx</a>
         </div>
 
-        <!-- Thời gian bắt đầu -->
-        <div>
-            <label for="startExamDate">Thời gian bắt đầu:</label>
-            <input type="date" id="startExamDate" class="w-full p-2 border rounded" required>
-            <input type="time" id="startExamTime" class="w-full p-2 border rounded" required>
-        </div>
-
-        <!-- Thời gian kết thúc -->
-        <div>
-            <label for="endExamDate">Thời gian kết thúc:</label>
-            <input type="date" id="endExamDate" class="w-full p-2 border rounded" required>
-            <input type="time" id="endExamTime" class="w-full p-2 border rounded" required>
-        </div>
-
-        <!-- Trường ẩn để lưu thời gian bắt đầu và kết thúc -->
-        <input type="hidden" th:field="*{testStartTime}" id="testStartTime">
-        <input type="hidden" th:field="*{testFinishTime}" id="testFinishTime">
-
-        <!-- Mức độ -->
-        <div class="flex ">
-            <label for="levelTest" class="pt-2">Mức độ:</label>
-            <select name="levelTest" th:field="*{testLevel}" class="p-2 border rounded" id="levelTest">
-                <option value="Dễ">Dễ</option>
-                <option value="Trung Bình">Trung Bình</option>
-                <option value="Khó">Khó</option>
-            </select>
-        </div>
-
-        <div class="bg-gray-100 p-6 rounded-lg shadow-lg mt-4">
-            <div class="flex space-x-4">
-
-                <a class="tab px-4 py-2 rounded-md transition-all duration-300 
-                  bg-gray-100 text-gray-700 hover:brightness-110 hover:text-blue-500 active" data-value="0"
-                    onclick="setStatusTest(this)">
-                    Ngân hàng câu hỏi
-                </a>
-
-                <a class="tab px-4 py-2 rounded-md transition-all duration-300 
-                  bg-gray-100 text-gray-700 hover:brightness-110 hover:text-blue-500" data-value="1"
-                    onclick="setStatusTest(this)">
-                    Upload câu hỏi
-                </a>
-
-                <input type="hidden" id="statusTestInput" name="statusTest" th:field="*{statusTest}" value="">
+        <!-- Mật khẩu -->
+        <div class="form-group">
+            <label for="passwordInput" class="form-label">Nhập mật khẩu:</label>
+            <input type="password" th:field="*{testkeyWord}" id="passwordInput"
+                class="form-input">
+            <div class="password-toggle">
+                <label>
+                    <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
+                </label>
             </div>
-
-            <div id="uploadFileForm" style="display: none;" class="mt-4">
-                <p class="text-gray-700">Upload gói câu hỏi tự chọn cho bài kiểm tra</p>
-                <label for="fileUpload" class="block mb-2 text-gray-700">Tải lên tệp:</label>
-                <input type="file" id="fileUpload" name="fileUpload" class="w-full p-2 border rounded mb-4">
-                <a href="/assets/example/Questions.xlsx" class="hover:text-cyan-500"> Tải mẫu Question.xlsx</a>
-            </div>
-
-            <!-- Mật khẩu -->
-            <div>
-                <label for="passwordInput">Nhập mật khẩu:</label>
-                <input type="password" th:field="*{testkeyWord}" id="passwordInput" class="p-2 border rounded">
-                <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
-            </div>
-
-            <button type="submit"
-                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                Tạo bài kiểm tra
-            </button>
         </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-button">Tạo bài kiểm tra</button>
     </form>
 
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById("passwordInput");
-            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-        }
 
-        function combineDateTime() {
-            // Lấy giá trị của startExamDate và startExamTime
-            const startDate = document.getElementById("startExamDate").value;
-            const startTime = document.getElementById("startExamTime").value;
-
-            if (startDate && startTime) {
-                const testStartTime = `${startDate}T${startTime}`;
-                document.getElementById("testStartTime").value = testStartTime;  // Cập nhật giá trị cho trường ẩn
-                console.log("Thời gian bắt đầu (testStartTime):", testStartTime);
-            } else {
-                alert("Vui lòng chọn đầy đủ thời gian bắt đầu.");
-                return false;
-            }
-
-            // Lấy giá trị của endExamDate và endExamTime
-            const endDate = document.getElementById("endExamDate").value;
-            const endTime = document.getElementById("endExamTime").value;
-
-            if (endDate && endTime) {
-                const testEndTime = `${endDate}T${endTime}`;
-                document.getElementById("testFinishTime").value = testEndTime;  // Cập nhật giá trị cho trường ẩn
-                console.log("Thời gian kết thúc (testFinishTime):", testEndTime);
-            } else {
-                alert("Vui lòng chọn đầy đủ thời gian kết thúc.");
-                return false;
-            }
-            return true;  // Trả về true để gửi biểu mẫu
-        }
-
-        function validateInput() {
-            const input = document.getElementById("questionCount");
-            if (input.value > 60) {
-                input.value = 60;
-            } else if (input.value < 1) {
-                input.value = 1;
-            }
-        }
-
-        function toggleActive(selectedTab) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('opacity-50', 'active'); // Loại bỏ các lớp mờ và active trên tất cả các thẻ
-            });
-            selectedTab.classList.add('active'); // Thêm lớp active vào thẻ được chọn
-            tabs.forEach(tab => {
-                if (!tab.classList.contains('active')) {
-                    tab.classList.add('opacity-50'); // Thêm độ mờ cho các thẻ không được chọn
-                }
-            });
-        }
-
-        const tabs = document.querySelectorAll('.tab');
-
-        // Gắn sự kiện click vào từng thẻ
-        tabs.forEach((tab) => {
-            tab.addEventListener('click', () => {
-                // Xóa 'active' và các lớp style từ tất cả các tab
-                tabs.forEach((t) => t.classList.remove('brightness-150', 'text-sky-400', 'opacity-50'));
-
-                // Thêm các lớp style vào tab được chọn
-                tab.classList.add('brightness-150', 'text-sky-400');
-
-                // Truyền đúng formId vào showForm
-                const formId = tab.textContent.trim() === 'Ngân hàng câu hỏi' ? '' : 'uploadFileForm';
-                showForm(formId);
-            });
-        });
-
-
-        function showForm(formId) {
-            // Ẩn tất cả các form khi bắt đầu
-            document.getElementById('uploadFileForm').style.display = 'none'; // Ẩn form Upload câu hỏi
-
-            // Hiển thị form tương ứng với formId
-            if (formId === 'uploadFileForm') {
-                document.getElementById('uploadFileForm').style.display = 'block'; // Hiển thị form Upload câu hỏi
-            } else {
-                document.getElementById('uploadFileForm').style.display = 'none'; // Ẩn form Ngân hàng câu hỏi
-            }
-        }
-
-
-        function setStatusTest(element) {
-            // Lấy giá trị từ data-value của thẻ <a>
-            const statusValue = element.getAttribute('data-value');
-
-            // Cập nhật giá trị của input ẩn
-            document.getElementById('statusTestInput').value = statusValue;
-        }
-    </script>
+    <!-- JavaScript -->
 </body>
 
 </html>

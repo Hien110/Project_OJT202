@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.project_ojt202.models.QuestionTest;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.repositories.QuestionTestRepository;
 import com.example.project_ojt202.repositories.SubjectRepository;
@@ -26,4 +27,9 @@ public class QuestionTestService {
         }
         return Collections.emptyList();
     }
+
+    public QuestionTest saveQuestionTest(QuestionTest questionTest) {
+        return questionTestRepository.save(questionTest);
+    }
+    
 }
