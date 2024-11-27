@@ -18,4 +18,9 @@ public class LearnService {
         List<Learn> learn = learnRepository.findByUniClass_UniClassId(uniClassID);
         return learn;
     }
+
+    public List<Learn> getLearnByStudentID(String studentID) {
+        List<Learn> learns = learnRepository.findByStudentProfile_StudentID(studentID);
+        return learns;
+    }
 }

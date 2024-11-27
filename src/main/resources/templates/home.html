@@ -18,7 +18,7 @@
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:if="${session.account.accountRole == 'student'}" th:insert="~{headerNav :: navStudent}"></div>
-    <div th:if="${session.account.accountRole == 'lecture'}" th:insert="~{headerNav :: navLecture}"></div>
+    <div th:if="${session.account.accountRole == 'lecturer'}" th:insert="~{headerNav :: navLecture}"></div>
     <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
       <div class="container">
         <div class="updates">
