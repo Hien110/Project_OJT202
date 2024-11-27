@@ -1,0 +1,145 @@
+/* Embedded CSS */
+.theme {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  color: #4da6fb;
+  text-align: center;
+  padding-left: 40px;
+}
+
+table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  margin-left: 380px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+  height: 50px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+p {
+  font-size: 14px;
+}
+.headerDiv {
+}
+
+/* Navigation Styles */
+.navLectureDiv {
+  padding-top: 100px;
+  padding-right: 200px;
+}
+
+.submit  {
+  background-color: #f9f9f9; 
+  color: white; /* Màu chữ trắng */
+  padding: 10px 20px; /* Khoảng cách xung quanh chữ */
+  font-size: 16px; /* Cỡ chữ */
+  border: none; /* Bỏ viền */
+  border-radius: 500px; /* Bo góc */
+  cursor: pointer; /* Con trỏ chuột dạng tay */
+  transition: all 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+  display: flex;
+  justify-content: center;
+  padding-left: 100px;
+}
+
+/* Hiệu ứng khi di chuột qua nút */
+.submit :hover {
+  background-color: #4da6fb; /* Màu nền khi hover */
+  transform: translateY(-2px); /* Nâng nút lên khi hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bóng đổ khi hover */
+}
+
+/* Hiệu ứng khi nhấn vào nút */
+.submit :active {
+  background-color: #4da6fb; /* Màu nền khi nhấn */
+  transform: translateY(2px); /* Đẩy nút xuống khi nhấn */
+}
+.modal {
+  display: none; /* Ẩn modal theo mặc định */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* Mờ nền */
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-confirm {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #f44336;
+  color: white;
+}
+.pagination-buttons {
+  margin-top: 10px;
+  text-align: center;
+  padding-left: 90px;
+}
+.pagination-buttons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: #00ccf5;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pagination-buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

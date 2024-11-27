@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.project_ojt202.models.Account;
-import com.example.project_ojt202.models.ParentProfile;
 import com.example.project_ojt202.models.StudentProfile;
 import com.example.project_ojt202.repositories.AccountRepository;
 import com.example.project_ojt202.repositories.StudentProfileRepository;
@@ -45,4 +44,5 @@ public class StudentProfileService {
     public Account getStudentAccountById(String studentID) {
         return accountRepository.findByAccountID(studentID);
     }
+
 }
