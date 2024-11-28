@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <script src="/assets/js/headerNav.js"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/headerNav.css}" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/l_listClassTakeAttendance.css}" />
+        <title>Danh sách lớp học</title>
+
+    </head>
+    <body>
+        <div class="headerDiv">
+            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+        </div>
+        <div class="navLectureDiv">
+            <div id="navLectureDiv"
+                th:insert="~{headerNav :: navLecture}"></div>
+        </div>
+        <div class="theme">
+            <h1>Danh sách điểm danh lớp học</h1>
+            <!-- Hiển thị thông báo nếu không có lớp học nào có lịch học trong ngày hôm nay -->
+            <div class="noClass" th:if="${#lists.isEmpty(classes)}">
+                <p>Hiện tại không có lớp học nào có lịch học vào ngày hôm
+                    nay.</p>
+            </div>
+            <div class="class-list">
+                <div class="class-container" th:each="uniClass : ${classes}">
+                    <!-- Tên lớp -->
+                    <a class="class-link"
+                        th:text="${uniClass.uniClassName}"
+                        th:href="@{/lecture/l_listClassTakeAttendance/{uniClassId}/l_listStudentTakeAttendance(uniClassId=${uniClass.uniClassId})}">
+                    </a>
+
+                    <!-- Danh sách lịch học -->
+                    <ul class="schedule-list"
+                        th:each="schedule : ${schedulesByClass[uniClass.uniClassId]}">
+                        <li>
+                            <span th:text="${schedule.dateScheduce}">Ngày
+                                học</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

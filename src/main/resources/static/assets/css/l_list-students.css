@@ -1,0 +1,123 @@
+/* Embedded CSS */
+h1 {
+    color: #00ccf5;
+    text-align: center;
+}
+.titletable{
+  background-color: #00ccf5;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+p {
+  font-size: 14px;
+}
+/* Style cho bảng */
+.tables {
+  width: 1200px;
+  margin: 20px;
+  border-collapse: collapse;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 700px;
+  padding-right: 500px;
+  margin-left: 40px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc; /* Đường viền giữa các ô */
+}
+
+th {
+  background-color: #00ccf5; /* Màu nền #00ccf5 */
+  color: black; /* Màu chữ đen */
+  text-align: center;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9; /* Màu nền khi di chuột qua dòng */
+}
+.title{
+    margin-left: 140px;
+}
+
+/* Đặt chiều rộng tối đa cho toàn bộ khung theme */
+.theme {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+.headerDiv {
+}
+.navLectureDiv {
+  padding-top: 100px;
+  padding-right: 200px;
+}
+.changepage{
+  display: flex;
+  justify-content: center;
+  padding-left: 150px;
+  
+}
+button#prevPage,
+button#nextPage {
+    color: #00ccf5;
+    border: 1px solid #00ccf5; /* Đường viền cùng màu chữ */
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button#prevPage,
+button#nextPage {
+    background-color: #00ccf5; /* Nền màu xanh */
+    color: black; /* Chữ màu đen */
+    border: none; /* Loại bỏ đường viền */
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Thêm hiệu ứng khi di chuột qua nút */
+button#prevPage:hover,
+button#nextPage:hover {
+    opacity: 0.9; /* Giảm độ trong suốt khi hover */
+}
+
+/* Vô hiệu hóa nút khi không sử dụng được */
+button:disabled {
+    background-color: lightgray;
+    color: darkgray;
+    cursor: not-allowed;
+}

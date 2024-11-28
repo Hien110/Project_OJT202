@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sinh viên</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        rel="stylesheet" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        th:href="@{/assets/css/headerNav.css}" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        th:href="@{/assets/css/l_listStudentTakeAttendance.css}" />
+    
+</head>
+<body>
+    <div class="headerDiv">
+        <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+    </div>
+    <div class="navLectureDiv">
+        <div id="navLectureDiv" th:insert="~{headerNav :: navLecture}"></div>
+    </div>
+    <div class="theme">
+        <h1>Danh sách sinh viên trong lớp</h1>
+        <div>
+            <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
+            <p th:if="${message}" th:text="${message}" style="color: green; font-weight: bold;"></p>
+        </div>
+        <form th:action="@{/lecture/l_listClassTakeAttendance/{uniClassId}/submit-attendance (uniClassId=${uniClassId})}" method="get">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Sinh viên</th>
+                        <th>Tên</th>
+                        <th>Họ</th>
+                        <th>Điểm danh</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTable">
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.studentID}">ID Sinh viên</td>
+                        <td th:text="${student.firstName}">Tên</td>
+                        <td th:text="${student.lastName}">Họ</td>
+                        <td>
+                            <input type="radio" th:name="${student.studentID}" value="present" checked> Có mặt
+                            <input type="radio" th:name="${student.studentID}" value="absent"> Vắng mặt
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pagination-buttons">
+                <button type="button" id="prevPage" onclick="changePage(-1)">Trang Trước</button>
+                <span id="pageInfo"></span>
+                <button type="button" id="nextPage" onclick="changePage(1)">Trang Sau</button>
+            </div>
+            <div class="submit">
+                <button type="submit">Nộp điểm danh</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = Array.from(document.querySelectorAll("#studentsTable tr"));
+            const rowsPerPage = 5;
+            let currentPage = 1;
+            const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+            function renderPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? "" : "none";
+                });
+
+                document.getElementById("pageInfo").innerText = `Page ${page} of ${totalPages}`;
+                document.getElementById("prevPage").disabled = page === 1;
+                document.getElementById("nextPage").disabled = page === totalPages;
+            }
+
+            function changePage(direction) {
+                const newPage = currentPage + direction;
+                if (newPage >= 1 && newPage <= totalPages) {
+                    currentPage = newPage;
+                    renderPage(currentPage);
+                }
+            }
+
+            window.changePage = changePage;
+            renderPage(currentPage); // Hiển thị trang đầu tiên
+        });
+    </script>
+</body>
+</html>
