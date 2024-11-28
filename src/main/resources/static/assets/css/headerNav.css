@@ -175,6 +175,13 @@ header{
   vertical-align: middle;
 }
 
+<<<<<<< HEAD
+h1{
+ float: left;
+  padding: 50px 30px
+}
+=======
+>>>>>>> 5479ad7a7fc80a9f8483d45033372c2f15788904
 
 body{
   margin: 0;

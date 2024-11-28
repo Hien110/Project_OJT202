@@ -48,6 +48,7 @@ public class NotificationController {
     @GetMapping("/notifications/list")
     @ResponseBody
     public List<Notification> getNotifications(HttpSession session) {
+        @SuppressWarnings("unchecked")
         List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
         if (notifications == null) {
             notifications = notificationService.findAll();
@@ -65,6 +66,7 @@ public class NotificationController {
         try {
             // Tải lên file khác nếu có
             if (file != null && !file.isEmpty()) {
+                @SuppressWarnings("unchecked")
                 Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
                 notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
@@ -99,6 +101,7 @@ public class NotificationController {
         try {
             // Tải lên file khác nếu có
             if (file != null && !file.isEmpty()) {
+                @SuppressWarnings("unchecked")
                 Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
                 notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
@@ -142,6 +145,7 @@ public class NotificationController {
 
     @GetMapping("/notification")
     public String viewStudentNotifications(Model model, HttpSession session) {
+        @SuppressWarnings("unchecked")
         List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
         if (notifications == null) {
             notifications = notificationService.findAll();
@@ -151,6 +155,7 @@ public class NotificationController {
         return "homeStudent";
     }
 
+    @SuppressWarnings("unchecked")
     @ModelAttribute("notifications")
     public List<Notification> addNotificationsToModel(HttpSession session) {
         return (List<Notification>) session.getAttribute("notifications");
