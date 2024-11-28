@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.project_ojt202.models.Account;
-import com.example.project_ojt202.models.LectureProfile;
+
 import com.example.project_ojt202.models.Notification;
-import com.example.project_ojt202.models.ParentProfile;
+
 import com.example.project_ojt202.models.StudentProfile;
 import com.example.project_ojt202.services.AccountService;
 import com.example.project_ojt202.services.LectureProfileService;
