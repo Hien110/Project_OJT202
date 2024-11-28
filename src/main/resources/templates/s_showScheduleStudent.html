@@ -77,7 +77,20 @@
                                     </span>
                                     <br />
                                     <!-- Thông tin phòng học -->
-                                    <span class="roomData" th:text="Phòng  + ' ' + ${schedule.uniClassRoom}"></span>
+                                    <span class="roomData" th:text="Phòng  + ' ' + ${schedule.uniClassRoom}"></span> <br/>
+                                    <span th:if="${checkAttendanceMap[schedule.scheduceID]} == 'Có mặt'" 
+                                        th:text="${checkAttendanceMap[schedule.scheduceID]}"
+                                        style="font-weight: 100; color: green;">
+                                    </span>
+                                    <span th:if="${checkAttendanceMap[schedule.scheduceID]} == 'Vắng mặt'" 
+                                        th:text="${checkAttendanceMap[schedule.scheduceID]}"
+                                        style="font-weight: 100; color: red;">
+                                    </span>
+                                    <span th:if="${checkAttendanceMap[schedule.scheduceID]} == 'Chưa điểm danh'" 
+                                        th:text="${checkAttendanceMap[schedule.scheduceID]}"
+                                        style="font-weight: 100; color: black;">
+                                    </span>
+
                                     <!-- Thời gian lịch học -->
                                     <span style="display: none" 
                                           class="scheduceTime" 

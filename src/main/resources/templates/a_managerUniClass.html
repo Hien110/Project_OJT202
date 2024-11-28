@@ -38,14 +38,14 @@
                                 <input type="text" th:value="${uniClass.uniClassName}" class="form-control" readonly />
                                 <label class="labelSelect">Giáo viên</label>
                                 <input type="text" th:value="${uniClass.lectureProfile.firstName + ' ' + uniClass.lectureProfile.lastName}" class="form-control lectureData" readonly style="display: none;" />
-                                <select class="optionLecture form-control" th:each="lecture : ${lectures}" style="display: none;">
+                                <select class="optionLecture form-control" th:each="lecture : ${lectures}" style="display: none; width: 180px;">
                                     <option th:if="${uniClass.lectureProfile != null}" 
                                         th:value="${uniClass.lectureProfile.lectureID}" 
-                                        th:text="${uniClass.lectureProfile.firstName + ' ' + uniClass.lectureProfile.lastName}">
+                                        th:text="${uniClass.lectureProfile.firstName + ' ' + uniClass.lectureProfile.lastName  + '-' + uniClass.lectureProfile.lectureID}">
                                     </option>
                                     <option th:each="lecture : ${lectures}" th:if="${lecture.lectureID != uniClass.lectureProfile.lectureID}"
                                         th:value="${lecture.lectureID}" 
-                                        th:text="${lecture.firstName + ' ' + lecture.lastName}">
+                                        th:text="${lecture.firstName + ' ' + lecture.lastName + '-' + lecture.lectureID}">
                                     </option>
                                 </select> 
                                 

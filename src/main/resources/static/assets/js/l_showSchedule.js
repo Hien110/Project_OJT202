@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             // Lặp qua từng mục lịch trình trong ô
             scheduleItems.forEach((item) => {
+              
               const timeScheduceElement = item.querySelector(".scheduceTime");
               const classOfSemester = item.querySelector("#className");
               const value1 = classOfSemester.innerText;
@@ -211,10 +212,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 const dateScheduceText = timeScheduceElement.innerText
                   .split(" - ")[1]
                   .trim(); // Lấy ngày từ lịch trình
-                const dateScheduceText1 = '20' + dateScheduceText.split("/")[2] + '-' + dateScheduceText.split("/")[1] + '-' + dateScheduceText.split("/")[0]
+                let dateScheduceMonth = dateScheduceText.split("/")[1];
+                let dateScheduceDay = dateScheduceText.split("/")[0];
+                if (dateScheduceMonth < 10 ) {
+                  dateScheduceMonth = "0" + dateScheduceMonth;
+                }
+                if (dateScheduceDay < 10) {
+                  dateScheduceDay = "0" + dateScheduceDay;
+                }
+                const dateScheduceText1 = '20' + dateScheduceText.split("/")[2] + '-' + dateScheduceMonth + '-' + dateScheduceDay;
                 
                 const isSlotMatched = timeScheduceText === slotName;
                 const isDateMatched = dateScheduceText1 === headerFormatted;
+                console.log(dateScheduceText1);
+                console.log(headerFormatted);
                 
                 const today = new Date(); 
                 let day = today.getDate(); 
