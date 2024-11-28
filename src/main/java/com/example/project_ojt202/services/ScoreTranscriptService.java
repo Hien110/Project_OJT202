@@ -64,9 +64,9 @@ public class ScoreTranscriptService {
                 scoreTranscripts.add(scoreTranscript);
             }
         } catch (IOException e) {
-            throw new IOException("Đã xảy ra lỗi khi đọc file Excel: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new IOException("Lỗi dữ liệu trong file Excel: " + e.getMessage());
+            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
+        } catch (Exception e) {
+            throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
         }
 
         // Cache data for saving

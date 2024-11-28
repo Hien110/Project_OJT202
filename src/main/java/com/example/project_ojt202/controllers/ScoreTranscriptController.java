@@ -19,7 +19,7 @@ import java.util.List;
 public class ScoreTranscriptController {
 
     @Autowired
-    private ScoreTranscriptService scoreTranscriptService;
+    private ScoreTranscriptService excelService;
 
     // Display upload page
     @GetMapping("/uploadFileScoreTranscript")
@@ -32,11 +32,13 @@ public class ScoreTranscriptController {
     public String uploadExcel(@RequestParam("file") MultipartFile file, Model model) {
         try {
             // Process uploaded file
-            List<ScoreTranscript> scoreTranscripts = scoreTranscriptService.processExcelFile(file);
+            List<ScoreTranscript> scoreTranscripts = excelService.processExcelFile(file);
             model.addAttribute("scoreTranscripts", scoreTranscripts);
             model.addAttribute("fileUploaded", true);
         } catch (IOException e) {
-            model.addAttribute("uploadError", "Lỗi khi tải file: " + e.getMessage());
+            model.addAttribute("uploadError", e.getMessage());
+        } catch (Exception e) {
+            model.addAttribute("uploadError", e.getMessage());
         }
 
         return "uploadFileScoreTranscript"; // Render the same page
@@ -46,18 +48,12 @@ public class ScoreTranscriptController {
     @PostMapping("/submitUploadScoreTranscript")
     @ResponseBody
     public String submitData() {
-        try {
-            scoreTranscriptService.saveDataToDatabase();
-            return "Dữ liệu đã được lưu thành công!";
-        } catch (Exception e) {
-            return "Lỗi khi lưu dữ liệu: " + e.getMessage();
-        }
+        excelService.saveDataToDatabase();
+        return "Dữ liệu đã được lưu thành công!";
     }
 
     @GetMapping("/viewScoreTranscript")
     public String viewScoreTranscript() {
     return "viewscoretranscript"; // Trả về tên file template (không có đuôi .html)
 }
-
-
 }
