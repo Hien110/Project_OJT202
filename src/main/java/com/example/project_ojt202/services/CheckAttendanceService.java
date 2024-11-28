@@ -56,4 +56,8 @@ public class CheckAttendanceService {
             throw new IllegalArgumentException("No record found for scheduceID: " + scheduceID + " and studentID: " + studentID);
         }
     }
+
+    public CheckAttendance getCheckAttendanceByScheduceAndStudent(Long scheduceID, String studentID) {
+        return checkAttendanceRepository.findByScheduce_scheduceIDAndStudentProfile_studentID(scheduceID, studentID);
+    }
 }

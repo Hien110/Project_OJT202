@@ -50,13 +50,15 @@ let mapLectureUniClass = new Map();
     autoCreateButton.addEventListener("click", function(event) {
         event.preventDefault(); // Ngăn chặn form submit
         // Lấy tất cả các phần tử chứa thông tin môn học
+        mapLectureUniClass.clear();
+
         const subjects = document.querySelectorAll(".subjectOfUni");
         const lectures = document.querySelectorAll(".lectureID");
         let lectureOptionsHtml = "";
         lectures.forEach((lecture) => {
             const lectureName = lecture.value;
             const lectureID = lecture.getAttribute("data-lecture");
-            lectureOptionsHtml += `<option value="${lectureID}">${lectureName}</option>`;
+            lectureOptionsHtml += `<option value="${lectureID}">${lectureName} - ${lectureID}</option>`;
         });
 
         let checkInforClass = false;
