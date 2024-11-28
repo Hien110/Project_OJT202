@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Calendar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/a_createSchedule.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="/assets/js/a_createSchedule.js"></script>
+    <script src="/assets/js/headerNav.js"></script>
+</head>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="content">
+        <h1>Lịch học</h1>
+        <div class="select">
+            <div>
+                <label class="labelSelect" for="semester">Học kì</label>
+                <input class="semester createInput" id="semester" readonly> 
+            </div>
+            <div>
+                <label class="labelSelect" for="week">Tuần bắt đầu</label>
+                <select class="week" id="weekStart" >
+                    <option>Week</option>
+                </select>
+            </div>
+            <div>
+                <label class="labelSelect" for="week">Tuần kết thúc</label>
+                <select class="week" id="weekEnd">
+                    <option>Week</option>
+                </select>
+            </div>
+        </div>
+        <div class="filters">
+            <div th:each="subject : ${subjects}" class="filter-box">
+                <h3>Môn học</h3>
+                <label class="labelSelect">Mã môn học</label>
+                <input type="text" th:value="${subject.subjectID}" class="form-control subjectID" readonly />
+                <label class="labelSelect">Tên môn học</label>
+                <input type="text" th:value="${subject.subjectName}" class="form-control" readonly />
+                <label class="labelSelect">Số lượng lớp</label>
+                <input type="text" class="classCountInput form-control" readonly />
+            </div>
+        </div>
+        <div class="ClassMap" th:each="entry : ${subjectClassMap}">
+            <div class="classValue" th:each="class, iterStat : ${entry.value}">
+                <div style="display: none;"
+                     th:data-slot="checkSlot" 
+                     th:data-day="checkDay" 
+                     th:text="${class.uniClassName + '-' + class.lectureProfile.firstName + ' ' + class.lectureProfile.lastName + '-' + class.uniClassId}">
+                </div>
+            </div>
+        </div>
+        
+        
+        <table class="calendar">
+            <thead>
+                <tr>
+                    <th style="vertical-align: middle; width: 40px">Slot</th>
+                    <th id="Mon">Thứ 2</th>
+                    <th id="Tue">Thứ 3</th>
+                    <th id="Wed">Thứ 4</th>
+                    <th id="Thu">Thứ 5</th>
+                    <th id="Fri">Thứ 6</th>
+                    <th id="Sat">Thứ 7</th>
+                    <th id="Sun">Chủ Nhật</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="slot, slotIndex  : ${slots}" th:data-slot="${slot.name}">
+                    <td class="tableSlot">
+                        <h5 th:text="${slot.name}"></h5>
+                        <div>
+                            <div th:text="${slot.startTime}"></div>
+                            <div>-</div>
+                            <div th:text="${slot.endTime}"></div>
+                        </div>
+                    </td>
+                    <td th:each="day, dayIndex  : ${days}" class="droptarget" th:data-day="${day}">
+                     
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="saveButton" style="display: none;"  onclick="openModal()">Lưu</button>
+        <div id="updateScheduleSucces">Thay đổi thời khoá biểu thành công</div>
+        <div id="createScheduleError">Phòng học đã tồn tại trong slot này</div>
+        <div id="createScheduleError2">Chưa chọn phòng cho tất cả lớp học</div>
+        <div id="createScheduleError3">Chưa chọn tuần bắt đầu hoặc tuần kết thúc cho kì học</div>
+        <div id="createScheduleError4">Ngày bắt đầu không được lớn hơn ngày kết thúc</div>
+        <div id="createScheduleError5">Ngày kết thúc không được bé hơn ngày kết thúc</div>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <h4 class="saveModal" style="margin-bottom: 5px;">Xác nhận tạo lớp học</h4>
+                <span class="saveModal" style="color: red; margin-bottom: 15px;">Lưu ý: Lịch chỉ tạo được một lần</span>
+                <div class="buttonChange">
+                    <form id="createSchedule" th:action="@{/scheduceOfSubject/{major}/{specialization}/createSchedule(major=${major}, specialization=${specialization})}" method="post">
+                            <input type="hidden" id="mapDataSchedule" name="mapDataSchedule"> 
+                            <input type="hidden" id="mapDataWeekLearn" name="mapDataWeekLearn"> 
+                            <input type="submit" id="createScheduleSubmit" value="Xác nhận" onclick="handleCreateSchedule()">
+                    </form>
+                        <button class="cancelModal" onclick="closeModal()">Huỷ</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <button class="cancelModal" onclick="closeModal()">Huỷ</button>
+        <button  id="saveButton"  onclick="openModalCreateSchedule()">Tạo thời khoá biểu</button>
+
+    </div>
+</body>
+</html>

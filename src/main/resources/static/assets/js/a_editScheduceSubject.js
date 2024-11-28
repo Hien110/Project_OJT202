@@ -34,6 +34,7 @@ document.addEventListener("drop", function(event) {
 event.preventDefault();
 var draggedId = event.dataTransfer.getData("text/plain");
 var draggedElement = document.getElementById(draggedId);
+
 const semesterSelect = document.getElementById("semester");
 const selectedSemester = semesterSelect.value;
 const year = "20" + selectedSemester.slice(-2);  
@@ -81,13 +82,67 @@ if (dateChange > currentDate) {
   return '';
 }
 
+const createScheduleButton = document.querySelector(".createScheduleButton");
 // Hiển thị nút saveButton khi mapChangeScheduce có phần tử
 if (mapChangeScheduce.size > 0) {
   saveButton.style.display = "block";  
+  createScheduleButton.style.display = "none"
 } else {
   saveButton.style.display = "none";  
+  createScheduleButton.style.display = "block"
+
 }
 });
+
+
+function editRoomUniClass() {
+  const roomSelect = document.querySelectorAll(".optionRoom");
+  
+  roomSelect.forEach((roomOptions) => {
+    roomOptions.addEventListener('change', (event) => {
+        const parentDiv = event.target.closest('.droptarget');
+        const parentDivChange = event.target.closest('.event');
+        const parentDivChangeID = parentDivChange.getAttribute("id");
+        const parentDivChangeDate = parentDivChange.getAttribute("data-date");
+        const eventDroptarget = parentDiv.querySelectorAll(".event");
+        const roomChange = event.target.value;
+        let roomOld;
+        eventDroptarget.forEach((event1) => {
+          const eventID = event1.getAttribute("id");
+          const eventRoom = event1.querySelector(".roomData").innerText;
+          if(eventID === parentDivChangeID){
+            roomOld = eventRoom.split(" ")[1] ;
+          }
+        })
+        eventDroptarget.forEach((event1) => {
+          const eventID = event1.getAttribute("id");
+          const eventDate = event1.getAttribute("data-date");
+          const eventRoom = event1.querySelector(".roomData").innerText;
+          
+          if (eventID !== parentDivChangeID) {
+            if (eventDate === parentDivChangeDate && eventRoom.split(" ")[1] === roomChange) {
+              updateScheduleError3();
+              event.target.value = "Phòng " + roomOld;
+            } else if(eventDate === parentDivChangeDate || eventRoom.split(" ")[1] !== roomChange){
+              mapChangeScheduce.set(parentDivChangeID + "-changRoom", roomChange);
+              console.log("1");
+              const saveButton = document.querySelector("#saveButton");
+              const createScheduleButton = document.querySelector(".createScheduleButton");
+              if (mapChangeScheduce.size > 0) {
+                saveButton.style.display = "block";  
+                createScheduleButton.style.display = "none"
+              } else {
+                saveButton.style.display = "none";  
+                createScheduleButton.style.display = "block"
+              }
+            }
+          } 
+        })
+      
+    })
+  });
+
+}
 
 function openModal() {
 document.getElementById('modal').style.display = 'block';
@@ -98,6 +153,14 @@ function closeModal() {
   window.location.reload();
 }
 
+function openModalCreateSchedule() {
+document.getElementById('openModalCreateSchedule').style.display = 'block';
+}
+
+function closeModalCreateSchedule() {
+  document.getElementById('openModalCreateSchedule').style.display = 'none';
+}
+
 function updateScheduleError() {
   var x = document.getElementById("updateScheduleError");
   x.className = "show";
@@ -106,6 +169,12 @@ function updateScheduleError() {
 
 function updateScheduleError2() {
   var x = document.getElementById("updateScheduleError2");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+function updateScheduleError3() {
+  var x = document.getElementById("updateScheduleError3");
   x.className = "show";
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
@@ -156,5 +225,7 @@ document.addEventListener("DOMContentLoaded", function() {
   } else {
       console.error("Không tìm thấy form.");
   }
+
+  editRoomUniClass();
 });
 

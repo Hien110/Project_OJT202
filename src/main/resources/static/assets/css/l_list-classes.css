@@ -1,0 +1,81 @@
+
+/* CSS Styles */
+h1 {
+    color: #333;
+    text-align: center;
+    color: #00ccf5;
+}
+.title{
+    margin-left: 150px;
+}
+
+label {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.class-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 2 cột */
+    gap: 20px; /* Khoảng cách giữa các lớp */
+    margin-top: 20px;
+    margin-left: 300px;
+}
+
+.class-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 200px;
+
+}
+
+.class-item:hover {
+    background-color: #e9e9e9;
+}
+
+.class-item a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 18px;
+    display: block;
+}
+
+.class-item a:hover {
+    text-decoration: none;
+}
+
+.theme {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.sem {
+    padding-left: 400px;
+}
+
+/* Header Styles */
+.headerDiv {}
+
+/* Navigation Styles */
+.navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}
+
+.class-container svg{
+    width: 25px;
+    height: 25px;
+}

@@ -1,5 +1,7 @@
 package com.example.project_ojt202.models;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "UNICLASS")
@@ -19,6 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class UniClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +34,15 @@ public class UniClass {
 
     @Column(name = "semester")
     private String semester;
-    
-    @Column(name = "uniClassRoom")
-    private String uniClassRoom;
+   
+    @Column(name = "numberStudentMax")
+    private String numberStudent;
+
+    @Column(name = "dateStartLearn")
+    private LocalDate dateStartLearn;
+
+    @Column(name = "dateEndLearn")
+    private LocalDate dateEndLearn;
 
     @ManyToOne
     @JoinColumn(name = "subjectID")  

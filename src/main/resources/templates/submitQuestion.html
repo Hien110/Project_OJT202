@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách câu hỏi và đáp án</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        /* Form styling */
+        form {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #23b6de;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Button styling */
+        button {
+            background-color: #21b3cd;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #27a3eb;
+        }
+
+        /* Styling for answer lists */
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Danh sách câu hỏi và đáp án</h1>
+    <form action="createQuestion" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>SST</th>
+                    <th>Câu hỏi</th>
+                    <th>Chương</th>
+                    <th>Cấp độ</th>
+                    <th>Đáp án</th>
+                    <th>Đáp án đúng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Lặp qua các câu hỏi -->
+                <tr th:each="question, stat : ${questions}">
+                    <td th:text="${stat.index + 1}">1</td>
+                    <td>
+                        <input type="text" name="questionTestContent" th:value="${question.questionTestContent}" />
+                    </td>
+
+                    <!-- Chương -->
+                    <td>
+                        <input type="text" name="questionChapter" th:value="${question.questionChapter}" />
+                    </td>
+
+                    <!-- Cấp độ -->
+                    <td>
+                        <input type="text" name="questionLevel" th:value="${question.questionLevel}" />
+                    </td>
+
+                    <td>
+                        <ul>
+                            <!-- Lặp qua danh sách đáp án độc lập -->
+                            <li th:each="answer, iterStat : ${answers}"
+                                th:if="${answer.questionTest.questionTestContent == question.questionTestContent}">
+                                <input type="text" name="answerTestContent" th:value="${answer.answerTestContent}" />
+                            </li>
+                        </ul>
+                    </td>
+
+                    <!-- Đánh dấu đáp án đúng -->
+                    <td>
+                        <ul>
+                            <li th:each="answer, iterStat : ${answers}"
+                                th:if="${answer.questionTest.questionTestContent == question.questionTestContent}">
+                                <!-- Thêm một hidden input với giá trị mặc định là false -->
+                                <input th:if="${answer.answerTestTrue} == false" name="isCorrect" type="hidden" th:value="false" />
+
+                                <!-- Checkbox được chọn sẽ gửi giá trị true -->
+                                <input type="checkbox" name="isCorrect" value="true"
+                                    th:checked="${answer.answerTestTrue}" />
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Các tham số ẩn -->
+        <input type="hidden" name="testStartTime" th:value="${test.testStartTime}" />
+        <input type="hidden" name="testFinishTime" th:value="${test.testFinishTime}" />
+        <input type="hidden" name="testkeyWord" th:value="${test.testkeyWord}" />
+        <input type="hidden" name="testLevel" th:value="${test.testLevel}" />
+        <input type="hidden" name="questionNumber" th:value="${test.questionNumber}" />
+        <input type="hidden" name="easyQuestion" th:value="${test.easyQuestion}" />
+        <input type="hidden" name="mediumQuestion" th:value="${test.mediumQuestion}" />
+        <input type="hidden" name="hardQuestion" th:value="${test.hardQuestion}" />
+        <input type="hidden" name="statusTest" th:value="${test.statusTest}" />
+        <input type="hidden" name="uniClassId" th:value="${test.uniClass.uniClassId}" />
+        <input type="hidden" name="scoreTranscriptID" th:value="${test.scoreTranscript.scoreTranscriptID}" />
+
+        <button type="submit">Tạo bài kiểm tra</button>
+    </form>
+</body>
+
+</html>

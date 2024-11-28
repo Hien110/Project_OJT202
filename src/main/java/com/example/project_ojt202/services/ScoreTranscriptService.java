@@ -24,6 +24,16 @@ public class ScoreTranscriptService {
     @Autowired
     private SubjectRepository subjectRepository;
 
+    public ScoreTranscriptService(ScoreTranscriptRepository scoreTranscriptRepository) {
+        this.scoreTranscriptRepository = scoreTranscriptRepository;
+    }
+
+    public List<ScoreTranscript> findAllScoreTranscripts() {
+        return scoreTranscriptRepository.findAll();
+    }
+
+    // H Anh
+
     private List<ScoreTranscript> scoreTranscriptCache;
 
     // Process Excel File
@@ -35,21 +45,22 @@ public class ScoreTranscriptService {
 
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
-                if (row == null) continue;
 
-                String nameTest = getCellValueAsString(row.getCell(1));
-                int numberColumn = (int) row.getCell(2).getNumericCellValue();
-                int totalPercent = (int) row.getCell(3).getNumericCellValue();
-                String subjectID = getCellValueAsString(row.getCell(4));
+                // Lấy giá trị từ các cột trong bảng Excel bằng cách nhận diện kiểu dữ liệu tự
+                // động
+                String nameTest = getCellValueAsString(row, 1); // Cột NameTest
+                int numberCollum = getCellValueAsInt(row, 2); // Cột NumberCollum
+                int totalPercent = getCellValueAsInt(row, 3); // Cột TotalPercent
+                String subjectID = getCellValueAsString(row, 4); // Cột SubjectID
 
-                // Find subject by ID
+                // Lấy đối tượng Subject từ subjectID
                 Subject subject = subjectRepository.findBySubjectID(subjectID);
                 if (subject == null) {
                     throw new IllegalArgumentException("Không tìm thấy môn học với ID: " + subjectID);
                 }
 
                 // Create ScoreTranscript object
-                ScoreTranscript scoreTranscript = new ScoreTranscript(null, nameTest, numberColumn, totalPercent, subject);
+                ScoreTranscript scoreTranscript = new ScoreTranscript(null, nameTest, numberCollum, totalPercent, subject);
                 scoreTranscripts.add(scoreTranscript);
             }
         } catch (IOException e) {
@@ -63,23 +74,58 @@ public class ScoreTranscriptService {
         return scoreTranscripts;
     }
 
-    // Save cached data to database
-    public void saveDataToDatabase() {
-        if (scoreTranscriptCache != null && !scoreTranscriptCache.isEmpty()) {
-            scoreTranscriptRepository.saveAll(scoreTranscriptCache);
-        } else {
-            throw new IllegalStateException("Không có dữ liệu nào để lưu vào cơ sở dữ liệu.");
+    // Phương thức lấy giá trị ô dưới dạng String
+    private String getCellValueAsString(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return "";
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return "";
         }
     }
 
-    // Helper method to handle null or non-string cells
-    private String getCellValueAsString(Cell cell) {
-        if (cell == null) return "";
-        return cell.getCellType() == CellType.STRING ? cell.getStringCellValue() : String.valueOf((int) cell.getNumericCellValue());
+    // Phương thức lấy giá trị ô dưới dạng int
+    private int getCellValueAsInt(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return 0;
+        }
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                return (int) cell.getNumericCellValue();
+            case STRING:
+                try {
+                    return Integer.parseInt(cell.getStringCellValue());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            default:
+                return 0;
+        }
     }
 
-    public List<ScoreTranscript> getAllScoreTranscripts() {
-        return scoreTranscriptRepository.findAll();
+    public void saveDataToDatabase() {
+        if (scoreTranscriptCache != null) {
+            for (ScoreTranscript scoreTranscript : scoreTranscriptCache) {
+
+                // Lưu dữ liệu vào ScoreTranscript
+                scoreTranscriptRepository.save(scoreTranscript);
+            }
+        }
     }
-    
+
+    public ScoreTranscript findById(Long id) {
+        return scoreTranscriptRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ScoreTranscript not found with ID: " + id));
+    }
 }

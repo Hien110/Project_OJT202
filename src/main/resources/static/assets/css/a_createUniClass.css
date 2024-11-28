@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+.content {
+    margin-left: 260px;
+    padding: 20px;
+    padding-top: 80px;
+}
+
+.content h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #4da6fb;
+    width: 95%;
+  }
+
+  .filter-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .filter-box h3 {
+    background-color: #4da6fb;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    margin: 0;
+    }
+    
+    .filter-box label {
+    display: block;
+    margin-bottom: 2px;
+    margin-top: 15px;
+    }
+
+    
+#createUniClassSuccess {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: rgb(25 200 37);
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+    position: fixed;
+    z-index: 1;
+    right: 10px;
+    top: 90px;
+    font-size: 15px;
+  }
+  
+  #createUniClassSuccess.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  #createUniClassError, #createUniClassError2 {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: rgb(239 40 40);
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+    position: fixed;
+    z-index: 1;
+    right: 10px;
+    top: 90px;
+    font-size: 15px;
+  }
+  
+  #createUniClassError.show, #createUniClassError2.show{
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  @-webkit-keyframes fadein {
+    from {top: 0; opacity: 0;} 
+    to {top: 10px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {right: 0; opacity: 0;}
+    to {right: 10px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {right: 10px; opacity: 1;} 
+    to {right: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {right: 10px; opacity: 1;}
+    to {right: 0; opacity: 0;}
+  }
+
+  #createClass{
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: #4da6fb;
+    font-size: 12px;
+    transition: all 0.3s;
+    color: #fff;
+  }
+  
+  #createClass:hover{
+    background-color:  rgb(0, 85, 255);;
+  }
+  
+
+  .autoCreate{
+    padding: 10px 20px;
+    background-color: #4da6fb;
+    border-radius: 10px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+
+  .autoCreate:hover{
+    background-color: rgb(0, 85, 255);
+    transition: 0.3s;
+  }
+  

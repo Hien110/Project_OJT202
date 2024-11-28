@@ -1,0 +1,251 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+.content {
+    margin-left: 260px;
+    padding: 20px;
+    padding-top: 80px;
+}
+
+.content h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #4da6fb;
+    width: 95%;
+  }
+
+.semmester{
+    margin-left: 35px;
+}
+
+
+.filters {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.filters select,
+.filters input {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 10px;
+/* width: 160px; */
+outline: none;
+}
+
+.filters select:focus,
+.filters input:focus {
+border-color: #00e0ff;
+box-shadow: 0 0 5px rgba(0, 224, 255, 0.5);
+}
+
+.filter-box {
+background-color: white;
+padding: 20px;
+border-radius: 15px;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.filter-box h3 {
+background-color: #4da6fb;
+color: white;
+padding: 10px;
+border-radius: 10px;
+margin-bottom: 15px;
+text-align: center;
+margin: 0;
+}
+
+.filter-box label {
+display: block;
+margin-bottom: 2px;
+margin-top: 15px;
+}
+
+
+.labelSelect{
+  padding-left: 10px;
+  font-size: 10px;
+}
+
+.select{
+  margin-bottom: 2px;
+  margin-top: 15px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
+
+.semesters{
+  margin-left: 15px;
+}
+
+#saveButton{
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  padding: 10px 20px;
+  background-color: #4da6fb;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#saveButton:hover{
+  background-color: rgb(0, 85, 255);
+  transition: 0.3s;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  text-align: center;
+}
+
+
+.saveModal{
+  margin-top: 0;
+  
+}
+
+.modal-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fefefe;
+  margin: 170px auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 400px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+#saveButtonModel1, #saveButtonModel{
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4da6fb;
+  font-size: 12px;
+  transition: all 0.3s;
+  color: #fff;
+}
+
+#saveButtonModel1:hover, #saveButtonModel:hover{
+  background-color:  rgb(0, 85, 255);;
+}
+
+.cancelModal{
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: #fb4d4d;
+  font-size: 12px;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.cancelModal:hover{
+  background-color:  rgb(255, 0, 0);;
+}
+
+.buttonChange{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#createUniClassSuccess, #updateUniClassSucces {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: rgb(25 200 37);
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding: 15px;
+  position: fixed;
+  z-index: 1;
+  right: 10px;
+  top: 90px;
+  font-size: 15px;
+}
+
+#createUniClassSuccess.show, #updateUniClassSucces.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;} 
+  to {top: 10px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {right: 0; opacity: 0;}
+  to {right: 10px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {right: 10px; opacity: 1;} 
+  to {right: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {right: 10px; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}
+
+
+#createClass{
+  padding: 10px 20px;
+  background-color: #4da6fb;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+ 
+}
+
+#createClass:hover{
+  background-color: rgb(0, 85, 255);
+  transition: 0.3s;
+}
+
+#createUniClass{
+  display: flex;
+  flex-direction: row-reverse;
+  margin-right: 20px;
+}
