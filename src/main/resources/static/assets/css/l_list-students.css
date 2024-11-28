@@ -42,11 +42,13 @@ p {
 }
 /* Style cho bảng */
 .tables {
-    width: 1350px; /* Giảm chiều rộng của bảng */
-    margin: 20px auto; /* Căn giữa bảng */
-    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
-    min-height: 700px; /* Tăng chiều cao tối thiểu */
+  width: 1200px;
+  margin: 20px;
+  border-collapse: collapse;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 700px;
+  padding-right: 500px;
+  margin-left: 40px;
 }
 
 th, td {

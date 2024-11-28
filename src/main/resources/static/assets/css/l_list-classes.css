@@ -27,7 +27,7 @@ select {
     grid-template-columns: repeat(3, 1fr); /* 2 cột */
     gap: 20px; /* Khoảng cách giữa các lớp */
     margin-top: 20px;
-    margin-left: 400px;
+    margin-left: 300px;
 }
 
 .class-item {
