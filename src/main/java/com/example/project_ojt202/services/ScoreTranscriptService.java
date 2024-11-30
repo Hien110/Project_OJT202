@@ -2,6 +2,7 @@ package com.example.project_ojt202.services;
 
 import com.example.project_ojt202.models.ScoreTranscript;
 import com.example.project_ojt202.models.Subject;
+import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.ScoreTranscriptRepository;
 import com.example.project_ojt202.repositories.SubjectRepository;
 
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ScoreTranscriptService {
@@ -36,8 +38,10 @@ public class ScoreTranscriptService {
 
     private List<ScoreTranscript> scoreTranscriptCache;
 
+    // Process Excel File
     public List<ScoreTranscript> processExcelFile(MultipartFile file) throws IOException {
         List<ScoreTranscript> scoreTranscripts = new ArrayList<>();
+
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
 
@@ -53,10 +57,12 @@ public class ScoreTranscriptService {
 
                 // Lấy đối tượng Subject từ subjectID
                 Subject subject = subjectRepository.findBySubjectID(subjectID);
+                if (subject == null) {
+                    throw new IllegalArgumentException("Không tìm thấy môn học với ID: " + subjectID);
+                }
 
-                // Tạo ScoreTranscript
-                ScoreTranscript scoreTranscript = new ScoreTranscript(null, nameTest, numberCollum, totalPercent,
-                        subject);
+                // Create ScoreTranscript object
+                ScoreTranscript scoreTranscript = new ScoreTranscript(null, nameTest, numberCollum, totalPercent, subject);
                 scoreTranscripts.add(scoreTranscript);
             }
         } catch (IOException e) {
@@ -65,6 +71,7 @@ public class ScoreTranscriptService {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
         }
 
+        // Cache data for saving
         this.scoreTranscriptCache = scoreTranscripts;
         return scoreTranscripts;
     }
@@ -119,4 +126,11 @@ public class ScoreTranscriptService {
         }
     }
 
+    public ScoreTranscript findById(Long id) {
+        return scoreTranscriptRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ScoreTranscript not found with ID: " + id));
+    }
+    public List<ScoreTranscript> getScoreTranscriptsBySubjectId(String subjectId) {
+        return scoreTranscriptRepository.findBySubjectSubjectID(subjectId);
+    }
 }

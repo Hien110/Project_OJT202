@@ -75,6 +75,7 @@
                                     <li class="event" style="display: none;" th:id="${scheduce.scheduceID + '-' + uniClass.uniClassId + '-' + day + '-' + slot.name + '-' + uniClass.subject.subjectID}"  th:data-date="${scheduce.dateScheduce}" draggable="true">
                                         <span id="className" th:text="${uniClass.uniClassName}"></span><br />
                                         <span class="lectureData" style="display: block;" th:text="${uniClass.lectureProfile.firstName} +  ' ' + ${uniClass.lectureProfile.lastName}"></span>
+                                        <span style="display: block;" th:text="${uniClass.lectureProfile.lectureID}"></span>
                                         <span class="roomData" th:text="'Phòng ' + ${scheduce.uniClassRoom}"></span>
                                         <select class="optionRoom form-control">
                                             <option class="roomData" th:text="'Phòng ' + ${scheduce.uniClassRoom}"></option>

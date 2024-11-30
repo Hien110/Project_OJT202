@@ -59,6 +59,7 @@ public class RegisterStudentAccountService {
                 int yearOfSubmission = getCellValueAsInt(row, 12); // Cột Year of Submission
                 String relationship = getCellValueAsString(row, 13); // Cột Relationship
                 int schoolYear = getCellValueAsInt(row, 14); // Cột School Year
+                String avatar = "default-avatar.jpg";  // Nếu không có ảnh đại diện
 
                 // Tạo account_id_student, account_id_parent
                 String accountIdStudent = majorId + schoolYear + stt;
@@ -73,7 +74,7 @@ public class RegisterStudentAccountService {
 
                 // Tạo StudentProfile
                 StudentProfile studentProfile = new StudentProfile(studentId, firstName, lastName, dob, gender, address,
-                        studentPhoneNumber, studentEmail, yearOfSubmission, schoolYear, major, parentProfile);
+                        studentPhoneNumber, studentEmail, yearOfSubmission, schoolYear, major, parentProfile, avatar);
 
                 studentProfiles.add(studentProfile);
             }

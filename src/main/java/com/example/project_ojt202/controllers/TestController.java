@@ -55,7 +55,6 @@ public class TestController {
 
         List<ScoreTranscript> scoreTranscripts = scoreTranscriptService.findAllScoreTranscripts();
         model.addAttribute("scoreTranscripts", scoreTranscripts);
-
         return "createTest";
     }
 
@@ -66,20 +65,26 @@ public class TestController {
             Model model) {
         try {
             if (test.isStatusTest()) {
-                // Process the uploaded file
+                if (file.isEmpty()) {
+                    model.addAttribute("error", "File is empty. Please upload a valid file.");
+                    return "errorPage";
+                }
+
                 List<QuestionTest> questions = testService.processExcelFile(file);
                 List<AnswerTest> answers = testService.processExcelFiles(file);
-                // Add the list of questions to the model
+
+                if (questions.isEmpty() || answers.isEmpty()) {
+                    model.addAttribute("error", "The uploaded file does not contain valid data.");
+                    return "errorPage";
+                }
+
                 model.addAttribute("questions", questions);
-                model.addAttribute("test", test);
                 model.addAttribute("answers", answers);
-                System.out.println(answers);
-                // System.out.println(questions);
+                model.addAttribute("test", test);
 
                 return "submitQuestion";
 
             } else {
-                // Save the test
                 testService.saveTest(test);
                 model.addAttribute("message", "Test created successfully.");
                 return "redirect:/createTest";

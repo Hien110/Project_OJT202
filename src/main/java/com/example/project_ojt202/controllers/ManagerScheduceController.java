@@ -15,15 +15,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.project_ojt202.models.CheckAttendance;
+import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.Scheduce;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
+import com.example.project_ojt202.services.CheckAttendanceService;
+import com.example.project_ojt202.services.LearnService;
 import com.example.project_ojt202.services.LectureProfileService;
 import com.example.project_ojt202.services.ScheduceService;
 import com.example.project_ojt202.services.SubjectService;
 import com.example.project_ojt202.services.UniClassService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.springframework.ui.Model;
@@ -35,13 +40,18 @@ public class ManagerScheduceController {
     private final UniClassService uniClassService;
     private final ScheduceService scheduceService;
     private final LectureProfileService lectureProfileService;
+    private final LearnService learnService;
+    private final CheckAttendanceService attendanceService;
 
     public ManagerScheduceController(SubjectService subjectService, UniClassService uniClassService,
-            ScheduceService scheduceService, LectureProfileService lectureProfileService) {
+            ScheduceService scheduceService, LectureProfileService lectureProfileService, LearnService learnService,
+            CheckAttendanceService attendanceService) {
         this.subjectService = subjectService;
         this.uniClassService = uniClassService;
         this.scheduceService = scheduceService;
         this.lectureProfileService = lectureProfileService;
+        this.learnService = learnService;
+        this.attendanceService  = attendanceService;
     }
 
     @GetMapping("/scheduceMajor")
@@ -315,9 +325,6 @@ public class ManagerScheduceController {
             
             LocalDate dateStart = LocalDate.parse(mapDataWeekLearn.get("weekStart"));
             LocalDate dateEnd = LocalDate.parse(mapDataWeekLearn.get("weekEnd"));
-            System.out.println(dateStart);
-            System.out.println(dateEnd);
-            System.out.println(dateEnd.isAfter(dateStart));
             mapDataSchedule.forEach((key, value) -> {
                 String uniClassIDString = key.split("-")[0];
                 Long uniClassIDLong = Long.parseLong(uniClassIDString);
@@ -348,4 +355,145 @@ public class ManagerScheduceController {
         return "redirect:/scheduceOfSubject/" + major + "/" + specialization;
     }
 
+
+
+// LECTURER
+
+@GetMapping("/scheduceForLecturer/{lectureID}")
+    public String showScheduceForLecturer(@PathVariable String lectureID, Model model) {
+        List<UniClass> uniClasses = uniClassService.getClassesByLectureID(lectureID);
+        Map<UniClass, List<Scheduce>> classSlotMap = new HashMap<UniClass, List<Scheduce>>();
+
+        for (UniClass uniClass : uniClasses) {
+                List<Scheduce> scheduces = scheduceService.findScheduceOfUniClass(uniClass.getUniClassId());
+                classSlotMap.put(uniClass, scheduces);
+        }
+
+        List<Map<String, String>> slots = new ArrayList<>();
+
+        Map<String, String> slot1 = new HashMap<>();
+        slot1.put("name", "Slot 1");
+        slot1.put("startTime", "7:30");
+        slot1.put("endTime", "9:45");
+        slots.add(slot1);
+
+        Map<String, String> slot2 = new HashMap<>();
+        slot2.put("name", "Slot 2");
+        slot2.put("startTime", "10:00");
+        slot2.put("endTime", "12:15");
+        slots.add(slot2);
+
+        Map<String, String> slot3 = new HashMap<>();
+        slot3.put("name", "Slot 3");
+        slot3.put("startTime", "12:30");
+        slot3.put("endTime", "14:45");
+        slots.add(slot3);
+
+        Map<String, String> slot4 = new HashMap<>();
+        slot4.put("name", "Slot 4");
+        slot4.put("startTime", "15:00");
+        slot4.put("endTime", "17:15");
+        slots.add(slot4);
+
+        Map<String, String> slot5 = new HashMap<>();
+        slot5.put("name", "Slot 5");
+        slot5.put("startTime", "17:45");
+        slot5.put("endTime", "19:15");
+        slots.add(slot5);
+
+        Map<String, String> slot6 = new HashMap<>();
+        slot6.put("name", "Slot 6");
+        slot6.put("startTime", "19:30");
+        slot6.put("endTime", " 21:00");
+        slots.add(slot6);
+        // Danh sách các ngày trong tuần
+        List<String> days = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+
+        model.addAttribute("slots", slots);
+        model.addAttribute("days", days);
+        model.addAttribute("classSlotMap", classSlotMap); // Thêm Map slot vào Model
+
+        return "l_showSchedule";
+    }
+
+
+//STUDENT
+
+
+@GetMapping("/scheduceForStudent/{studentID}")
+    public String showScheduceForStudent(@PathVariable String studentID, Model model) {
+        List<Learn> learns = learnService.getLearnByStudentID(studentID);
+        List<UniClass> uniClasses = new ArrayList<>();
+        for (Learn learn : learns) {
+            UniClass uniClass = uniClassService.getUniClassById(learn.getUniClass().getUniClassId());
+            uniClasses.add(uniClass);
+        }
+        Map<UniClass, List<Scheduce>> classSlotMap = new HashMap<UniClass, List<Scheduce>>();
+        Map<Long, String> checkAttendanceMap = new HashMap<Long, String>();
+        for (UniClass uniClass : uniClasses) {
+                List<Scheduce> scheduces = scheduceService.findScheduceOfUniClass(uniClass.getUniClassId());
+                classSlotMap.put(uniClass, scheduces);
+                for (Scheduce scheduce : scheduces) {
+                    String desc;
+                    CheckAttendance checkAttendance = attendanceService.getCheckAttendanceByScheduceAndStudent(scheduce.getScheduceID(), studentID);
+                    
+                    if (checkAttendance == null) {
+                        desc = "Chưa điểm danh";
+                    } else if (checkAttendance.isCheckAttendance()) {
+                        desc = "Có mặt";
+                    } else {
+                        desc = "Vắng mặt";
+                    }
+                    
+                    checkAttendanceMap.put(scheduce.getScheduceID(), desc);
+                }
+            
+        }
+        List<Map<String, String>> slots = new ArrayList<>();
+
+        Map<String, String> slot1 = new HashMap<>();
+        slot1.put("name", "Slot 1");
+        slot1.put("startTime", "7:30");
+        slot1.put("endTime", "9:45");
+        slots.add(slot1);
+
+        Map<String, String> slot2 = new HashMap<>();
+        slot2.put("name", "Slot 2");
+        slot2.put("startTime", "10:00");
+        slot2.put("endTime", "12:15");
+        slots.add(slot2);
+
+        Map<String, String> slot3 = new HashMap<>();
+        slot3.put("name", "Slot 3");
+        slot3.put("startTime", "12:30");
+        slot3.put("endTime", "14:45");
+        slots.add(slot3);
+
+        Map<String, String> slot4 = new HashMap<>();
+        slot4.put("name", "Slot 4");
+        slot4.put("startTime", "15:00");
+        slot4.put("endTime", "17:15");
+        slots.add(slot4);
+
+        Map<String, String> slot5 = new HashMap<>();
+        slot5.put("name", "Slot 5");
+        slot5.put("startTime", "17:45");
+        slot5.put("endTime", "19:15");
+        slots.add(slot5);
+
+        Map<String, String> slot6 = new HashMap<>();
+        slot6.put("name", "Slot 6");
+        slot6.put("startTime", "19:30");
+        slot6.put("endTime", " 21:00");
+        slots.add(slot6);
+        // Danh sách các ngày trong tuần
+        List<String> days = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+
+        model.addAttribute("slots", slots);
+        model.addAttribute("days", days);
+        model.addAttribute("classSlotMap", classSlotMap); 
+        model.addAttribute("checkAttendanceMap", checkAttendanceMap);
+
+        return "s_showScheduleStudent";
+    }
 }

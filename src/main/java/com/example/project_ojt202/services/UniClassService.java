@@ -33,17 +33,30 @@ public class UniClassService {
         return uniClassRepository.findByLectureProfileLectureID(lectureID);
     }
 
-    public void saveUniClass(UniClass uniClass){
+    public void saveUniClass(UniClass uniClass) {
         uniClassRepository.save(uniClass);
     }
 
-    public UniClass getUniClassById(Long id){
+    public UniClass findById(Long id) {
+        return uniClassRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("UniClass not found with ID: " + id));
+    }
+//
+    public UniClass getUniClassById(Long id) {
         return uniClassRepository.findById(id).orElseThrow(() -> new RuntimeException("UniClass not found"));
     }
 
+    public List<String> getDistinctSemesters() {
+        return uniClassRepository.findDistinctSemesters();
+    }
+
     @Transactional
-    public void deleteUniClass(String subjectID){
+    public void deleteUniClass(String subjectID) {
         uniClassRepository.deleteBySubject_SubjectID(subjectID);
+    } 
+    public String getSubjectIdByUniClassId(Long uniClassId) {
+        UniClass uniClass = uniClassRepository.findById(uniClassId).orElse(null);
+        return (uniClass != null && uniClass.getSubject() != null) ? uniClass.getSubject().getSubjectID() : null;
     }
 
     //H.anh

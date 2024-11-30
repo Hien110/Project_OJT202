@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preload" href="/assets/images/68.jpg" as="image" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/homestudent.css}"
+    />
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+
+    <style>
+
+            .chat-container {
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            margin-top: 70px;
+            margin-left: 255px;
+            background-color: #e9f1ff;
+            margin-right: 325px;
+            height: calc(100vh - 91px);
+            border-radius: 5px;
+           
+            }
+            .header1 {
+                background-color: #4da6fb;
+                color: white;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+            }
+
+            .content-message{
+                height: calc(100vh - 220px);
+                overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung vượt quá chiều cao */
+                overflow-x: hidden; /* Ẩn thanh cuộn ngang (nếu có) */
+                box-sizing: border-box; 
+            }
+            .header1 img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            .header1 .user-info {
+                display: flex;
+                flex-direction: column;
+            }
+            .header1 .user-info .name {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .header1 .user-info .id {
+                font-size: 14px;
+            }
+            .message {
+                display: flex;
+                margin: 10px 0;
+            }
+            .message.sent {
+                justify-content: flex-end;
+            }
+            .message .bubble {
+                background-color: #ffffff;
+                padding: 10px;
+                border-radius: 10px;
+                max-width: 60%;
+            }
+            .message.sent .bubble {
+                background-color: #a9aeff;
+            }
+            .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            }
+             .message.sent img {
+                margin-left: 10px;
+                margin-right: 0;
+            }
+            .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #e9f1ff;
+            border-top: 1px solid #e9f1ff;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            }
+            .input-container input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            }
+            .input-container button {
+            background-color: #4A73E2;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            height: 30px;
+            width: 30px;
+            position: relative;
+            }
+
+            .icon-plane{
+            color: #000;
+            position: absolute;
+            right: -33px;
+            font-size: 20px;
+            top: 6px;
+            }
+       </style>
+  </head>
+  <!-- hi -->
+
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div
+      th:if="${session.account.accountRole == 'student'}"
+      th:insert="~{headerNav :: navStudent}"
+    ></div>
+    <div
+      th:if="${session.account.accountRole == 'lecturer'}"
+      th:insert="~{headerNav :: navLecture}"
+    ></div>
+    <div
+      th:if="${session.account.accountRole == 'admin'}"
+      th:insert="~{headerNav :: navAdmin}"
+    ></div>
+    <div class="container" style="margin-left: 0; padding-bottom: 0;">
+        <div class="chat-container">
+            <div class="header1">
+             <img alt="User profile picture" height="50" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="50"/>
+             <div class="user-info">
+              <div class="name">
+               Nguyễn Minh Hiền - Student
+              </div>
+              <div class="id">
+               DE170650
+              </div>
+             </div>
+            </div>
+            <div class="content-message">
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message sent">
+             <div class="bubble">
+              Chào bạn, bạn có việc gì?
+             </div>
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+            </div>
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message sent">
+             <div class="bubble">
+              Chào bạn, bạn có việc gì?
+             </div>
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+            </div>
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message sent">
+             <div class="bubble">
+              Chào bạn, bạn có việc gì?
+             </div>
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+            </div>
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message sent">
+             <div class="bubble">
+              Chào bạn, bạn có việc gì?
+             </div>
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+            </div>
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message sent">
+             <div class="bubble">
+              Chào bạn, bạn có việc gì?
+             </div>
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+            </div>
+            <div class="message">
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+             <div class="bubble">
+              Xin chào tôi là học sinh lớp DA
+             </div>
+            </div>
+            <div class="message sent">
+             <div class="bubble">
+              Chào bạn, bạn có việc gì?
+             </div>
+             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
+            </div>
+        </div>
+
+            <div class="input-container">
+             <input placeholder="Soạn tin nhắn ..." type="text"/>
+             <button>
+              <i class="fas fa-paper-plane icon-plane">
+              </i>
+             </button>
+            </div>
+           </div>
+      <div class="popular-groups post">
+        <div>
+          <h3>Popular Groups</h3>
+          <div class="group">
+            <img
+              alt="Icon representing Street Artists group"
+              src="https://placehold.co/40x40"
+            />
+            <div class="group-info">
+              <div class="group-name">Street Artists</div>
+              <div class="group-members">4 members</div>
+            </div>
+          </div>
+          <div class="group">
+            <img
+              alt="Icon representing Cosplayers of the World group"
+              src="https://placehold.co/40x40"
+            />
+            <div class="group-info">
+              <div class="group-name">Cosplayers of the World</div>
+              <div class="group-members">3 members</div>
+            </div>
+          </div>
+          <div class="group">
+            <img
+              alt="Icon representing Stream Designers group"
+              src="https://placehold.co/40x40"
+            />
+            <div class="group-info">
+              <div class="group-name">Stream Designers</div>
+              <div class="group-members">3 members</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/src/main/resources/static/assets/js/homeStudent.js"></script>
+  </body>
+</html>
