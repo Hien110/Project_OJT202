@@ -18,9 +18,7 @@ public class FeedbackChoiceService {
         return feedbackChoiceRepository.findAll();
     }
 
-    public FeedbackChoice saveFeedbackChoice(FeedbackChoice feedbackChoice) {
-        return feedbackChoiceRepository.save(feedbackChoice);
-    }
+   
 
     public void deleteFeedbackChoice(Long id) {
         feedbackChoiceRepository.deleteById(id);
@@ -41,6 +39,7 @@ public class FeedbackChoiceService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid choice ID: " + choice.getFeedbackChoiceID()));
             existingChoice.setFeedbackChoiceContent(choice.getFeedbackChoiceContent());
             existingChoice.setFeedbackChoiceNote(choice.getFeedbackChoiceNote());
+            existingChoice.setScore(choice.getScore());
             feedbackChoiceRepository.save(existingChoice);
         }
 }
@@ -48,5 +47,18 @@ public List<FeedbackChoice> getFeedbackChoicesByIds(List<Long> feedbackChoiceIDs
     return feedbackChoiceRepository.findAllById(feedbackChoiceIDs);
 }
     
+public FeedbackChoice saveFeedbackChoice(FeedbackChoice feedbackChoice) {
+    // Kiểm tra nếu điểm số đã được sử dụng
+    boolean isScoreUsed = feedbackChoiceRepository.existsByFeedback_FeedbackIDAndScore(
+        feedbackChoice.getFeedback().getFeedbackID(),
+        feedbackChoice.getScore()
+    );
+
+    if (isScoreUsed) {
+        throw new IllegalArgumentException("Điểm số đã được sử dụng. Vui lòng chọn điểm khác.");
+    }
+
+    return feedbackChoiceRepository.save(feedbackChoice);
+}
 
 }

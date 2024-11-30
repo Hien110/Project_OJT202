@@ -60,42 +60,42 @@ public String showUniClasses(Model model) {
 
     model.addAttribute("uniClasses", uniClasses);
     model.addAttribute("feedbackAvailabilityMap", feedbackAvailabilityMap);
-    System.out.println("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" + feedbackAvailabilityMap);
     return "uniClassList"; // Tên file HTML
 }
 
 
     // Hiển thị form feedback cho một lớp
     @GetMapping("/uniClasses/feedback")
-    public String showFeedbackForm(@RequestParam("id") Long uniClassId,
-                                   @ModelAttribute("profileAccount") StudentProfile studentProfile,
-                                   Model model) {
-    
-        // Kiểm tra lớp học có tồn tại hay không
-        UniClass uniClass = uniClassService.getUniClassById(uniClassId);
-        if (uniClass == null) {
-            model.addAttribute("error", "Lớp học không tồn tại.");
-            return "errorPage";
-        }
-
-        // Kiểm tra nếu học sinh đã gửi feedback
-        boolean hasFeedback = studentFeedbackService.hasFeedbackForClass(studentProfile.getStudentID(), uniClassId);
-        if (hasFeedback) {
-            model.addAttribute("error", "Bạn đã gửi feedback cho lớp học này rồi.");
-            List<UniClass> uniClasses = uniClassService.getAllUniClasses();
-            model.addAttribute("uniClasses", uniClasses);
-            return "uniClassList"; // Trả về danh sách lớp học cùng với thông báo lỗi
-        }
-    
-        // Nếu đủ điều kiện, hiển thị form feedback
-        List<FeedbackChoice> feedbackChoices = feedbackChoiceService.getAllFeedbackChoices();
-        Map<Feedback, List<FeedbackChoice>> feedbackChoicesByQuestion = feedbackChoices.stream()
-                .collect(Collectors.groupingBy(FeedbackChoice::getFeedback));
-    
-        model.addAttribute("uniClass", uniClass);
-        model.addAttribute("feedbackChoicesByQuestion", feedbackChoicesByQuestion);
-        return "uniClassFeedback"; // Trang dành riêng để gửi feedback
+public String showFeedbackForm(@RequestParam("id") Long uniClassId,
+                               @ModelAttribute("profileAccount") StudentProfile studentProfile,
+                               Model model) {
+    // Kiểm tra lớp học có tồn tại hay không
+    UniClass uniClass = uniClassService.getUniClassById(uniClassId);
+    if (uniClass == null) {
+        model.addAttribute("error", "Lớp học không tồn tại.");
+        return "errorPage";
     }
+
+    // Kiểm tra nếu học sinh đã gửi feedback
+    boolean hasFeedback = studentFeedbackService.hasFeedbackForClass(studentProfile.getStudentID(), uniClassId);
+    if (hasFeedback) {
+        model.addAttribute("error", "Bạn đã gửi feedback cho lớp học này rồi.");
+        List<UniClass> uniClasses = uniClassService.getAllUniClasses();
+        model.addAttribute("uniClasses", uniClasses);
+        return "uniClassList"; // Trả về danh sách lớp học cùng với thông báo lỗi
+    }
+
+    // Lấy danh sách FeedbackChoice nhưng chỉ giữ lại các Feedback có trạng thái "show"
+    List<FeedbackChoice> feedbackChoices = feedbackChoiceService.getAllFeedbackChoices();
+    Map<Feedback, List<FeedbackChoice>> feedbackChoicesByQuestion = feedbackChoices.stream()
+            .filter(choice -> "show".equalsIgnoreCase(choice.getFeedback().getStatus())) // Lọc Feedback có trạng thái "show"
+            .collect(Collectors.groupingBy(FeedbackChoice::getFeedback));
+
+    model.addAttribute("uniClass", uniClass);
+    model.addAttribute("feedbackChoicesByQuestion", feedbackChoicesByQuestion);
+    return "uniClassFeedback"; // Trang dành riêng để gửi feedback
+}
+
     
 
     // Xử lý gửi feedback cho lớp học

@@ -75,11 +75,14 @@ public String deleteFeedback(@PathVariable Long id) {
     @ResponseBody
     public void saveChoice(@RequestParam Long feedbackID,
                        @RequestParam String feedback_choice_content,
-                       @RequestParam String feedback_choice_note) {
+                       @RequestParam String feedback_choice_note,
+                       @RequestParam Integer feedback_choice_score
+                       ) {
     FeedbackChoice choice = new FeedbackChoice();
     choice.setFeedback(new Feedback(feedbackID, feedback_choice_note));  
     choice.setFeedbackChoiceContent(feedback_choice_content);
     choice.setFeedbackChoiceNote(feedback_choice_note);
+    choice.setScore(feedback_choice_score);
     feedbackChoiceService.saveFeedbackChoice(choice);
 }
 
@@ -103,13 +106,15 @@ public String deleteChoice(@PathVariable Long choiceID) {
 @PostMapping("/saveAll")
 public String saveAllChoices(@RequestParam Long feedbackID,
                               @RequestParam List<String> choiceContent,
-                              @RequestParam List<String> choiceNote) {
+                              @RequestParam List<String> choiceNote,@RequestParam List<Integer> choiceScore
+                              ) {
     // Duyệt qua tất cả các lựa chọn và lưu
     for (int i = 0; i < choiceContent.size(); i++) {
         FeedbackChoice choice = new FeedbackChoice();
         choice.setFeedback(new Feedback (feedbackID, null));
         choice.setFeedbackChoiceContent(choiceContent.get(i));
         choice.setFeedbackChoiceNote(choiceNote.get(i));
+        choice.setScore(choiceScore.get(i));
         feedbackChoiceService.saveFeedbackChoice(choice);
     }
     return "redirect:/afeedBack";  

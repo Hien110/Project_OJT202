@@ -4,16 +4,106 @@
 <head>
     <title>Danh sách Lớp Học</title>
     <style>
-        .error-message {
-            color: red;
+        /* Reset mặc định */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .alert {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        .success-message {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .class-container {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .class-container h2 {
+            color: #555;
+        }
+
+        .class-container h2:first-of-type {
+            font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
-        .success-message {
-            color: green;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .class-container h2:last-of-type {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .class-container a button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .class-container a button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .class-container {
+                padding: 15px;
+            }
+
+            .class-container h2:first-of-type {
+                font-size: 1.3rem;
+            }
+
+            .class-container a button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
@@ -31,21 +121,15 @@
         <p th:text="${message}"></p>
     </div>
 
+    <!-- Danh sách lớp học -->
     <div th:each="uniClass : ${uniClasses}" class="class-container">
-        <h2 th:text="${uniClass.uniClassName}"></h2>
-        <h2 th:text="${uniClass.uniClassId}"></h2>
-
-        <!-- Hiển thị nút phản hồi nếu đủ điều kiện -->
-        <!-- <a th:if="${feedbackAvailabilityMap[uniClass.uniClassId]}" 
-           th:href="@{'/uniClasses/feedback'(id=${uniClass.uniClassId})}">
-            <button>Phản hồi</button>
-        </a> -->
+        <h2 th:text="${uniClass.uniClassName}">Tên lớp học</h2>
+        <h2 th:text="${uniClass.uniClassId}">Mã lớp học</h2>
 
         <a th:if="${feedbackAvailabilityMap != null and uniClass.uniClassId != null and feedbackAvailabilityMap[uniClass.uniClassId]}"
             th:href="@{'/uniClasses/feedback'(id=${uniClass.uniClassId})}">
             <button>Phản hồi</button>
         </a>
-
     </div>
 </body>
 

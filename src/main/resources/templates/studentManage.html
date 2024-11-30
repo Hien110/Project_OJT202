@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Manage</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 0;
+      }
+
+      .container_studentManage {
+        padding-top: 100px;
+        padding-left: 280px;
+      }
+
+      .title_scheduce {
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        color: #4da6fb;
+      }
+
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(200px, 1fr)
+        ); /* Sử dụng tự động căn lưới */
+        gap: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px 0;
+      }
+
+      /* Căn giữa hàng cuối khi có một nút duy nhất */
+      .button-grid > form:last-child:nth-child(odd) {
+        grid-column: span 2; /* Đặt nút cuối cùng chiếm hai cột */
+        justify-self: center; /* Căn giữa nút cuối cùng */
+      }
+
+      .btn-function {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #4da6fb;
+        color: #fff;
+        border: none;
+        width: 300px;
+        height: 100px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-position 0.3s ease; /* Cập nhật vị trí gradient khi hover */
+        background-image: linear-gradient(
+          to right,
+          #4da6fb 50%,
+          #388bd1 50%
+        ); /* Đặt màu nền gradient từ trái sang phải */
+        background-size: 200% 100%; /* Kích thước của gradient */
+        background-position: left bottom; /* Mới bắt đầu ở bên trái */
+        gap: 8px; /* Khoảng cách giữa icon và text */
+      }
+
+      .btn-function:hover {
+        background-position: right bottom; /* Khi hover, chuyển gradient từ trái sang phải */
+      }
+
+      .btn-function svg {
+        width: 24px; /* Kích thước width của SVG */
+        height: 24px; /* Kích thước height của SVG */
+        fill: #fff; /* Màu của icon */
+        flex-shrink: 0; /* Ngăn SVG bị co lại */
+      }
+    </style>
+  </head>
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="container_studentManage">
+      <p class="title_scheduce">Quản Lí Sinh Viên</p>
+      <div class="button-grid">
+        <form th:action="@{/uploadFileStudentAccount}" method="get">
+          <button class="btn-function">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+              <path
+                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"
+              />
+            </svg>
+            Tạo tài khoản cho sinh viên và phụ huynh
+          </button>
+        </form>
+        <form th:action="@{/allOfStudentList}" method="get">
+          <button class="btn-function">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+              <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+              <path
+                d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"
+              />
+            </svg>
+            Xem danh sách sinh viên
+          </button>
+        </form>
+        <form th:action="@{/afeedBack}" method="get">
+          <button class="btn-function">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+              <path
+                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"
+              />
+            </svg>
+            Tạo feedback cho sinh viên
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

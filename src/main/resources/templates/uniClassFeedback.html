@@ -1,57 +1,169 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Feedback Lớp Học</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        rel="stylesheet"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        th:href="@{/assets/css/headerNav.css}"
+    />
     <style>
-        .error-message {
-            color: red;
+        .container {
+            padding-top: 100px;
+            padding-left: 280px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .error-message, .success-message {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
             font-weight: bold;
-            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
         }
 
         .success-message {
-            color: green;
-            font-weight: bold;
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
             margin-bottom: 10px;
+            font-size: 1rem;
+            color: #444;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .button2 {
+            display: inline-block;
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .button2:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                padding: 15px;
+            }
+
+            .button2 {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Phản hồi lớp học: <span th:text="${uniClass.uniClassName}"></span></h1>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    <div class="container">
+        <h1>Phản hồi lớp học: <span th:text="${uniClass.uniClassName}"></span></h1>
 
-    <!-- Hiển thị thông báo lỗi -->
-    <div th:if="${error}" class="error-message">
-        <p th:text="${error}"></p>
-    </div>
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        <div th:if="${success}" class="success-message" th:text="${success}"></div>
 
-    <!-- Hiển thị thông báo thành công -->
-    <div th:if="${message}" class="success-message">
-        <p th:text="${message}"></p>
-    </div>
+        <form action="/submitFeedback" method="post">
+            <input type="hidden" name="uniClassId" th:value="${uniClass.uniClassId}" />
 
-    <form action="/submitFeedback" method="post">
-        <input type="hidden" name="uniClassId" th:value="${uniClass.uniClassId}" />
-
-        <div th:each="entry : ${feedbackChoicesByQuestion.entrySet()}" class="question">
-            <h3 th:text="${entry.key.feedbackName}"></h3>
-            <div th:each="choice : ${entry.value}">
-                <label>
-                    <input type="radio"
-                           th:name="'feedbackChoices[' + ${entry.key.feedbackID} + ']'"
-                           th:value="${choice.feedbackChoiceID}"
-                           th:id="'choice_' + ${choice.feedbackChoiceID}" />
-                    <span th:text="${choice.feedbackChoiceContent}"></span>
-                </label>
+            <!-- Duyệt qua từng câu hỏi và các lựa chọn -->
+            <div th:each="entry : ${feedbackChoicesByQuestion.entrySet()}" class="question">
+                <h3 th:text="${entry.key.feedbackName}"></h3>
+                <div th:each="choice : ${entry.value}">
+                    <label>
+                        <input type="radio"
+                               th:name="'feedbackChoices[' + ${entry.key.feedbackID} + ']'"
+                               th:value="${choice.feedbackChoiceID}"
+                               th:id="'choice_' + ${choice.feedbackChoiceID}" />
+                        <span th:text="${choice.feedbackChoiceContent}"></span>
+                    </label>
+                </div>
             </div>
-        </div>
 
-        <div>
-            <label for="feedbackText">Nội dung phản hồi:</label>
-            <textarea name="feedbackText" id="feedbackText" rows="4" cols="50"
-                      placeholder="Nhập ý kiến của bạn..."></textarea>
-        </div>
+            <!-- Phần nội dung phản hồi -->
+            <div>
+                <label for="feedbackText">Nội dung phản hồi:</label>
+                <textarea name="feedbackText" id="feedbackText" rows="4"
+                          placeholder="Nhập ý kiến của bạn..."></textarea>
+            </div>
 
-        <button type="submit">Gửi Feedback</button>
-    </form>
+            <!-- Nút gửi -->
+            <button type="submit" class="button2">Gửi Feedback</button>
+        </form>
+    </div>
 </body>
 </html>

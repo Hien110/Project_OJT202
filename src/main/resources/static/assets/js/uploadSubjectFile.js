@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the file input
     document.getElementById("fileInput").value = "";
     // Optionally, redirect to a different page or hide the upload area
-    window.location.href = "/homeAdmin"; // Example: Redirect to the homepage
+    window.location.href = "/home"; // Example: Redirect to the homepage
   }
 
   const uploadArea = document.getElementById("uploadArea");
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Ẩn toast và chuyển hướng về trang chủ sau 3 giây
           setTimeout(() => {
-            window.location.href = "/homeAdmin"; // Chuyển hướng về trang chủ
+            window.location.href = "/home"; // Chuyển hướng về trang chủ
           }, 3000);
         });
       });

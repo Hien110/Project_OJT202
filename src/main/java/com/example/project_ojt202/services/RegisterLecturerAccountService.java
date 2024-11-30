@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.Normalizer;
 
 @Service
 public class RegisterLecturerAccountService {
@@ -51,22 +52,27 @@ public class RegisterLecturerAccountService {
                 String majorId = row.getCell(8).getStringCellValue();
                 int yearOfSubmission = (int) row.getCell(9).getNumericCellValue();
 
+                // Normalize Vietnamese characters to remove accents
+                String normalizedFirstName = normalizeVietnameseName(firstName);
+                String normalizedLastName = normalizeVietnameseName(lastName);
+
                 // Tạo account_id
-                String[] nameParts = firstName.split(" ");
+                String[] nameParts = normalizedFirstName.split(" ");
                 StringBuilder initials = new StringBuilder();
                 for (String part : nameParts) {
                     initials.append(part.charAt(0)); // Lấy ký tự đầu
                 }
 
                 // Ghép lại thành accountId
-                String accountId = lastName + initials.toString().toUpperCase() + String.format("%03d", stt);
+                String accountId = normalizedLastName + initials.toString().toUpperCase() + String.format("%03d", stt);
                 String lecturerId = accountId;
 
                 // Lấy đối tượng Major từ majorID
                 Major major = majorRepository.findByMajorID(majorId);
 
                 // Tạo StudentProfile
-                LectureProfile lectureProfile = new LectureProfile(lecturerId, firstName, lastName, dob, false, "null", gender, address, phoneNumber, email, yearOfSubmission, major);
+                LectureProfile lectureProfile = new LectureProfile(lecturerId, firstName, lastName, dob, false, "null",
+                        gender, address, phoneNumber, email, yearOfSubmission, major);
 
                 lectureProfiles.add(lectureProfile);
             }
@@ -78,6 +84,12 @@ public class RegisterLecturerAccountService {
 
         this.lecturerProfilesCache = lectureProfiles;
         return lectureProfiles;
+    }
+
+    private String normalizeVietnameseName(String name) {
+        // Normalize the name to remove accents (diacritical marks)
+        return Normalizer.normalize(name, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", ""); // Remove diacritical marks
     }
 
     public void saveDataToDatabase() {

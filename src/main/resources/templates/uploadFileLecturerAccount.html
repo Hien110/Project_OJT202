@@ -62,6 +62,7 @@
         <table id="studentTable">
           <thead>
             <tr>
+              <th>STT</th>
               <th>Họ</th>
               <th>Tên</th>
               <th>Ngày Sinh</th>
@@ -75,6 +76,7 @@
           </thead>
           <tbody id="studentTableBody">
             <tr th:each="lecture, stat : ${lectureProfiles}">
+              <td th:text="${stat.count}"></td>
               <td th:text="${lecture.firstName}"></td>
               <td th:text="${lecture.lastName}"></td>
               <td th:text="${lecture.dob}"></td>

@@ -55,7 +55,7 @@ public class CreateScheduceController {
     }
     @GetMapping("/scheduceOfSubject/{major}/{specialization}")
     public String showScheduceSubjectPage(@PathVariable String major, @PathVariable int specialization, Model model ) {
-        List<Subject> subjects = subjectService.getSubjectByMajorIDAndTernNo(major, specialization);
+    List<Subject> subjects = subjectService.getSubjectByMajorIDAndTernNo(major, specialization);
     List<LectureProfile> lectures = lectureProfileService.getLecProfileByMajorID(major);
     model.addAttribute("subjects", subjects);
     model.addAttribute("lectures", lectures);
@@ -220,7 +220,6 @@ public String editScheduleOneWeek(@PathVariable("major") String major,
         Map<String, String> mapChangeScheduce = mapper.readValue(mapDataJson, new TypeReference<Map<String, String>>() {});
 
         mapChangeScheduce.forEach((key, value) -> {
-            System.out.println("Key: " + key.split("-")[0] + ", slot: " + value.split("_")[0] + ", day: " + value.split("_")[1]);
             String scheduceIDString = key.split("-")[0];
             Long scheduceIDLong = Long.parseLong(scheduceIDString);
             String dateScheduceString = value.split("_")[1];
@@ -258,7 +257,6 @@ public String editScheduleEachWeek(@PathVariable("major") String major,
     Scheduce scheduce = scheduceService.getScheduceById(scheduceIDLong);
     LocalDate dateOld = scheduce.getDateScheduce();
     Period period = Period.between(dateOld, date);  
-    System.out.println(period);
 
     LocalDate today = LocalDate.now();
     int day = today.getDayOfMonth();
@@ -269,14 +267,22 @@ public String editScheduleEachWeek(@PathVariable("major") String major,
     LocalDate currenDate2 = LocalDate.parse(currenDate, DateTimeFormatter.ISO_LOCAL_DATE);
     
     List<Scheduce> scheduces = scheduceService.findScheduceOfUniClass(uniClassIDLong);
+    System.out.println("Key: " + key +  " Value: " + value);
+
     for (Scheduce scheduce2 : scheduces) {
         LocalDate dateScheduce = scheduce2.getDateScheduce();
+        String  timeScheduce = scheduce2.getTimeScheduce();
+        System.out.println("timecheduce: " +timeScheduce);
+        System.out.println(key.split("-")[3]);
         if(dateScheduce.isAfter(currenDate2)){
             Period period1 = Period.between(dateOld, dateScheduce);
-            if (period1.getDays() % 7 == 0 || period1.getDays() == 0) {
+            if ((period1.getDays() % 7 == 0 || period1.getDays() == 0)  && timeScheduce.equals(key.split("-")[3])) {
+                if(dateScheduce.plus(period).isAfter(currenDate2)){
                     scheduce2.setDateScheduce(dateScheduce.plus(period));  
                     scheduce2.setTimeScheduce(value.split("_")[0]);
                     scheduceService.saveScheduce(scheduce2);
+                }
+                 
             }
         }
     }

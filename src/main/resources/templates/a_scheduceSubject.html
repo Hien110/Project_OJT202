@@ -14,7 +14,7 @@
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navAdmin}"></div>
     <div class="content">
-        <h1>Calendar</h1>
+        <h1>Lịch học</h1>
         <div class="select">
             <div>
                 <label class="labelSelect" for="semester">Semester</label>
@@ -70,58 +70,13 @@
                     </td>
                     <td th:each="day, dayIndex  : ${days}" class="droptarget" th:data-day="${day}">
                         <ul class="calendarUl" th:each="entry : ${subjectClassMap}">
-                            <li class="calendarLi" th:each="uniClass : ${entry.value}" th:data-semester="${uniClass.semester}" th:data-subject="${entry.key.subjectID}">
-                                <ul class="calendarUl" th:each="scheduce : ${classSlotMap[uniClass.uniClassId]}">
-                                    <li class="event" style="display: none;" th:id="${scheduce.scheduceID + '-' + uniClass.uniClassId + '-' + day + '-' + slot.name}"  th:data-date="${scheduce.dateScheduce}" draggable="true">
+                            <li class="calendarLi" th:each="uniClass : ${entry.value}" th:data-semester="${uniClass.semester}" th:data-class="${uniClass.uniClassId}" th:data-subject="${entry.key.subjectID}">
+                                <ul class="calendarUl calendarUl2" th:each="scheduce : ${classSlotMap[uniClass.uniClassId]}">
+                                    <li class="event" style="display: none;" th:id="${scheduce.scheduceID + '-' + uniClass.uniClassId + '-' + day + '-' + slot.name + '-' + uniClass.subject.subjectID}"  th:data-date="${scheduce.dateScheduce}" draggable="true">
                                         <span id="className" th:text="${uniClass.uniClassName}"></span><br />
-                                        <span class="lectureData" style="display: none;" th:text="${uniClass.lectureProfile.firstName}"></span>
-                                        <select class="optionLecture">
-                                            <option th:text="${uniClass.lectureProfile.firstName}"></option>
-                                            <option th:each="lecture : ${lectures}" th:value="${lecture.lectureID}" th:text="${lecture.firstName}"></option>
-                                        </select>
-                                        <span class="roomData" th:text="'Phòng ' + ${uniClass.uniClassRoom}"></span>
-                                        <select class="optionRoom">
-                                            <option>Phòng 201</option>
-                                            <option>Phòng 202</option>
-                                            <option>Phòng 203</option>
-                                            <option>Phòng 204</option>
-                                            <option>Phòng 205</option>
-                                            <option>Phòng 206</option>
-                                            <option>Phòng 207</option>
-                                            <option>Phòng 208</option>
-                                            <option>Phòng 209</option>
-                                            <option>Phòng 210</option>
-                                            <option>Phòng 211</option>
-                                            <option>Phòng 212</option>
-                                            <option>Phòng 213</option>
-                                            <option>Phòng 214</option>
-                                            <option>Phòng 215</option>
-                                            <option>Phòng 301</option>
-                                            <option>Phòng 302</option>
-                                            <option>Phòng 303</option>
-                                            <option>Phòng 304</option>
-                                            <option>Phòng 305</option>
-                                            <option>Phòng 306</option>
-                                            <option>Phòng 307</option>
-                                            <option>Phòng 308</option>
-                                            <option>Phòng 309</option>
-                                            <option>Phòng 310</option>
-                                            <option>Phòng 311</option>
-                                            <option>Phòng 312</option>
-                                            <option>Phòng 313</option>
-                                            <option>Phòng 314</option>
-                                            <option>Phòng 315</option>
-                                            <option>Phòng 401</option>
-                                            <option>Phòng 402</option>
-                                            <option>Phòng 403</option>
-                                            <option>Phòng 404</option>
-                                            <option>Phòng 405</option>
-                                            <option>Phòng 406</option>
-                                            <option>Phòng 407</option>
-                                            <option>Phòng 408</option>
-                                            <option>Phòng 409</option>
-                                            <option>Phòng 410</option>
-                                        </select>
+                                        <span class="lectureData" style="display: block;" th:text="${uniClass.lectureProfile.firstName} +  ' ' + ${uniClass.lectureProfile.lastName}"></span>
+
+                                        <span class="roomData" th:text="'Phòng ' + ${scheduce.uniClassRoom}"></span>
                                         <span style="display: none" class="scheduceTime" th:text="${scheduce.timeScheduce} + ' - ' + ${scheduce.dateScheduce}">Giờ học - Ngày</span>
                                     </li>
                                 </ul>
@@ -134,6 +89,7 @@
         <button id="saveButton" style="display: none;"  onclick="openModal()">Lưu</button>
         <div id="updateScheduleSucces">Thay đổi thời khoá biểu thành công</div>
         <div id="updateScheduleError">Thay đổi ngày không hợp lệ</div>
+        <div id="updateScheduleError2">Lớp học đã tồn tại trong slot này</div>
         <div class="modal" id="modal">
             <div class="modal-content">
             <h5 class="saveModal">Lưu thay đổi</h5>
@@ -148,7 +104,7 @@
                     </form>
             </div>
             <button class="cancelModal" onclick="closeModal()">Huỷ</button>
-        </div>
+            </div>
         </div>
     </div>
 

@@ -9,4 +9,5 @@ import com.example.project_ojt202.models.Feedback;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     List<Feedback> findAllByStatus(String status);
+    
 }

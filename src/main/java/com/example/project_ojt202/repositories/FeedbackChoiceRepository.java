@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface FeedbackChoiceRepository extends JpaRepository<FeedbackChoice, Long> {
     List<FeedbackChoice> findByFeedback_FeedbackID(Long feedbackID);
-    
+    boolean existsByFeedback_FeedbackIDAndScore(Long feedbackID, Integer score);
 }

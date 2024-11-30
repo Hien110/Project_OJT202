@@ -20,6 +20,6 @@ public class EmailController {
     @PostMapping("/sendEmails")
     public String sendEmails() {
         emailService.sendEmails();
-        return "redirect:/homeAdmin";
+        return "redirect:/home";
     }
 }

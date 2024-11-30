@@ -1,5 +1,6 @@
 package com.example.project_ojt202.controllers;
 
+import com.example.project_ojt202.models.PrerequisiteSubject;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.services.SubjectService;
 
@@ -33,9 +34,13 @@ public class UploadSubjectController {
         try {
             // Process the uploaded file and extract the data
             List<Subject> subjects = excelService.processExcelFile(file);
+            List<PrerequisiteSubject> prerequisiteSubjects = excelService.processExcelFile1(file);
+            List<String> prerequisites = excelService.processExcelFile2(file);
 
             // Add the list of students to the model to display on the page
             model.addAttribute("subjects", subjects);
+            model.addAttribute("prerequisiteSubjects", prerequisiteSubjects);
+            model.addAttribute("prerequisites", prerequisites);
 
             // Add a flag to indicate that the file was uploaded successfully
             model.addAttribute("fileUploaded", true);
@@ -59,7 +64,7 @@ public class UploadSubjectController {
 
     @PostMapping("/backToHome")
     public String backToHome() {
-        return "redirect:/homeAdmin";
+        return "redirect:/home";
     }
 }
 

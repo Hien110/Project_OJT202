@@ -34,6 +34,9 @@ public class Scheduce {
     @Column(name = "timeScheduce")
     private String timeScheduce;
 
+    @Column(name = "uniClassRoom")
+    private String uniClassRoom;
+
     @ManyToOne
     @JoinColumn(name = "uniClassId")
     private UniClass uniClass;
