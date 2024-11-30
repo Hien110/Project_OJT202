@@ -5,7 +5,7 @@
             align-items: center;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #f8f9fa;
             padding-top: 100px;
             padding-left: 200px;
         }
@@ -44,11 +44,8 @@
 
         .button-link:hover,
         .button-container button:hover {
-            background-color: #FF0000;
+            background-color: #0084ff;
             transform: translateY(-3px);
         }
 
-        .button-container button:active {
-            transform: translateY(1px);
-            background-color: #388e3c;
-        }
+       
