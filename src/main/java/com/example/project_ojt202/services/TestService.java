@@ -18,20 +18,13 @@ import org.apache.poi.ss.usermodel.*;
 import java.util.List;
 import java.util.Map;
 
-import com.example.project_ojt202.repositories.AnswerRepository;
-import com.example.project_ojt202.repositories.QuestionRepository;
+
 import com.example.project_ojt202.repositories.TestRepository;
 
 @Service
 public class TestService {
     @Autowired
     private TestRepository testRepository;
-
-    @Autowired
-    private QuestionRepository questionRepository;
-
-    @Autowired
-    private AnswerRepository answerRepository;
 
     public Test saveTest(Test test) {
         return testRepository.save(test);
@@ -51,12 +44,7 @@ public class TestService {
         return cell.getNumericCellValue();
     }
 
-    private double getCellValueAsDouble(Cell cell, String columnName) {
-        if (cell == null || cell.getCellType() != CellType.NUMERIC) {
-            throw new IllegalArgumentException("Column " + columnName + " must be a numeric value.");
-        }
-        return cell.getNumericCellValue();
-    }
+    
 
     public List<QuestionTest> processExcelFile(MultipartFile file) throws IOException {
         List<QuestionTest> questions = new ArrayList<>();
