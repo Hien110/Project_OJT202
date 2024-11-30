@@ -2,6 +2,7 @@ package com.example.project_ojt202.services;
 
 import com.example.project_ojt202.models.ScoreTranscript;
 import com.example.project_ojt202.models.Subject;
+import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.ScoreTranscriptRepository;
 import com.example.project_ojt202.repositories.SubjectRepository;
 
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ScoreTranscriptService {
@@ -127,5 +129,8 @@ public class ScoreTranscriptService {
     public ScoreTranscript findById(Long id) {
         return scoreTranscriptRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ScoreTranscript not found with ID: " + id));
+    }
+    public List<ScoreTranscript> getScoreTranscriptsBySubjectId(String subjectId) {
+        return scoreTranscriptRepository.findBySubjectSubjectID(subjectId);
     }
 }
