@@ -32,10 +32,15 @@
                 </div>
                 <ul>
                     <th:block th:each="test : ${scoreTranscripts}">
-                        <li th:text="${test.nameTest}">Bài Kiểm Tra</li>
+                        <li class="test-item">
+                            <span th:text="${test.nameTest}">Bài Kiểm Tra</span>
+                            <div class="test-options">
+                                <a href="#">Tài liệu</a>
+                                <a href="#">Bài kiểm tra</a>
+                            </div>
+                        </li>
                     </th:block>
                 </ul>
-
             </div>
         </div>
     </body>

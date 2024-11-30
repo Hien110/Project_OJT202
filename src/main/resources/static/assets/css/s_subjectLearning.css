@@ -42,4 +42,39 @@ ul li {
 ul li:hover {
     background-color: #ddd;
 }
+.test-item {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.test-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    min-width: 120px;
+    z-index: 10;
+    border-radius: 20px;
+}
+
+.test-item:hover .test-options {
+    display: block;
+}
+
+.test-options a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: #333;
+}
+
+.test-options a:hover {
+    background-color: #f1f1f1;
+}
 
