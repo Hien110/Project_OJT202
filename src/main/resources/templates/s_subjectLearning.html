@@ -30,14 +30,14 @@
                 <div th:if="${error != null}">
                     <p th:text="${error}"></p>
                 </div>
+                <p>Tài liệu</p>
+                <p>Bài kiểm tra</p>
                 <ul>
                     <th:block th:each="test : ${scoreTranscripts}">
                         <li class="test-item">
+                            <form>
                             <span th:text="${test.nameTest}">Bài Kiểm Tra</span>
-                            <div class="test-options">
-                                <a href="#">Tài liệu</a>
-                                <a href="#">Bài kiểm tra</a>
-                            </div>
+                            </form>
                         </li>
                     </th:block>
                 </ul>
