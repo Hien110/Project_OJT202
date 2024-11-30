@@ -45,6 +45,10 @@ public class UniClassService {
         return uniClassRepository.findById(id).orElseThrow(() -> new RuntimeException("UniClass not found"));
     }
 
+    public List<String> getDistinctSemesters() {
+        return uniClassRepository.findDistinctSemesters();
+    }
+
     @Transactional
     public void deleteUniClass(String subjectID) {
         uniClassRepository.deleteBySubject_SubjectID(subjectID);

@@ -1,58 +1,48 @@
 <!DOCTYPE html>
 <html lang="vi">
 
-    <head>
-        <script src="/assets/js/headerNav.js"></script>
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            rel="stylesheet" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/assets/css/headerNav.css}" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/assets/css/l_lectureControl.css}" />
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chức năng giảng viên</title>
-    </head>
+<head>
+    <script src="/assets/js/headerNav.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/l_lectureControl.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chức năng giảng viên</title>
+</head>
 
-    <body>
-        <div class="headerDiv">
-            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
-        </div>
-        <div class="navLectureDiv">
-            <div id="navLectureDiv"
-                th:insert="~{headerNav :: navLecture}"></div>
-        </div>
-        <div class="theme">
-            <h1>Chức năng Giảng viên</h1>
-            <div class="button-container">
-                <form th:action="@{/lecture/l_listClassTakeAttendance}"
-                    method="get">
-                    <button type="submit">Điểm Danh</button>
-                </form>
-                <form th:action="@{/scheduceMajor}" method="post">
-                    <button type="submit">Tài Liệu</button>
-                </form>
-                <form th:action="@{/createTest}" method="get">
-                    <button type="submit">Tạo Bài Kiểm Tra</button>
-                </form>
-                <form th:action="@{/scheduceMajor}" method="post">
-                    <button type="submit">Xem Bài Kiểm Tra</button>
-                </form>
-                <form th:action="@{/scheduceMajor}" method="post">
-                    <button type="submit">Điểm Số</button>
-                </form>
-                <form th:action="@{/lecture/l-list-classes}" method="get">
-                    <button type="submit">Danh sách lớp</button>
-                </form>
-            </div>
-
+<body>
+    <div class="headerDiv">
+        <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+    </div>
+    <div class="navLectureDiv">
+        <div id="navLectureDiv" th:insert="~{headerNav :: navLecture}"></div>
+    </div>
+    <div class="theme">
+        <h1>Chức năng Giảng viên</h1>
+        <div class="button-container">
+            <form th:action="@{/lecture/l_listClassTakeAttendance}" method="get">
+                <button type="submit">Điểm Danh</button>
+            </form>
+            <form th:action="@{/scheduceMajor}" method="post">
+                <button type="submit">Tài Liệu</button>
+            </form>
+            <form th:action="@{/createTest}" method="get">
+                <button type="submit">Tạo Bài Kiểm Tra</button>
+            </form>
+            <form th:action="@{/listClassesTest}" method="get">
+                <button type="submit">Xem Bài Kiểm Tra</button>
+            </form>
+            <form th:action="@{/scheduceMajor}" method="post">
+                <button type="submit">Điểm Số</button>
+            </form>
+            <form th:action="@{/lecture/l-list-classes}" method="get">
+                <button type="submit">Danh sách lớp</button>
+            </form>
         </div>
 
-    </body>
+    </div>
+
+</body>
 
 </html>
