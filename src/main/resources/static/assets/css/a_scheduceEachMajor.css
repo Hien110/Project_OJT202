@@ -47,3 +47,10 @@ body {
     flex-wrap: wrap;
     gap: 6px;
   }
+
+  #scheduceForm{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
