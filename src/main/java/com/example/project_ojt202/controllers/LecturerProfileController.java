@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.Major;
+import com.example.project_ojt202.repositories.LectureProfileRepository;
 import com.example.project_ojt202.services.LectureProfileService;
 import com.example.project_ojt202.services.MajorService;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @Controller
 public class LecturerProfileController {
@@ -24,6 +27,8 @@ public class LecturerProfileController {
     @Autowired
     private MajorService majorService;
 
+    @Autowired
+    private LectureProfileRepository lectureProfileRepository;
 
      @GetMapping("/allOfLecturer")
     public String listStudents(@RequestParam(defaultValue = "0") int page,
@@ -51,5 +56,29 @@ public class LecturerProfileController {
         model.addAttribute("account", account);
         return "lecturerProfileDetail";  // Return to the view that will display the student details
     }
+
+    @PostMapping("/assignLeadMajor")
+    public String assignLeadMajor(@RequestParam("lectureID") String lectureID, Model model) {
+        LectureProfile lecture = lectureProfileService.findByLectureID(lectureID);
+        List<LectureProfile> listLeadMajor = lectureProfileService.findLecturersByMajorAndLeadMajor(lecture.getMajor().getMajorID());
+        for(LectureProfile lecturee : listLeadMajor) {
+            lecturee.setLeadMajor(false);
+            lectureProfileRepository.save(lecturee);
+        }
+        lecture.setLeadMajor(true);
+        lectureProfileRepository.save(lecture);
+
+        //
+        LectureProfile lecturerProfile = lectureProfileService.getLecProfileByLectureID(lectureID);
+        Account account = lectureProfileService.getLecturerAccountById(lectureID);
+
+        // Add the student profile to the model
+        model.addAttribute("lecturerProfile", lecturerProfile);
+        model.addAttribute("account", account);
+
+        model.addAttribute("successMessage", "Chỉ định giảng viên thành công");
+        return "lecturerProfileDetail";
+    }
+    
 }
 

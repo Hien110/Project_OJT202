@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.Learn;
-import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.repositories.LearnRepository;
 
 @Service
