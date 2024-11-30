@@ -75,4 +75,8 @@ public class LectureProfileService {
     public LectureProfile findByLectureID(String lectureID) {
         return lectureProfileRepository.findByLectureID(lectureID);
     }
+
+    public List<LectureProfile> findLecturersByMajorAndLeadMajor(String majorID) {
+        return lectureProfileRepository.findByMajor_MajorIDAndLeadMajorTrue(majorID);
+    }
 }
