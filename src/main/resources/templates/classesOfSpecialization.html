@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Lớp Học</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <style>
+      .classes-container {
+        padding-top: 100px;
+        padding-left: 290px;
+        padding-right: 20px;
+      }
+
+      .class-content {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      /* Make sure each .uniclass takes up 1/3 of the width or full width if only 1 item */
+      .classes-content {
+        flex: 1 1 calc(33.33% - 20px); /* Allow 3 items per row */
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+
+      /* If there's only one .uniclass, it will take full width */
+      .class-content > .classes-content {
+        width: 100%;
+      }
+
+      /* For .uniclass styling */
+      .uniclass {
+        max-width: 300px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        box-sizing: border-box;
+      }
+
+      .uniclass:hover {
+        transform: scale(1.05); /* Hover effect */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .uniclass input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box; /* Include padding and borders in the width */
+      }
+
+      .viewDetail-btn {
+        text-align: center;
+      }
+
+      .viewDetail-btn button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .viewDetail-btn button:hover {
+        background-color: #45a049;
+      }
+
+      .err-log {
+        color: red;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .uniclass h3 {
+        background-color: #4da6fb;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+        margin: 0;
+        margin-bottom: 10px;
+      }
+
+      /* Responsive Layout for smaller screens */
+      @media (max-width: 768px) {
+        .classes-content {
+          flex: 1 1 calc(50% - 20px); /* Two items per row on smaller screens */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .classes-content {
+          flex: 1 1 100%; /* One item per row on extra small screens */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    <div class="classes-container">
+      <div class="class-content">
+        <div th:each="uniclass, start : ${uniClasses}" class="classes-content">
+          <div class="uniclass">
+            <h3>Lớp Học</h3>
+            <label class="label">Mã lớp học</label>
+            <input type="text" th:value="${uniclass.uniClassId}" readonly />
+            <label class="label">Tên lớp học</label>
+            <input type="text" th:value="${uniclass.uniClassName}" readonly />
+            <label class="label">Môn giảng dạy</label>
+            <input
+              type="text"
+              th:value="${uniclass.subject.getSubjectName()}"
+              readonly
+            />
+            <label class="label">Giảng viên</label>
+            <input
+              type="text"
+              th:value="${uniclass.lectureProfile.firstName +' '+ uniclass.lectureProfile.lastName +' - ' + uniclass.lectureProfile.lectureID}"
+              readonly
+            />
+            <div th:if="${uniclass.dateStartLearn != null and uniclass.dateEndLearn != null}">
+              <div
+                class="viewDetail-btn"
+                th:if="${T(java.time.LocalDate).now().isBefore(uniclass.dateStartLearn) and uniclass.getSubject().getTernNo() <= maxTernNo + 1}"
+              >
+                <a
+                  th:href="@{/registerClassDetail/{id}(id=${uniclass.uniClassId})}"
+                >
+                  <button>Xem chi tiết</button>
+                </a>
+              </div>
+              <div
+                class="err-log"
+                th:if="${T(java.time.LocalDate).now().isAfter(uniclass.dateStartLearn)}"
+              >
+                <span
+                  style="color: red"
+                  th:text="'Không thể đăng kí lớp học'"
+                ></span>
+              </div>
+            </div>
+            <div th:if="${uniclass.dateStartLearn == null || uniclass.dateEndLearn == null || uniclass.getSubject().getTernNo() > maxTernNo + 1}">
+              <span
+                style="color: red"
+                th:text="'Không thể đăng kí lớp học'"
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.UniClassRepository;
 
@@ -43,5 +44,11 @@ public class UniClassService {
     @Transactional
     public void deleteUniClass(String subjectID){
         uniClassRepository.deleteBySubject_SubjectID(subjectID);
+    }
+
+    //H.anh
+    // Hàm lấy danh sách UniClass theo danh sách Subject
+    public List<UniClass> getUniClassesBySubjects(List<Subject> subjects) {
+        return uniClassRepository.findBySubjectIn(subjects);
     }
 }

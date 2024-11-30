@@ -207,4 +207,9 @@ public class SubjectService {
     public Page<Subject> getAllSubjects(int page, int size) {
         return subjectRepository.findAll(PageRequest.of(page, size));
     }
+
+    // Hàm lấy danh sách các môn học theo majorID và ternNo
+    public List<Subject> getSubjectsByMajorAndTern(String majorID, int ternNo) {
+        return subjectRepository.findByMajor_MajorIDAndTernNo(majorID, ternNo);
+    }
 }
