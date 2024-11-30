@@ -3,7 +3,6 @@ package com.example.project_ojt202.services;
 import com.example.project_ojt202.models.Scheduce;
 import com.example.project_ojt202.repositories.ScheduceRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;

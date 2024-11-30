@@ -10,7 +10,6 @@ import com.example.project_ojt202.repositories.AnswerRepository;
 public class AnswerTestService {
     private final AnswerRepository answerRepository;
 
-    @Autowired
     public AnswerTestService(AnswerRepository answerRepository) {
         this.answerRepository = answerRepository;
     }
