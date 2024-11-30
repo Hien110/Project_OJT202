@@ -83,7 +83,7 @@
             <i class="fas fa-comment-alt"></i>
           <span>Quản lí feedback</span>
         </a>
-        <a href="#" class="menu-item">
+        <a th:href="@{/message}" class="menu-item">
           <i class="fas fa-comments"></i>
           <span>Chat</span>
         </a>
@@ -112,6 +112,10 @@
         <a th:if="${session.account.accountRole == 'lecturer'}" th:href="@{/scheduceForLecturer/{lectureID}(lectureID = ${session.profileAccount.lectureID})}" class="menu-item">
           <i class="fas fa-calendar-alt"></i>
           <span>Thời khoá biểu</span>
+        </a>
+        <a href="/uploadFileScoreTranscript" class="menu-item">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Quản lý bảng điểm</span>
         </a>
         <a href="#" class="menu-item">
             <i class="fas fa-comment-alt"></i>
@@ -148,10 +152,18 @@
           <i class="fas fa-comments"></i>
           <span>Chat</span>
         </a>
-        <a href="#" class="menu-item">
+
+        <a href="/viewScoreTranscript" class="menu-item">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Bảng điểm</span>
+        </a>
+
+        <a href="/studentProfile/DE170681" class="menu-item">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
-        </a>
+      </a>
+      
+      
       </div>
     </div>
    

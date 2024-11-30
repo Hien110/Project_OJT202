@@ -20,4 +20,6 @@ public interface CheckAttendanceRepository extends JpaRepository<CheckAttendance
     int updateCheckAttendance(@Param("checkAttendance") boolean checkAttendance, 
                               @Param("scheduceID") Long scheduceID, 
                               @Param("studentID") String studentID);
+
+       CheckAttendance findByScheduce_scheduceIDAndStudentProfile_studentID(Long ScheduceID , String studentID);
 }

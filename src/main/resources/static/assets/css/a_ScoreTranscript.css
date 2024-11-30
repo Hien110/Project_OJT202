@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    padding: 0;
+}
+
+.container_scheduceMajor {
+    padding-top: 100px;
+    padding-left: 280px;
+}
+
+.image-button {
+    width: 290px;
+    height: 37vh;
+    background-size: cover;
+    background-color: #fff;
+    background-position: center;
+    border: none;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    cursor: pointer;
+    flex-basis: calc(18%);
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.image-button:hover {
+    transform: scale(1.05); /* Phóng to nút khi hover */
+    background-color: #f0f0f0; /* Thay đổi màu nền */
+    color: #4da6fb; /* Thay đổi màu chữ */
+}
+
+.image-button::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.2); /* Màu đen bán trong suốt mặc định */
+    transition: height 0.3s ease, background-color 0.3s ease;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.image-button:hover::before {
+    height: 100%; /* Phủ toàn bộ nút khi hover */
+    border-radius: 15px;
+    background: rgba(77, 166, 251, 0.2); /* Màu xanh nhạt bán trong suốt */
+}
+
+.button-text {
+    position: relative;
+    transition: transform 0.3s ease, font-size 0.3s ease, color 0.3s ease;
+}
+
+.image-button:hover .button-text {
+    transform: translateY(-10px); /* Di chuyển chữ lên trên */
+    font-size: 18px; /* Tăng kích thước chữ */
+    color: #4da6fb; /* Đổi màu chữ */
+}
+
+.scheduceMajor {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: unset;
+    gap: 10px;
+}
+
+.title_scheduce {
+    text-align: center; 
+    font-size: 40px; 
+    font-weight: bold; 
+    margin-top: 10px;
+    margin-bottom: 15px;
+    color: #4da6fb;
+}

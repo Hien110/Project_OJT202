@@ -40,7 +40,7 @@ public class UniClassService {
         return uniClassRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("UniClass not found with ID: " + id));
     }
-
+//
     public UniClass getUniClassById(Long id) {
         return uniClassRepository.findById(id).orElseThrow(() -> new RuntimeException("UniClass not found"));
     }
@@ -52,5 +52,9 @@ public class UniClassService {
     @Transactional
     public void deleteUniClass(String subjectID) {
         uniClassRepository.deleteBySubject_SubjectID(subjectID);
+    } 
+    public String getSubjectIdByUniClassId(Long uniClassId) {
+        UniClass uniClass = uniClassRepository.findById(uniClassId).orElse(null);
+        return (uniClass != null && uniClass.getSubject() != null) ? uniClass.getSubject().getSubjectID() : null;
     }
 }
