@@ -56,10 +56,8 @@ public String showUniClasses(Model model) {
         }
     ));
     model.addAttribute("feedbackAvailabilityMap", feedbackAvailabilityMap);
-    
-
     model.addAttribute("uniClasses", uniClasses);
-    model.addAttribute("feedbackAvailabilityMap", feedbackAvailabilityMap);
+  
     return "uniClassList"; // Tên file HTML
 }
 
@@ -148,6 +146,7 @@ public String showFeedbackForm(@RequestParam("id") Long uniClassId,
     
         return "redirect:/uniClasses";
     }
+    
 }
 
 

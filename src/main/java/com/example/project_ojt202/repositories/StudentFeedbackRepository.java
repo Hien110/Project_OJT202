@@ -10,5 +10,6 @@ import com.example.project_ojt202.models.StudentFeedback;
 public interface StudentFeedbackRepository extends JpaRepository<StudentFeedback, Long> {
     boolean existsByStudentProfile_StudentIDAndUniClass_UniClassId(String studentID, Long uniClassId);
     List<StudentFeedback> findByStudentProfile_StudentIDAndUniClass_UniClassId(String studentId, Long uniClassId);
+    
 }
 

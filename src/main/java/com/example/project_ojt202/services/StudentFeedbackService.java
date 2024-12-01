@@ -1,10 +1,7 @@
 package com.example.project_ojt202.services;
-
 import com.example.project_ojt202.models.StudentFeedback;
 import com.example.project_ojt202.repositories.StudentFeedbackRepository;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +20,5 @@ public class StudentFeedbackService {
     public List<StudentFeedback> getFeedbackForClassAndStudent(String studentID, Long uniClassId) {
         return studentFeedbackRepository.findByStudentProfile_StudentIDAndUniClass_UniClassId(studentID, uniClassId);
     }
-    
+   
 }
