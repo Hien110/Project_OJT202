@@ -27,6 +27,11 @@
     height: 200px;      
     object-fit: contain;
 }
+.card.no-image .card-content {
+    padding: 15px;
+    flex: 1;
+    text-align: center;
+}
 .card-content {
     position: relative;
     padding: 20px;
@@ -163,7 +168,8 @@
      margin: 15% auto; /* 15% from the top and centered */
      padding: 20px;
      border: 1px solid #888;
-     width: 80%; /* Could be more or less, depending on screen size */
+     width: 62%;
+     margin-right :100px;
  }
 
  .close {
@@ -191,7 +197,7 @@ label {
 }
 
 input[type="text"], textarea {
-    width: 100%; /* Full width for inputs */
+    width: 99%; /* Full width for inputs */
     padding: 10px; /* Padding inside input */
     border: 1px solid #ccc; /* Border style */
     border-radius: 4px; /* Rounded corners */

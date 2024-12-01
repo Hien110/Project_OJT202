@@ -80,4 +80,8 @@ public class LectureProfileService {
         return lectureProfileRepository.findByMajor_majorID(majorID);
     }
     
+
+    public List<LectureProfile> findLecturersByMajorAndLeadMajor(String majorID) {
+        return lectureProfileRepository.findByMajor_MajorIDAndLeadMajorTrue(majorID);
+    }
 }

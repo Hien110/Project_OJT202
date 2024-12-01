@@ -1,5 +1,6 @@
 package com.example.project_ojt202.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -52,11 +53,20 @@ public class LoginController {
     }
 
     @GetMapping("/home")
-    public String showHomeStudentPage(Model model, HttpSession session) {
-        List<Notification> notifications = notificationService.findAll();
-        model.addAttribute("notifications", notifications);
-        return "home";
-    }
+public String showHomeStudentPage(Model model, HttpSession session) {
+    List<Notification> notifications = notificationService.findAll();
+    // Lọc thông báo hôm nay
+    LocalDate today = LocalDate.now();
+    List<Notification> todayNotifications = notifications.stream()
+            .filter(notification -> notification.getNotificationDate().isEqual(today))
+            .toList();
+    
+    // Lưu vào session để có thể hiển thị trên header
+    session.setAttribute("todayNotifications", todayNotifications);
+    model.addAttribute("notifications", notifications);
+    model.addAttribute("todayNotifications", todayNotifications); // Danh sách thông báo hôm nay
+    return "home";
+}
 
 
     @GetMapping("/taiLieu")
@@ -66,10 +76,14 @@ public class LoginController {
 
     @GetMapping("/feedBack")
     public String showFeedBackPage() {
-        return "a_feedBack";
+        return "afeedBack";
     }
-
-
+    
+    @GetMapping("/viewfeedBack")
+    public String showViewFeedBackPage() {
+        return "viewfeedback";
+    }
+    
     @GetMapping("/classRoom")
     public String showClassRoom() {
         return "classRoom";
@@ -102,6 +116,7 @@ public class LoginController {
                         StudentProfile student = studentProfileService
                                 .getStudentProfileByStudentID(studentProfile.getStudentID());
                         session.setAttribute("profileAccount", student);
+                        
                         break;
                     case "lecturer": 
                         LectureProfile lectureProfile = account.getLectureProfile();

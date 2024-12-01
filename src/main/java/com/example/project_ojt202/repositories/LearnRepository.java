@@ -8,5 +8,5 @@ import com.example.project_ojt202.models.Learn;
 
 public interface LearnRepository extends JpaRepository<Learn, Long> {
     List<Learn> findByUniClass_UniClassId(Long uniClassId);
-    List<Learn> findByStudentProfile_StudentID(String StudentID);
+    List<Learn> findByStudentProfile_StudentID(String studentID);
 }

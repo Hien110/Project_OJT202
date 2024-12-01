@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PrerequisiteSubjectRepository extends JpaRepository<PrerequisiteSubject, Long> {
     List<PrerequisiteSubject> findByPrerequisiteSubjectID(String prerequisiteSubjectID);
+    List<PrerequisiteSubject> findBySubjectSubjectID(String subjectID);
 }
