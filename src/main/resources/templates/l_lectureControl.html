@@ -1,48 +1,149 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Student Manage</title>
+        <script src="/assets/js/headerNav.js"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/headerNav.css}" />
 
-<head>
-    <script src="/assets/js/headerNav.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/l_lectureControl.css}" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chức năng giảng viên</title>
-</head>
+        <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 0;
+      }
 
-<body>
-    <div class="headerDiv">
-        <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
-    </div>
-    <div class="navLectureDiv">
-        <div id="navLectureDiv" th:insert="~{headerNav :: navLecture}"></div>
-    </div>
-    <div class="theme">
-        <h1>Chức năng Giảng viên</h1>
-        <div class="button-container">
-            <form th:action="@{/lecture/l_listClassTakeAttendance}" method="get">
-                <button type="submit">Điểm Danh</button>
-            </form>
-            <form th:action="@{/scheduceMajor}" method="post">
-                <button type="submit">Tài Liệu</button>
-            </form>
-            <form th:action="@{/createTest}" method="get">
-                <button type="submit">Tạo Bài Kiểm Tra</button>
-            </form>
-            <form th:action="@{/listClassesTest}" method="get">
-                <button type="submit">Xem Bài Kiểm Tra</button>
-            </form>
-            <form th:action="@{/scheduceMajor}" method="post">
-                <button type="submit">Điểm Số</button>
-            </form>
-            <form th:action="@{/lecture/l-list-classes}" method="get">
-                <button type="submit">Danh sách lớp</button>
-            </form>
+      .container_studentManage {
+        padding-top: 100px;
+        padding-left: 280px;
+      }
+
+      .title_scheduce {
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        color: #4da6fb;
+      }
+
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(200px, 1fr)
+        ); /* Sử dụng tự động căn lưới */
+        gap: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px 0;
+      }
+
+      /* Căn giữa hàng cuối khi có một nút duy nhất */
+      .button-grid > form:last-child:nth-child(odd) {
+        grid-column: span 2; /* Đặt nút cuối cùng chiếm hai cột */
+        justify-self: center; /* Căn giữa nút cuối cùng */
+      }
+
+      .btn-function {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #4da6fb;
+        color: #fff;
+        border: none;
+        width: 300px;
+        height: 100px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-position 0.3s ease; /* Cập nhật vị trí gradient khi hover */
+        background-image: linear-gradient(
+          to right,
+          #4da6fb 50%,
+          #388bd1 50%
+        ); /* Đặt màu nền gradient từ trái sang phải */
+        background-size: 200% 100%; /* Kích thước của gradient */
+        background-position: left bottom; /* Mới bắt đầu ở bên trái */
+        gap: 8px; /* Khoảng cách giữa icon và text */
+      }
+
+      .btn-function:hover {
+        background-position: right bottom; /* Khi hover, chuyển gradient từ trái sang phải */
+      }
+
+      .btn-function svg {
+        width: 24px; /* Kích thước width của SVG */
+        height: 24px; /* Kích thước height của SVG */
+        fill: #fff; /* Màu của icon */
+        flex-shrink: 0; /* Ngăn SVG bị co lại */
+      }
+    </style>
+    </head>
+    <body>
+        <div th:insert="~{headerNav :: header}"></div>
+        <div th:insert="~{headerNav :: navAdmin}"></div>
+        <div class="container_studentManage">
+            <p class="title_scheduce">Quản Lí Sinh Viên</p>
+            <div class="button-grid">
+                <form th:action="@{/scheduceMajor}" method="get">
+                    <button class="btn-function">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+                                d="M384 480l48 0c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224l-400 0c-11.4 0-21.9 6-27.6 15.9L48 357.1 48 96c0-8.8 7.2-16 16-16l117.5 0c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8L416 144c8.8 0 16 7.2 16 16l0 32 48 0 0-32c0-35.3-28.7-64-64-64L298.5 96c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7L64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l23.7 0L384 480z" /></svg>
+                        Tài Liệu
+                    </button>
+                </form>
+                <form th:action="@{/lecture/l_listClassTakeAttendance}" method="get">
+                    <button class="btn-function">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+                                d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm64 80l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm128 0l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM64 400l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm112 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16z" /></svg>
+                        Điểm Danh Sinh Viên
+                    </button>
+                </form>
+                <form th:action="@{/createTest}" method="get">
+                    <button class="btn-function">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" /></svg>
+                        Tạo Bài Kiểm Tra
+                    </button>
+                </form>
+                <form th:action="@{/listClassesTest}" method="get">
+                    <button class="btn-function">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+                                d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" /></svg>
+                        Xem Bài Kiểm Tra
+                    </button>
+                </form>
+                <form th:action="@{/scheduceMajor}" method="get">
+                    <button class="btn-function">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+                                d="M481 31C445.1-4.8 386.9-4.8 351 31l-15 15L322.9 33C294.8 4.9 249.2 4.9 221.1 33L135 119c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L255 66.9c9.4-9.4 24.6-9.4 33.9 0L302.1 80 186.3 195.7 316.3 325.7 481 161c35.9-35.9 35.9-94.1 0-129.9zM293.7 348.3L163.7 218.3 99.5 282.5c-48 48-80.8 109.2-94.1 175.8l-5 25c-1.6 7.9 .9 16 6.6 21.7s13.8 8.1 21.7 6.6l25-5c66.6-13.3 127.8-46.1 175.8-94.1l64.2-64.2z" /></svg>
+                        Điểm Số
+                    </button>
+                </form>
+                <form th:action="@{/lecture/l-list-classes}" method="get">
+                    <button class="btn-function">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+                                d="M24 56c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24l0 120 16 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l16 0 0-96-8 0C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432l33.2 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-88 0c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" /></svg>
+                        Danh sách lớp
+                    </button>
+                </form>
+            </div>
         </div>
-
-    </div>
-
-</body>
-
+    </body>
 </html>
