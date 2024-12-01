@@ -26,6 +26,10 @@ public class Feedback {
 
     @Column(name = "feedbackName")
     private String feedbackName;
-
-  
+    @Column(name = "status")
+    private String status; 
+    public Feedback(Long feedbackID, String status) {
+        this.feedbackID = feedbackID;
+        this.status = status;
+}
 }

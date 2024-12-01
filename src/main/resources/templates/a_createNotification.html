@@ -13,7 +13,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>        
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
-    
+    <!-- Toast CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
 <body>
     <div th:insert="~{headerNav :: header}"></div>
@@ -34,7 +35,6 @@
             </div>
         </div>
 
-        
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -74,6 +74,7 @@
                     <span th:text="${#temporals.format(notification.notificationDate, 'yyyy-MM-dd')}"></span>
                     <h2 th:text="${notification.notificationName}"></h2>
                     <p th:text="${notification.notificationContent}"></p>
+                    
                 </div>
                 <div class="card-actions">
                     <button class="edit" data-id="${notification.notificationID}">Edit</button>
@@ -128,12 +129,13 @@
                                 loadNotifications();
                                 resetForm();
                                 $("#myModal").css("display", "none"); // Đóng modal
+                                toastr.success('Thông báo đã được tạo thành công!');
                             } else {
-                                alert("Error occurred while saving.");
+                                toastr.error('Có lỗi xảy ra trong quá trình lưu thông báo.');
                             }
                         },
                         error: function() {
-                            alert("An error occurred while processing the request.");
+                            toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu.');
                         }
                     });
                 });
@@ -149,8 +151,7 @@
                             $("#notificationContent").val(notification.notificationContent);
                             $("#notificationImage").val(notification.notificationImage);
                             $("#myModal").css("display", "block"); // Mở modal khi chỉnh sửa
-                            
-                            // Thay đổi tiêu đề của modal
+                             // Thay đổi tiêu đề của modal
                             $(".modal-content h2").text("Chỉnh sửa thông báo");
                             // Thay đổi nội dung nút bấm
                             $("#notificationForm .form-group button[type='submit']").text("Chỉnh sửa thông báo");
@@ -167,8 +168,9 @@
                         success: function(response) {
                             if (response === "success") {
                                 loadNotifications();
+                                toastr.success('Thông báo đã được xóa thành công!');
                             } else {
-                                alert("Error occurred while deleting.");
+                                toastr.error('Có lỗi xảy ra trong quá trình xóa.');
                             }
                         }
                     });
@@ -179,25 +181,27 @@
                 $.get("/notifications/list", function(notifications) {
                     // Sắp xếp thông báo theo ngày, mới nhất trước
                     notifications.sort((a, b) => new Date(b.notificationDate) - new Date(a.notificationDate));
-                    
-                    const cards = notifications.map(n => `
-                        <div class="card">
-                            <img src="${n.notificationImage}" alt="Notification Image" />
-                            <div class="card-content">
-                                <span>${new Date(n.notificationDate).toISOString().split('T')[0]}</span>
-                                <h2>${n.notificationName}</h2>
-                                <p>${n.notificationContent}</p>
+
+                    const cards = notifications.map(n => {
+                        const hasImage = n.notificationImage && n.notificationImage.trim() !== '';
+                        return `
+                            <div class="card ${hasImage ? '' : 'no-image'}">
+                                ${hasImage ? `<img src="${n.notificationImage}" alt="Notification Image" />` : ''}
+                                <div class="card-content">
+                                    <span>${new Date(n.notificationDate).toISOString().split('T')[0]}</span>
+                                    <h2>${n.notificationName}</h2>
+                                    <p>${n.notificationContent}</p>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="edit" data-id="${n.notificationID}">Edit</button>
+                                    <button class="delete" data-id="${n.notificationID}">Delete</button>
+                                </div>
                             </div>
-                            <div class="card-actions">
-                                <button class="edit" data-id="${n.notificationID}">Edit</button>
-                                <button class="delete" data-id="${n.notificationID}">Delete</button>
-                            </div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                     $(".card-container").html(cards);
                 });
             }
-
 
             function resetForm() {
                 $("#notificationForm")[0].reset();
@@ -206,26 +210,8 @@
                 $("#preview").empty();
             }
         </script>
-<script type="text/javascript">  
-    var myWidget = cloudinary.createUploadWidget({
-        cloudName: 'dk6pemrxq', 
-        uploadPreset: 'notification'
-    }, (error, result) => { 
-        if (!error && result && result.event === "success") { 
-        // Phân biệt giữa hình ảnh và các loại tệp khác
-        if (result.info.resource_type === 'image') {
-            console.log('Done! Here is the image info: ', result.info.secure_url);
-            // Lưu URL vào ô ẩn cho hình ảnh
-            document.getElementById("notificationImage").value = result.info.secure_url;
-        } else {
-            console.log('Done! Here is the file info: ', result.info.secure_url);
-            // Lưu URL vào ô ẩn cho tệp khác
-            document.getElementById("notificationFile").value = result.info.secure_url;
-        }
-    }
-});
-    
-    document.getElementById("upload_widget").addEventListener("click", function(){
-        myWidget.open();
-    }, false);
-</script>
+
+        <!-- Toast JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    </body>
+</html>

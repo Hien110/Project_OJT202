@@ -1,6 +1,7 @@
 package com.example.project_ojt202.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,14 @@ public class UniClassService {
         List<UniClass> uniClasses = uniClassRepository.findBySemesterAndSubject_subjectID(semester, subjectID);
         return uniClasses;
     }
-
+    //minh
+    public List<UniClass> getAllUniClasses() {
+        return uniClassRepository.findAll();  
+    }
+    public UniClass getUniClassByIds(Long uniClassId) {
+        Optional<UniClass> uniClassOptional = uniClassRepository.findById(uniClassId);
+        return uniClassOptional.orElse(null); // Trả về null nếu không tìm thấy UniClass
+    }
     // Linh
     public List<UniClass> getClassesByLectureID(String lectureID) {
         return uniClassRepository.findByLectureProfileLectureID(lectureID);
