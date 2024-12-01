@@ -1,0 +1,145 @@
+ /* CSS thuần cho bảng và phân trang */
+ .student-list-container {
+     padding-left: 280px;
+     margin-left: 260px;
+     padding-top: 100px;
+     max-width: 1200px;
+     margin-right: auto;
+     margin-left: auto;
+ }
+
+ h1 {
+     font-size: 24px;
+     margin-bottom: 20px;
+ }
+
+ table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-bottom: 20px;
+ }
+
+ th,
+ td {
+     padding: 12px;
+     text-align: left;
+     border: 1px solid #ddd;
+ }
+
+ th {
+     background-color: #f4f4f4;
+     font-weight: bold;
+ }
+
+
+
+ .btn {
+     display: inline-block;
+     padding: 8px 16px;
+     color: white;
+     background-color: #007bff;
+     border-radius: 4px;
+     text-decoration: none;
+     font-size: 14px;
+ }
+
+ .btn-info {
+     background-color: #17a2b8;
+ }
+
+ .btn-sm {
+     font-size: 12px;
+ }
+
+ .pagination {
+     list-style-type: none;
+     padding: 0;
+     display: flex;
+     justify-content: center;
+ }
+
+ .pagination li {
+     margin: 0 5px;
+ }
+
+ .pagination a {
+     text-decoration: none;
+     padding: 8px 16px;
+     background-color: #f4f4f4;
+     border-radius: 4px;
+     color: #007bff;
+ }
+
+ .pagination a:hover {
+     background-color: #ddd;
+ }
+
+ .pagination .disabled a {
+     color: #ccc;
+     pointer-events: none;
+ }
+
+ .pagination .active a {
+     background-color: #007bff;
+     color: white;
+ }
+
+ /* CSS cho các phần tử trên cùng một hàng */
+ .filter-container {
+     display: flex;
+     align-items: center;
+     /* Canh chỉnh theo chiều dọc */
+     justify-content: flex-start;
+     /* Canh chỉnh theo chiều ngang, có thể dùng 'space-between' nếu muốn chia đều */
+     gap: 20px;
+     /* Khoảng cách giữa các phần tử */
+     margin-bottom: 20px;
+     /* Khoảng cách dưới phần lọc */
+ }
+
+ /* CSS cho các phần tử lọc */
+ .filter-container select,
+ .filter-container input {
+     padding: 8px 16px;
+     font-size: 14px;
+     border-radius: 4px;
+     width: 200px;
+     /* Đảm bảo tất cả các ô chọn có cùng kích cỡ */
+ }
+
+ /* CSS cho tiêu đề */
+ h1 {
+     font-size: 24px;
+     margin-bottom: 20px;
+     margin-left: 10px;
+     color: #4da6fb;
+ }
+
+ /* CSS cho ảnh đại diện và tên sinh viên */
+ td img {
+     width: 80px;
+     /* Tăng kích cỡ avatar */
+     height: 80px;
+     border-radius: 50%;
+     /* Vẫn giữ avatar dạng tròn */
+     margin-bottom: 5px;
+     /* Khoảng cách giữa avatar và tên */
+     display: block;
+     /* Đảm bảo ảnh đại diện và tên nằm theo chiều dọc */
+ }
+
+ td .student-name {
+     font-weight: bold;
+     text-align: center;
+     /* Căn giữa tên sinh viên */
+     display: block;
+     /* Đảm bảo tên nằm dưới avatar */
+ }
+
+ /* Nếu bạn muốn căn chỉnh trong cột thêm chút nữa */
+ td {
+     text-align: center;
+     /* Căn giữa các nội dung trong cột */
+     vertical-align: middle;
+     /* Căn giữa theo chiều dọc */
+ }

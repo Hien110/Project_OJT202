@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
@@ -21,10 +22,12 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class StudentProfile {
     @Id
     @Column(name = "studentID")
     private String studentID;
+
     @Column(name = "firstName")
     private String firstName;
 
@@ -52,7 +55,6 @@ public class StudentProfile {
     @Column(name = "schoolYear")
     private int schoolYear;
 
-
     @ManyToOne
     @JoinColumn(name = "majorID")
     private Major major;
@@ -60,6 +62,10 @@ public class StudentProfile {
     @OneToOne
     @JoinColumn(name = "parentID")
     private ParentProfile parent;
+
+    @Column(name = "avatar")  
+    private String avatar;
+     
     public StudentProfile(String studentID) {
         this.studentID = studentID;
     }

@@ -11,11 +11,14 @@ import com.example.project_ojt202.repositories.SubjectRepository;
 import com.example.project_ojt202.repositories.MajorRepository;
 import com.example.project_ojt202.repositories.PrerequisiteSubjectRepository;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +38,7 @@ public class SubjectService {
         Subject subject = subjectRepository.findBySubjectID(subjectID);
         return subject;
     }
+
     // H.anh
     @Autowired
     private SubjectRepository subjectRepository;
@@ -56,21 +60,21 @@ public class SubjectService {
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
-                // int stt = (int) row.getCell(0).getNumericCellValue();
-                String subjectName = row.getCell(1).getStringCellValue();
-                String subjectId = row.getCell(2).getStringCellValue();
-                int subjectCredit = (int) row.getCell(3).getNumericCellValue();
-                int ternNo = (int) row.getCell(4).getNumericCellValue();
-                String majorId = row.getCell(5).getStringCellValue();
+                // Lấy các giá trị từ các cột, sử dụng phương thức nhận diện kiểu dữ liệu tự
+                // động
+                String subjectName = getCellValueAsString(row, 1); // Cột Subject Name
+                String subjectId = getCellValueAsString(row, 2); // Cột Subject ID
+                int subjectCredit = getCellValueAsInt(row, 3); // Cột Subject Credit
+                int ternNo = getCellValueAsInt(row, 4); // Cột Tern No
+                String majorId = getCellValueAsString(row, 5); // Cột Major ID
 
-                // Lấy đối tượng Major từ majorID
+                // Lấy đối tượng Major từ majorId
                 Major major = majorRepository.findByMajorID(majorId);
 
-                // Tạo Subject
+                // Tạo đối tượng Subject
                 Subject subject = new Subject(subjectId, subjectName, subjectCredit, ternNo, major);
 
                 subjects.add(subject);
-
             }
         } catch (IOException e) {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
@@ -82,30 +86,69 @@ public class SubjectService {
         return subjects;
     }
 
+    // Phương thức lấy giá trị ô dưới dạng String
+    private String getCellValueAsString(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return "";
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return "";
+        }
+    }
+
+    // Phương thức lấy giá trị ô dưới dạng int
+    private int getCellValueAsInt(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return 0;
+        }
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                return (int) cell.getNumericCellValue();
+            case STRING:
+                try {
+                    return Integer.parseInt(cell.getStringCellValue());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            default:
+                return 0;
+        }
+    }
+
     public List<PrerequisiteSubject> processExcelFile1(MultipartFile file) throws IOException {
         List<PrerequisiteSubject> listPrerequisiteSubjects = new ArrayList<>();
-        List<Subject> subjects = new ArrayList<>();
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
 
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
-                String subjectName = row.getCell(1).getStringCellValue();
-                String subjectId = row.getCell(2).getStringCellValue();
-                int subjectCredit = (int) row.getCell(3).getNumericCellValue();
-                int ternNo = (int) row.getCell(4).getNumericCellValue();
-                String majorId = row.getCell(5).getStringCellValue();
+                // Lấy các giá trị từ các cột, sử dụng phương thức nhận diện kiểu dữ liệu tự
+                // động
+                String subjectName = getCellValueAsString(row, 1); // Cột Subject Name
+                String subjectId = getCellValueAsString(row, 2); // Cột Subject ID
+                int subjectCredit = getCellValueAsInt(row, 3); // Cột Subject Credit
+                int ternNo = getCellValueAsInt(row, 4); // Cột Tern No
+                String majorId = getCellValueAsString(row, 5); // Cột Major ID
 
-                // Lấy đối tượng Major từ majorID
+                // Lấy đối tượng Major từ majorId
                 Major major = majorRepository.findByMajorID(majorId);
 
-                // Tạo Subject
+                // Tạo đối tượng Subject
                 Subject subject = new Subject(subjectId, subjectName, subjectCredit, ternNo, major);
 
-                subjects.add(subject);
-
-                String prerequisiteSubjects = row.getCell(6).getStringCellValue(); // Cột môn tiên quyết
+                String prerequisiteSubjects = getCellValueAsString(row, 6); // Cột môn tiên quyết
 
                 // Xử lý môn tiên quyết
                 String[] prerequisiteIds = prerequisiteSubjects.split(","); // Phân tách danh sách môn tiên quyết
@@ -116,7 +159,6 @@ public class SubjectService {
                     PrerequisiteSubject prerequisite = new PrerequisiteSubject(null, prerequisiteId, subject);
                     listPrerequisiteSubjects.add(prerequisite);
                 }
-
             }
         } catch (IOException e) {
             throw new IOException("Đã xảy ra lỗi khi đọc file. Vui lòng kiểm tra lại định dạng file");
@@ -136,7 +178,8 @@ public class SubjectService {
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
-                String prerequisiteSubjects = row.getCell(6).getStringCellValue(); // Cột môn tiên quyết
+                // Lấy giá trị của cột môn tiên quyết
+                String prerequisiteSubjects = getCellValueAsString(row, 6); // Cột môn tiên quyết
                 presite.add(prerequisiteSubjects);
             }
         } catch (IOException e) {
@@ -158,5 +201,15 @@ public class SubjectService {
                 PrerequisiteSubjectRepository.save(prerequisiteSubject);
             }
         }
+    }
+
+    // allOfSubject
+    public Page<Subject> getAllSubjects(int page, int size) {
+        return subjectRepository.findAll(PageRequest.of(page, size));
+    }
+
+    // Hàm lấy danh sách các môn học theo majorID và ternNo
+    public List<Subject> getSubjectsByMajorAndTern(String majorID, int ternNo) {
+        return subjectRepository.findByMajor_MajorIDAndTernNo(majorID, ternNo);
     }
 }

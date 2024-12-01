@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.UniClassRepository;
 
@@ -22,6 +23,11 @@ public class UniClassService {
         List<UniClass> uniClasses = uniClassRepository.findBySubject_subjectID(subjectID);
         return uniClasses;
     }
+
+    public List<UniClass> getUniClassBySubjectIDAndSemester(String semester, String subjectID) {
+        List<UniClass> uniClasses = uniClassRepository.findBySemesterAndSubject_subjectID(semester, subjectID);
+        return uniClasses;
+    }
     //minh
     public List<UniClass> getAllUniClasses() {
         return uniClassRepository.findAll();  
@@ -35,16 +41,35 @@ public class UniClassService {
         return uniClassRepository.findByLectureProfileLectureID(lectureID);
     }
 
-    public void saveUniClass(UniClass uniClass){
+    public void saveUniClass(UniClass uniClass) {
         uniClassRepository.save(uniClass);
     }
 
-    public UniClass getUniClassById(Long id){
+    public UniClass findById(Long id) {
+        return uniClassRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("UniClass not found with ID: " + id));
+    }
+//
+    public UniClass getUniClassById(Long id) {
         return uniClassRepository.findById(id).orElseThrow(() -> new RuntimeException("UniClass not found"));
     }
 
+    public List<String> getDistinctSemesters() {
+        return uniClassRepository.findDistinctSemesters();
+    }
+
     @Transactional
-    public void deleteUniClass(String subjectID){
+    public void deleteUniClass(String subjectID) {
         uniClassRepository.deleteBySubject_SubjectID(subjectID);
+    } 
+    public String getSubjectIdByUniClassId(Long uniClassId) {
+        UniClass uniClass = uniClassRepository.findById(uniClassId).orElse(null);
+        return (uniClass != null && uniClass.getSubject() != null) ? uniClass.getSubject().getSubjectID() : null;
+    }
+
+    //H.anh
+    // Hàm lấy danh sách UniClass theo danh sách Subject
+    public List<UniClass> getUniClassesBySubjects(List<Subject> subjects) {
+        return uniClassRepository.findBySubjectIn(subjects);
     }
 }

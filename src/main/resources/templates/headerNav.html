@@ -83,7 +83,7 @@
             <i class="fas fa-comment-alt"></i>
           <span>Quản lí feedback</span>
         </a>
-        <a href="#" class="menu-item">
+        <a th:href="@{/message}" class="menu-item">
           <i class="fas fa-comments"></i>
           <span>Chat</span>
         </a>
@@ -101,17 +101,21 @@
           <i class="fas fa-tv"></i>
           <span>Trang chủ</span>
         </a>
-        <a href="#" class="menu-item">
+        <a th:href="@{/l_lectureControl}" class="menu-item">
           <i class="fas fa-user-tie"></i>
           <span>Lớp học</span>
         </a>
-        <a href="#" class="menu-item">
+        <a th:if="${session.account.accountRole == 'lecturer' && session.account.lectureProfile.leadMajor == true}" href="#" class="menu-item">
           <i class="fas fa-users"></i>
           <span>Quản lí môn học</span>
         </a>
-        <a href="#" class="menu-item">
+        <a th:if="${session.account.accountRole == 'lecturer'}" th:href="@{/scheduceForLecturer/{lectureID}(lectureID = ${session.profileAccount.lectureID})}" class="menu-item">
           <i class="fas fa-calendar-alt"></i>
           <span>Thời khoá biểu</span>
+        </a>
+        <a th:href="@{/lecture/l_viewClass}" class="menu-item">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Quản lý bảng điểm</span>
         </a>
         <a href="#" class="menu-item">
             <i class="fas fa-comment-alt"></i>
@@ -135,11 +139,11 @@
           <i class="fas fa-tv"></i>
           <span>Trang chủ</span>
         </a>
-        <a th:href="@{/uniClasses}" class="menu-item">
+        <a href="/classManage_Student" class="menu-item">
           <i class="fas fa-user-tie"></i>
           <span>Lớp học</span>
         </a>
-        <a href="#" class="menu-item">
+        <a  th:if="${session.account.accountRole == 'student'}" th:href="@{/scheduceForStudent/{studentID}(studentID = ${session.profileAccount.studentID})}" class="menu-item">
           <i class="fas fa-calendar-alt"></i>
           <span>Thời khoá biểu</span>
         </a>
@@ -148,10 +152,18 @@
           <i class="fas fa-comments"></i>
           <span>Chat</span>
         </a>
-        <a href="#" class="menu-item">
+
+        <a href="/viewScoreTranscript" class="menu-item">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Bảng điểm</span>
+        </a>
+
+        <a th:if="${session.account.accountRole == 'student'}" th:href="@{/studentProfile/{studentID}(studentID = ${session.profileAccount.studentID})}" class="menu-item">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
-        </a>
+      </a>
+      
+      
       </div>
     </div>
    

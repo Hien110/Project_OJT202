@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Calendar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/l_showSchedule.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="/assets/js/l_showSchedule.js"></script>
+    <script src="/assets/js/headerNav.js"></script>
+</head>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    
+    <div class="content">
+        <h1>Lịch học</h1>
+        <div class="select">
+            <div>
+                <label class="labelSelect" for="semester">Semester</label>
+                <select class="semester" id="semester" onchange="updateWeeks()">
+                    <option value="Fall23">Fall 23</option>
+                    <option value="Spring24">Spring 24</option>
+                    <option value="Summer24">Summer 24</option>
+                    <option value="Fall24">Fall 24</option>
+                    <option value="Spring25">Spring 25</option>
+                    <option value="Summer25">Summer 25</option>
+                </select>
+            </div>
+            <div>
+                <label class="labelSelect" for="week">Week</label>
+                <select class="week" id="week">
+                    <option>Week</option>
+                </select>
+            </div>
+        </div>
+
+        <table class="calendar">
+            <thead>
+                <tr>
+                    <th style="vertical-align: middle; width: 40px">Slot</th>
+                    <th id="Mon"></th>
+                    <th id="Tue"></th>
+                    <th id="Wed"></th>
+                    <th id="Thu"></th>
+                    <th id="Fri"></th>
+                    <th id="Sat"></th>
+                    <th id="Sun"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="slot, slotIndex  : ${slots}" th:data-slot="${slot.name}">
+                    <td class="tableSlot">
+                        <h5 th:text="${slot.name}"></h5>
+                        <div>
+                            <div th:text="${slot.startTime}"></div>
+                            <div>-</div>
+                            <div th:text="${slot.endTime}"></div>
+                        </div>
+                    </td>
+                    <td th:each="day, dayIndex  : ${days}" class="droptarget" th:data-day="${day}">
+                        <ul class="calendarUl" th:each="entry : ${classSlotMap}">
+                            <!-- Lặp qua từng danh sách lịch theo classSlot -->
+                            <ul class="calendarUl calendarUl2" th:each="schedule : ${entry.value}">
+                                <li 
+                                    class="event" 
+                                    style="display: none;" 
+                                    th:id="${schedule.scheduceID }"  
+                                    th:data-date="${schedule.dateScheduce}" 
+                                >
+                                    <!-- Tên lớp -->
+                                    <span id="className" th:text="${entry.key.uniClassName}"></span><br />
+                                    
+                                    <!-- Thông tin giảng viên -->
+                                    <span class="lectureData" 
+                                          th:text="${entry.key.lectureProfile.firstName + ' ' + entry.key.lectureProfile.lastName}">
+                                    </span>
+                                    <br />
+                                    <!-- Thông tin phòng học -->
+                                    <span class="roomData" th:text="Phòng  + ' ' + ${schedule.uniClassRoom}"></span> <br/>
+                                    <span th:if="${checkAttendanceMap[schedule.scheduceID]} == 'Có mặt'" 
+                                        th:text="${checkAttendanceMap[schedule.scheduceID]}"
+                                        style="font-weight: 100; color: green;">
+                                    </span>
+                                    <span th:if="${checkAttendanceMap[schedule.scheduceID]} == 'Vắng mặt'" 
+                                        th:text="${checkAttendanceMap[schedule.scheduceID]}"
+                                        style="font-weight: 100; color: red;">
+                                    </span>
+                                    <span th:if="${checkAttendanceMap[schedule.scheduceID]} == 'Chưa điểm danh'" 
+                                        th:text="${checkAttendanceMap[schedule.scheduceID]}"
+                                        style="font-weight: 100; color: black;">
+                                    </span>
+
+                                    <!-- Thời gian lịch học -->
+                                    <span style="display: none" 
+                                          class="scheduceTime" 
+                                          th:text="${schedule.timeScheduce + ' - ' + schedule.dateScheduce}">
+                                        Giờ học - Ngày
+                                    </span>
+                                </li>
+                            </ul>
+                        </ul>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

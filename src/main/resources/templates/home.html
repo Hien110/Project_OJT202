@@ -17,7 +17,7 @@
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:if="${session.account.accountRole == 'student'}" th:insert="~{headerNav :: navStudent}"></div>
-    <div th:if="${session.account.accountRole == 'lecture'}" th:insert="~{headerNav :: navLecture}"></div>
+    <div th:if="${session.account.accountRole == 'lecturer'}" th:insert="~{headerNav :: navLecture}"></div>
     <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
     <div class="container">
         <div class="updates">
@@ -31,7 +31,7 @@
                 <div class="update-card">
                     <div class="update-card-header">
                         <div class="user-info">
-                            <img alt="User profile picture" src="https://placehold.co/50x50" />
+                            <img alt="User profile picture" src="https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png" style="border: 1px solid #4da6fb;"/>
                             <div>
                                 <div class="user-name">
                                     <!-- Tên người dùng -->

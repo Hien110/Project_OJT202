@@ -24,20 +24,16 @@ public class ScoreTranscriptController {
     // Display upload page
     @GetMapping("/uploadFileScoreTranscript")
     public String index() {
-        return "uploadFileScoreTranscript"; // Render the upload page without any data initially
+        return "uploadFileScoreTranscript"; // Render upload page
     }
 
     // Handle file upload and process Excel file
     @PostMapping("/uploadFileScoreTranscriptDetail")
     public String uploadExcel(@RequestParam("file") MultipartFile file, Model model) {
         try {
-            // Process the uploaded file and extract the data
+            // Process uploaded file
             List<ScoreTranscript> scoreTranscripts = excelService.processExcelFile(file);
-
-            // Add the list of students to the model to display on the page
             model.addAttribute("scoreTranscripts", scoreTranscripts);
-
-            // Add a flag to indicate that the file was uploaded successfully
             model.addAttribute("fileUploaded", true);
         } catch (IOException e) {
             model.addAttribute("uploadError", e.getMessage());
@@ -45,15 +41,19 @@ public class ScoreTranscriptController {
             model.addAttribute("uploadError", e.getMessage());
         }
 
-        // Render the same page with the uploaded data displayed
-        return "uploadFileScoreTranscript"; // The same Thymeleaf template is reused
+        return "uploadFileScoreTranscript"; // Render the same page
     }
 
-    // Save uploaded data to the database
+    // Save data to database
     @PostMapping("/submitUploadScoreTranscript")
     @ResponseBody
     public String submitData() {
         excelService.saveDataToDatabase();
         return "Dữ liệu đã được lưu thành công!";
     }
+
+    @GetMapping("/viewScoreTranscript")
+    public String viewScoreTranscript() {
+    return "viewscoretranscript"; // Trả về tên file template (không có đuôi .html)
+}
 }

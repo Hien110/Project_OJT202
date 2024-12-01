@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.StudentProfile;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.LectureProfileService;
@@ -26,32 +27,39 @@ public class ClassesController {
 
     @GetMapping("/l-list-classes")
     public String getClasses(@RequestParam(required = false) String semester, Model model, HttpSession session) {
-        String lectureID = (String) session.getAttribute("lectureID"); 
+        Account account = (Account) session.getAttribute("account");
+        String lectureID = null; 
         // String lectureID = "L001";
         List<UniClass> classes;
+        if (account != null && account.getLectureProfile() != null) {
+            lectureID = account.getLectureProfile().getLectureID();
+        }
 
         if (semester != null && !semester.isEmpty()) {
             classes = lecturerService.filterClassesBySemester(lectureID, semester);
+            
         } else {
             classes = lecturerService.getClassesForLecturer(lectureID);
         }
+        
 
         model.addAttribute("classes", classes);
         return "l_list-classes";
     }
 
     @GetMapping("/l_list-classes/{uniClassId}/l_list-students")
-    public String getStudentsInClass(@PathVariable String uniClassId, Model model) {
-        Long uniClassIdLong;
-        try {
-            uniClassIdLong = Long.valueOf(uniClassId);
-        } catch (NumberFormatException e) {
-            model.addAttribute("errorMessage", "Invalid class ID");
-            return "error"; 
+    public String getStudentsInClass(@PathVariable Long uniClassId, Model model) {
+        System.out.println("Class ID: " + uniClassId);
+    
+        // Sử dụng trực tiếp uniClassId mà không ép kiểu sang Long
+        List<StudentProfile> students = lecturerService.getStudentsForClass(uniClassId);
+        
+        // Kiểm tra nếu không có dữ liệu sinh viên
+        if (students == null || students.isEmpty()) {
+            model.addAttribute("errorMessage", "Không có sinh viên nào trong lớp");
+        } else {
+            model.addAttribute("students", students);
         }
-
-        List<StudentProfile> students = lecturerService.getStudentsForClass(uniClassIdLong);
-        model.addAttribute("students", students);
-        return "l_list-students"; 
+        return "l_list-student"; 
     }
 }

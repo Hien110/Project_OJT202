@@ -1,81 +1,110 @@
-<!-- list-students.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students List</title>
-    <style>
-        /* Embedded CSS */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+    <head>
+        <script src="/assets/js/headerNav.js"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/headerNav.css}" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/l_list-students.css}" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Students List</title>
+    </head>
+    <body>
+        <div class="headerDiv">
+            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+        </div>
+        <div class="navLectureDiv">
+            <div id="navLectureDiv"
+                th:insert="~{headerNav :: navLecture}"></div>
+        </div>
+        <div class="theme">
+            <h1 class="title">Danh sách sinh viên</h1>
+            <div>
+                <p th:if="${errorMessage}" th:text="${errorMessage}"
+                    style="color: red; text-align: center; margin-left: 120px;"></p>
+            </div>
+            <table class="tables">
+                <thead>
+                    <tr>
+                        <th>Mã Sinh Viên</th>
+                        <th> Họ Và Tên</th>
+                        <th>Ngày Sinh</th>
+                        <th>Email</th>
+                        <th>Số Điện Thoại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iterate over the list of students and display each student's information -->
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.studentID}"></td>
+                        <td
+                            th:text="${student.firstName} + ' '+ ${student.lastName}"></td>
+                        <td th:text="${student.dob}"></td>
+                        <td th:text="${student.email}"></td>
+                        <td th:text="${student.phoneNumber}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="changepage">
+                <button id="prevPage" onclick="changePage(-1)">Previous</button>
+                <span id="pageInfo"></span>
+                <button id="nextPage" onclick="changePage(1)">Next</button>
+            </div>
+        </div>
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const students = Array.from(document.querySelectorAll("tbody tr")); // Lấy tất cả hàng dữ liệu
+            const rowsPerPage = 5; // Số sinh viên tối đa trên mỗi trang
+            let currentPage = 1; // Trang hiện tại
 
-        h1 {
-            color: #333;
-        }
+            // Nếu không có dữ liệu sinh viên, dừng lại
+            if (students.length === 0) {
+                document.getElementById("pageInfo").innerText = "No students found.";
+                document.getElementById("prevPage").disabled = true;
+                document.getElementById("nextPage").disabled = true;
+                return;
+            }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+            const totalPages = Math.ceil(students.length / rowsPerPage);
 
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+            function renderPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
+                // Hiển thị hoặc ẩn các hàng theo trang
+                students.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? "" : "none";
+                });
 
-        th {
-            background-color: #f4f4f4;
-            color: #333;
-        }
+                // Cập nhật thông tin trang
+                document.getElementById("pageInfo").innerText = `Page ${page} of ${totalPages}`;
+                document.getElementById("prevPage").disabled = page === 1;
+                document.getElementById("nextPage").disabled = page === totalPages;
+            }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+            function changePage(direction) {
+                // Kiểm tra nếu trang mới nằm trong giới hạn hợp lệ
+                const newPage = currentPage + direction;
+                if (newPage >= 1 && newPage <= totalPages) {
+                    currentPage = newPage;
+                    renderPage(currentPage);
+                }
+            }
 
-        tr:hover {
-            background-color: #f1f1f1;
-        }
+            // Gán hàm `changePage` để sử dụng trong HTML
+            window.changePage = changePage;
 
-        p {
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Students in Class</h1>
-    <div>
-        <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Date of Birth</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Iterate over the list of students and display each student's information -->
-            <tr th:each="student : ${students}">
-                <td th:text="${student.studentID}">Student ID</td>
-                <td th:text="${student.firstName}">First Name</td>
-                <td th:text="${student.lastName}">Last Name</td>
-                <td th:text="${student.dob}">Date of Birth</td>
-                <td th:text="${student.email}">Email</td>
-                <td th:text="${student.phoneNumber}">Phone Number</td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+            // Hiển thị trang đầu tiên khi tải xong
+            renderPage(currentPage);
+        });
+    </script>
+    </body>
 </html>
