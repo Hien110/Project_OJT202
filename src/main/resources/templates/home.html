@@ -59,37 +59,134 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="popular-groups post">
-        <div>
-            <h3>Popular Groups</h3>
-            <div class="group">
-                <img alt="Icon representing Street Artists group" src="https://placehold.co/40x40" />
-                <div class="group-info">
-                    <div class="group-name">Street Artists</div>
-                    <div class="group-members">4 members</div>
+        <div class="popular-groups post">
+            <div th:if="${session.account.accountRole == 'admin'}">
+                <h3>Tin nhắn</h3>
+        
+                <!-- Ô tìm kiếm -->
+                <input 
+                    type="text" 
+                    id="searchGroups" 
+                    placeholder="Tìm kiếm..." 
+                    style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+                />
+        
+                <!-- Danh sách nhóm -->
+                <div id="groupList">
+                   
+                    <div class="group" th:each="entry : ${listMessageLecture}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                           th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="group">
-                <img alt="Icon representing Cosplayers of the World group" src="https://placehold.co/40x40" />
-                <div class="group-info">
-                    <div class="group-name">Cosplayers of the World</div>
-                    <div class="group-members">3 members</div>
+            <div th:if="${session.account.accountRole == 'lecturer'}">
+                <h3>Tin nhắn</h3>
+        
+                <!-- Ô tìm kiếm -->
+                <input 
+                    type="text" 
+                    id="searchGroups" 
+                    placeholder="Tìm kiếm..." 
+                    style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+                />
+        
+                <!-- Danh sách nhóm -->
+                <div id="groupList">
+                    <div class="group">
+                        <a class="chatUser" style="display: flex; align-items: center;" th:href="@{/chatMessage/Admin}" >
+                            <img alt="Icon representing Street Artists group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" th:text="Admin"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="group" th:each="entry : ${listMessageLecture}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                           th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="group" th:each="entry : ${chatStudentMap}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                           th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${entry.key.studentProfile.lastName + ' ' + entry.key.studentProfile.firstName + '-' + entry.key.accountID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="group">
-                <img alt="Icon representing Stream Designers group" src="https://placehold.co/40x40" />
-                <div class="group-info">
-                    <div class="group-name">Stream Designers</div>
-                    <div class="group-members">3 members</div>
+            
+            <div th:if="${session.account.accountRole == 'student'}">
+                <h3>Tin nhắn</h3>
+        
+                <!-- Ô tìm kiếm -->
+                <input 
+                    type="text" 
+                    id="searchGroups" 
+                    placeholder="Tìm kiếm..." 
+                    style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+                />
+        
+                <!-- Danh sách nhóm -->
+                <div id="groupList">
+                    <div class="group" th:each="learn : ${listMessageStudent}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                        th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/src/main/resources/static/assets/js/homeStudent.js"></script>
+    <script>
+        // Lấy các phần tử HTML
+        const searchInput = document.getElementById('searchGroups');
+        const groupList = document.getElementById('groupList');
+        const groups = groupList.querySelectorAll('.group');
+    
+        // Lắng nghe sự kiện nhập liệu
+        searchInput.addEventListener('input', function () {
+            const filter = searchInput.value.toLowerCase();
+    
+            groups.forEach(group => {
+                const groupName = group.querySelector('.group-name').textContent.toLowerCase();
+    
+                // Kiểm tra nếu từ khóa trùng với tên nhóm
+                if (groupName.includes(filter)) {
+                    group.style.display = ''; // Hiển thị
+                } else {
+                    group.style.display = 'none'; // Ẩn
+                }
+            });
+        });
+    </script>
+    
 </body>
 
 </html>
