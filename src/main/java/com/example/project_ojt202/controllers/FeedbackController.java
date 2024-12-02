@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.project_ojt202.models.Feedback;
 import com.example.project_ojt202.models.FeedbackChoice;
+import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.FeedbackService;
+import com.example.project_ojt202.services.UniClassService;
 import com.example.project_ojt202.services.FeedbackChoiceService;
 
 @Controller
@@ -31,7 +33,8 @@ public class FeedbackController {
     
     @Autowired
     private FeedbackChoiceService feedbackChoiceService;
-
+     @Autowired
+    private UniClassService uniClassService;
 
     @GetMapping
 public String getAllFeedbacks(Model model) {
@@ -119,5 +122,14 @@ public String saveAllChoices(@RequestParam Long feedbackID,
     }
     return "redirect:/afeedBack";  
 }
+    @GetMapping("/uniClasses")
+public String showUniClasses(Model model) {
+    // Lấy danh sách tất cả lớp học
+    List<UniClass> uniClasses = uniClassService.getAllUniClasses();
+    model.addAttribute("uniClasses", uniClasses);
+  
+    return "uniClassList";
+}
+
 
 }

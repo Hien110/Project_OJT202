@@ -36,6 +36,9 @@ public class UniClassService {
         Optional<UniClass> uniClassOptional = uniClassRepository.findById(uniClassId);
         return uniClassOptional.orElse(null); // Trả về null nếu không tìm thấy UniClass
     }
+    public List<UniClass> searchUniClassesByLecturer(String lecturerName) {
+        return uniClassRepository.findByLectureProfileFirstNameContainingOrLectureProfileLastNameContaining(lecturerName, lecturerName);
+    }
     // Linh
     public List<UniClass> getClassesByLectureID(String lectureID) {
         return uniClassRepository.findByLectureProfileLectureID(lectureID);

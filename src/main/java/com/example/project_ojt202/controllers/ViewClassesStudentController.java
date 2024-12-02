@@ -1,6 +1,10 @@
 package com.example.project_ojt202.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,12 +52,29 @@ public class ViewClassesStudentController {
         // Lấy danh sách lớp học của sinh viên
         List<Learn> classes = learnService.getLearnByStudentID(studentID);
 
-        // Thêm danh sách lớp vào model để hiển thị trên view
-        model.addAttribute("classes", classes);
+        // Thêm thông tin về khả năng hiển thị nút phản hồi
+        Map<Long, Boolean> feedbackAvailabilityMap = classes.stream()
+                .map(Learn::getUniClass)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(
+                        UniClass::getUniClassId,
+                        uniClass -> {
+                            if (uniClass.getDateEndLearn() == null) {
+                                return false;
+                            }
+                            LocalDate now = LocalDate.now();
+                            LocalDate startFeedbackDate = uniClass.getDateEndLearn().minusDays(14);
+                            return (now.isAfter(startFeedbackDate) || now.isEqual(startFeedbackDate)) &&
+                                   (now.isBefore(uniClass.getDateEndLearn()) || now.isEqual(uniClass.getDateEndLearn()));
+                        }
+                ));
 
-        // Trả về view list-classforstudent để hiển thị danh sách lớp
-        return "s_list-classforstudent";
+        // Gắn dữ liệu vào model
+        model.addAttribute("classes", classes);
+        model.addAttribute("feedbackAvailabilityMap", feedbackAvailabilityMap);
+        return "s_list-classforstudent"; // Tên file HTML view
     }
+
 
     @GetMapping("/list-classforstudent/{SubId}/{Uniclass}/Learning")
     public String getTestsByUniClassId(@PathVariable String SubId, @PathVariable String Uniclass, Model model) {
