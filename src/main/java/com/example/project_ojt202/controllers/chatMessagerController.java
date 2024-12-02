@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/messages")
-public class ChatMessagerController {
+public class chatMessagerController {
 
 
  @Autowired
