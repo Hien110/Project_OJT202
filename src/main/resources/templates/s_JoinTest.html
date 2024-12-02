@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/s_joinTest.css}" />
+</head>
+
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    <div class="content">
+        <form action="/doTest" method="post">
+            <h1 th:text="${test.uniClass.uniClassName}">Lớp</h1>
+            <h3 th:text="${test.examName}"></h3>
+            <div>
+                <label for="pass">Nhập mật khẩu</label>
+                <input type="password" id="pass" name="pass">
+            </div>
+            <div class="password-toggle">
+                <label>
+                    <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
+                </label>
+            </div>
+            <input type="hidden" th:value="${test.testID}" name="testID">
+            <button>Xác Nhận</button>
+        </form>
+    </div>
+
+
+    <script>
+        document.getElementById("password-toggle").addEventListener('change', function () {
+            const passwordInput = document.getElementById("pass");
+            passwordInput.type = this.checked ? "text" : "password";
+        });
+    </script>
+</body>
+
+</html>

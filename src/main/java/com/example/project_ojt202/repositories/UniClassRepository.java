@@ -32,4 +32,6 @@ public interface UniClassRepository extends JpaRepository<UniClass, Long> {
     //H.Anh
     // Tìm các UniClass dựa trên danh sách Subject
     List<UniClass> findBySubjectIn(List<Subject> subjects);
+    //Minh
+    List<UniClass> findByLectureProfileFirstNameContainingOrLectureProfileLastNameContaining(String firstName, String lastName);
 }

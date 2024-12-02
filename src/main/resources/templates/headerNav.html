@@ -31,9 +31,11 @@
                             <div class="cont">
                                 <div class="sec" th:if="${session.todayNotifications != null}" th:each="notification : ${session.todayNotifications}">
                                     <a th:href="@{/notifications/view/{id}(id=${notification.notificationID})}">
-                                        <div class="profCont">
-                                            <img class="profile" th:src="${notification.notificationImage}" alt="Profile Image">
-                                        </div>
+                                      <div class="profCont">
+                                        <img class="profile" 
+                                          th:src="${notification.notificationImage != null && !notification.notificationImage.isEmpty() ? notification.notificationImage : 'https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png'}" style="object-fit: cover;"
+                                          alt="Profile Image" />
+                                    </div>                                    
                                         <div class="txt" th:text="${notification.notificationName}"></div>
                                         <div class="txt sub" th:text="${#temporals.format(notification.notificationDate, 'yyyy-MM-dd')}"></div>
                                     </a>
@@ -83,10 +85,6 @@
             <i class="fas fa-comment-alt"></i>
           <span>Quản lí feedback</span>
         </a>
-        <a th:href="@{/message}" class="menu-item">
-          <i class="fas fa-comments"></i>
-          <span>Chat</span>
-        </a>
         <a href="#" class="menu-item">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
@@ -122,10 +120,6 @@
           <span>Feedback của sinh viên</span>
         </a>
         <a href="#" class="menu-item">
-          <i class="fas fa-comments"></i>
-          <span>Chat</span>
-        </a>
-        <a href="#" class="menu-item">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
         </a>
@@ -147,12 +141,6 @@
           <i class="fas fa-calendar-alt"></i>
           <span>Thời khoá biểu</span>
         </a>
-
-        <a href="#" class="menu-item">
-          <i class="fas fa-comments"></i>
-          <span>Chat</span>
-        </a>
-
         <a href="/viewScoreTranscript" class="menu-item">
           <i class="fas fa-clipboard-list"></i>
           <span>Bảng điểm</span>

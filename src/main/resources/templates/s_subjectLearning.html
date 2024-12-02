@@ -1,47 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bài Kiểm Tra Của Môn Học</title>
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            rel="stylesheet" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/assets/css/headerNav.css}" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/assets/css/s_subjectLearning.css}" />
-    </head>
-    <body>
-        <div class="headerDiv">
-            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
-        </div>
-        <div class="navLectureDiv">
-            <div id="navLectureDiv"
-                th:insert="~{headerNav :: navLecture}"></div>
-        </div>
-        <div class="theme">
-            <div class="main">
-                <h1>Bài Kiểm Tra Của Môn Học</h1>
-                <div th:if="${error != null}">
-                    <p th:text="${error}"></p>
-                </div>
-                <p>Tài liệu</p>
-                <p>Bài kiểm tra</p>
-                <ul>
-                    <th:block th:each="test : ${scoreTranscripts}">
-                        <li class="test-item">
-                            <form>
-                            <span th:text="${test.nameTest}">Bài Kiểm Tra</span>
-                            </form>
-                        </li>
-                    </th:block>
-                </ul>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Của Môn Học</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/s_subjectLearning.css}" />
+</head>
+
+<body>
+    <div class="headerDiv">
+        <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+    </div>
+    <div class="navLectureDiv">
+        <div id="navLectureDiv" th:insert="~{headerNav :: navLecture}"></div>
+    </div>
+    <div class="theme">
+        <div class="main">
+            <h1>Bài Kiểm Tra Của Môn Học</h1>
+            <div th:if="${error != null}">
+                <p th:text="${error}"></p>
             </div>
+            <p>Tài liệu</p>
+            <p>Bài kiểm tra</p>
+            <ul>
+                <th:block th:each="test : ${test}">
+                    <li class="test-item">
+                        <!-- Hiển thị tên bài kiểm tra và liên kết đến trang chi tiết với testId -->
+                        <a th:href="@{/joinTest/{testID}(testID=${test.testID})}" th:text="${test.examName}">Bài Kiểm
+                            Tra</a>
+
+                    </li>
+                </th:block>
+            </ul>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

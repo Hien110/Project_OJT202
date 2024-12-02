@@ -26,4 +26,7 @@ public class StudentFeedbackService {
     public List<StudentFeedback> getFeedbackByUniClassId(Long uniClassId) {
         return studentFeedbackRepository.findByUniClass_UniClassId(uniClassId);
     }
+    public List<StudentFeedback> getFeedbackByClassId(Long classId) {
+        return studentFeedbackRepository.findFeedbackByClassId(classId);
+    }
 }

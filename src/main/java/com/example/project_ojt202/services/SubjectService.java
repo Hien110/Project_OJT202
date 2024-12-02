@@ -208,6 +208,10 @@ public class SubjectService {
         return subjectRepository.findAll(PageRequest.of(page, size));
     }
 
+    public Subject getSubjectById(String subjectID) {
+        return subjectRepository.findBySubjectID(subjectID);
+    }
+
     // Hàm lấy danh sách các môn học theo majorID và ternNo
     public List<Subject> getSubjectsByMajorAndTern(String majorID, int ternNo) {
         return subjectRepository.findByMajor_MajorIDAndTernNo(majorID, ternNo);

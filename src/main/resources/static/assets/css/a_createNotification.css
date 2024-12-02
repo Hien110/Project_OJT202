@@ -236,3 +236,8 @@ button[type="submit"]:hover, #upload_widget:hover {
 .styled-button:active {
     transform: scale(0.95);             /* Nhỏ lại khi nhấn */
 }
+.toast {
+    background-color: #00d01f ; /* Màu nền đậm hơn */
+    color: #ffffff ;           /* Chữ màu trắng */
+    border: 1px solid #000000 ; /* Viền đậm */
+}

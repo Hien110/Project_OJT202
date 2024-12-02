@@ -3,29 +3,41 @@
 
 <head>
     <title>Danh sách Lớp Học</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
     <style>
         /* Reset mặc định */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
-            background-color: #f4f4f9;
-            padding: 20px;
+            background-color: #f7f9fc;
+            color: #333;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
-            color: #333;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #4e73df;
+            font-weight: 600;
         }
 
         .alert {
-            padding: 10px 15px;
+            padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 5px;
         }
@@ -36,37 +48,32 @@
             border: 1px solid #f5c2c7;
         }
 
-        .success-message {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            border: 1px solid #badbcc;
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
         .class-container {
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
             margin-bottom: 20px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .class-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
 
         .class-container h2 {
-            color: #555;
-        }
-
-        .class-container h2:first-of-type {
-            font-size: 1.5rem;
-            font-weight: bold;
+            color: #333;
+            font-size: 1.3rem;
             margin-bottom: 10px;
+            font-weight: 500;
         }
 
-        .class-container h2:last-of-type {
+        .class-container p {
             font-size: 1rem;
-            color: #888;
+            color: #666;
+            margin-bottom: 15px;
         }
 
         .class-container a button {
@@ -78,26 +85,28 @@
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             text-align: center;
+            text-decoration: none;
         }
 
         .class-container a button:hover {
             background-color: #0056b3;
+            transform: translateY(-2px);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 20px;
             }
 
             .class-container {
                 padding: 15px;
             }
 
-            .class-container h2:first-of-type {
-                font-size: 1.3rem;
+            .class-container h2 {
+                font-size: 1.1rem;
             }
 
             .class-container a button {
@@ -105,30 +114,32 @@
                 padding: 8px 16px;
             }
         }
+        .container1{
+        padding-top: 100px;
+        padding-left: 280px;}
     </style>
 </head>
 
 <body>
-    <h1>Danh sách Lớp Học</h1>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
 
-    <!-- Hiển thị thông báo lỗi -->
-    <div th:if="${error}" class="alert alert-danger" role="alert">
-        <p th:text="${error}"></p>
-    </div>
-
-    <!-- Hiển thị thông báo thành công -->
-    <div th:if="${message}" class="success-message">
-        <p th:text="${message}"></p>
-    </div>
+    <div class="container1">
 
     <!-- Danh sách lớp học -->
     <div th:each="uniClass : ${uniClasses}" class="class-container">
         <h2 th:text="${uniClass.uniClassName}">Tên lớp học</h2>
-        <h2 th:text="${uniClass.uniClassId}">Mã lớp học</h2>
+        <p><strong>Mã lớp học:</strong> <span th:text="${uniClass.uniClassId}">Mã lớp học</span></p>
 
-        <a th:if="${feedbackAvailabilityMap != null and uniClass.uniClassId != null and feedbackAvailabilityMap[uniClass.uniClassId]}"
-            th:href="@{'/uniClasses/feedback'(id=${uniClass.uniClassId})}">
-            <button>Phản hồi</button>
+        <!-- Hiển thị tên giáo viên của lớp -->
+        <p><strong>Giáo viên phụ trách:</strong> 
+           <span th:text="${uniClass.lectureProfile.firstName} + ' ' + ${uniClass.lectureProfile.lastName}">
+               Tên giáo viên
+           </span>
+        </p>
+
+        <a th:href="@{'/feedback/class/' + ${uniClass.uniClassId}}" class="btn btn-primary">
+            <button>Xem phản hồi</button>
         </a>
     </div>
 </body>

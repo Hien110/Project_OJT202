@@ -28,4 +28,5 @@ public class FeedbackService {
     public List<Feedback> getAllFeedbacks() {
         return feedbackRepository.findAllByStatus("show");
     }
+    
 }
