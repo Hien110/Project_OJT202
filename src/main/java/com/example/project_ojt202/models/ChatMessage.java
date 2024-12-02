@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "CHATMESSAGE ")
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 
 public class ChatMessage {
     @Id
@@ -45,6 +47,10 @@ public class ChatMessage {
     private ChatRoom chatRoom;
 
     @ManyToOne
-    @JoinColumn(name = "accountID")
+    @JoinColumn(name = "accountSender")
     private Account accountSender;
+
+    @ManyToOne
+    @JoinColumn(name = "accountReceiver")
+    private Account accountReceiver;
 }

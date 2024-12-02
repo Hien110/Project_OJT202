@@ -24,7 +24,6 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/Student")
 public class ViewClassesStudentController {
     private final LearnService learnService;
-    private final UniClassService uniClassService;
     private final ScoreTranscriptService scoreTranscriptService;
     private final TestService testService;
 
@@ -32,7 +31,6 @@ public class ViewClassesStudentController {
     public ViewClassesStudentController(LearnService learnService, UniClassService uniClassService,
             ScoreTranscriptService scoreTranscriptService, TestService testService) {
         this.learnService = learnService;
-        this.uniClassService = uniClassService;
         this.scoreTranscriptService = scoreTranscriptService;
         this.testService = testService;
     }

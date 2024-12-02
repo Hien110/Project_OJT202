@@ -59,7 +59,7 @@ public class LectureProfileService {
         return uniClassRepository.findByLectureProfile_LectureIDAndSemester(lectureID, semester);
     }
 
-    //allOfLecturerList
+    // allOfLecturerList
     public Page<LectureProfile> getAllLecturers(int page, int size) {
         return lectureProfileRepository.findAll(PageRequest.of(page, size));
     }
@@ -74,5 +74,14 @@ public class LectureProfileService {
 
     public LectureProfile findByLectureID(String lectureID) {
         return lectureProfileRepository.findByLectureID(lectureID);
+    }
+    // Method to get all lecturers by majorID
+    public List<LectureProfile> getLecturersByMajor(String majorID) {
+        return lectureProfileRepository.findByMajor_majorID(majorID);
+    }
+    
+
+    public List<LectureProfile> findLecturersByMajorAndLeadMajor(String majorID) {
+        return lectureProfileRepository.findByMajor_MajorIDAndLeadMajorTrue(majorID);
     }
 }

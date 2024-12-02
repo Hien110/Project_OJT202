@@ -13,14 +13,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
 </head>
-<!-- hi -->
 
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:if="${session.account.accountRole == 'student'}" th:insert="~{headerNav :: navStudent}"></div>
     <div th:if="${session.account.accountRole == 'lecturer'}" th:insert="~{headerNav :: navLecture}"></div>
     <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
-      <div class="container">
+    <div class="container">
         <div class="updates">
             <div class="update-header">
                 <h2>All Updates</h2>
@@ -35,15 +34,13 @@
                             <img alt="User profile picture" src="https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png" style="border: 1px solid #4da6fb;"/>
                             <div>
                                 <div class="user-name">
+                                    <!-- Tên người dùng -->
                                 </div>
-                                <div class="user-role">
-                                    Notification
-                                </div>
+                                <div class="user-role">ADMIN</div>
                             </div>
                         </div>
                         <div th:if="${notification != null}">
-                            <div class="post-time" 
-                                 th:text="${notification.formattedDate}">
+                            <div class="post-time" th:text="${notification.formattedDate}">
                             </div>
                         </div>
                     </div>
@@ -52,44 +49,143 @@
                             <span th:text="${notification.notificationName}"></span>
                             <p th:text="${notification.notificationContent}"></p>
                         </div>
-                        <div class="notification-file" th:if="${notification.notificationFile != null}">
-                            <a th:href="${notification.notificationFile}" download>Tải về File</a>
+                        <div th:if="${notification.notificationFile != null and !notification.notificationFile.isEmpty()}">
+                            <a th:href="@{${notification.notificationFile}}" download>Tải về File</a>
                         </div>
                     </div>
-                    <img th:src="${notification.notificationImage}" alt="Image" />
-                </div>
-            </div>                                
-        </div>
-        <div class="popular-groups post">
-            <div>
-                <h3>Popular Groups</h3>
-                <div class="group">
-                    <img alt="Icon representing Street Artists group" src="https://placehold.co/40x40" />
-                    <div class="group-info">
-                        <div class="group-name">Street Artists</div>
-                        <div class="group-members">4 members</div>
-                    </div>
-                </div>
-                <div class="group">
-                    <img alt="Icon representing Cosplayers of the World group" src="https://placehold.co/40x40" />
-                    <div class="group-info">
-                        <div class="group-name">Cosplayers of the World</div>
-                        <div class="group-members">3 members</div>
-                    </div>
-                </div>
-                <div class="group">
-                    <img alt="Icon representing Stream Designers group" src="https://placehold.co/40x40" />
-                    <div class="group-info">
-                        <div class="group-name">Stream Designers</div>
-                        <div class="group-members">3 members</div>
+                    <div th:if="${notification.notificationImage != null and !notification.notificationImage.isEmpty()}">
+                        <img th:src="@{${notification.notificationImage}}" alt="Image" />
                     </div>
                 </div>
             </div>
         </div>
+        <div class="popular-groups post">
+            <div th:if="${session.account.accountRole == 'admin'}">
+                <h3>Tin nhắn</h3>
+        
+                <!-- Ô tìm kiếm -->
+                <input 
+                    type="text" 
+                    id="searchGroups" 
+                    placeholder="Tìm kiếm..." 
+                    style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+                />
+        
+                <!-- Danh sách nhóm -->
+                <div id="groupList">
+                   
+                    <div class="group" th:each="entry : ${listMessageLecture}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                           th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${session.account.accountRole == 'lecturer'}">
+                <h3>Tin nhắn</h3>
+        
+                <!-- Ô tìm kiếm -->
+                <input 
+                    type="text" 
+                    id="searchGroups" 
+                    placeholder="Tìm kiếm..." 
+                    style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+                />
+        
+                <!-- Danh sách nhóm -->
+                <div id="groupList">
+                    <div class="group">
+                        <a class="chatUser" style="display: flex; align-items: center;" th:href="@{/chatMessage/Admin}" >
+                            <img alt="Icon representing Street Artists group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" th:text="Admin"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="group" th:each="entry : ${listMessageLecture}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                           th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="group" th:each="entry : ${chatStudentMap}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                           th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${entry.key.studentProfile.lastName + ' ' + entry.key.studentProfile.firstName + '-' + entry.key.accountID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div th:if="${session.account.accountRole == 'student'}">
+                <h3>Tin nhắn</h3>
+        
+                <!-- Ô tìm kiếm -->
+                <input 
+                    type="text" 
+                    id="searchGroups" 
+                    placeholder="Tìm kiếm..." 
+                    style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+                />
+        
+                <!-- Danh sách nhóm -->
+                <div id="groupList">
+                    <div class="group" th:each="learn : ${listMessageStudent}">
+                        <a class="chatUser" style="display: flex; align-items: center;" 
+                        th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
+                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <div class="group-info">
+                                <div class="group-name" 
+                                     th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
-    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/src/main/resources/static/assets/js/homeStudent.js"></script>
+    <script>
+        // Lấy các phần tử HTML
+        const searchInput = document.getElementById('searchGroups');
+        const groupList = document.getElementById('groupList');
+        const groups = groupList.querySelectorAll('.group');
+    
+        // Lắng nghe sự kiện nhập liệu
+        searchInput.addEventListener('input', function () {
+            const filter = searchInput.value.toLowerCase();
+    
+            groups.forEach(group => {
+                const groupName = group.querySelector('.group-name').textContent.toLowerCase();
+    
+                // Kiểm tra nếu từ khóa trùng với tên nhóm
+                if (groupName.includes(filter)) {
+                    group.style.display = ''; // Hiển thị
+                } else {
+                    group.style.display = 'none'; // Ẩn
+                }
+            });
+        });
+    </script>
     
 </body>
 

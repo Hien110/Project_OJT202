@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Lớp Học</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/classesOfSpecialization.css}"
+    />
+  </head>
+
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    <div class="classes-container">
+      <div class="class-content">
+        <div th:each="uniclass, start : ${uniClasses}" class="classes-content">
+          <div class="uniclass">
+            <h3>Lớp Học</h3>
+            <label class="label">Mã lớp học</label>
+            <input type="text" th:value="${uniclass.uniClassId}" readonly />
+            <label class="label">Tên lớp học</label>
+            <input type="text" th:value="${uniclass.uniClassName}" readonly />
+            <label class="label">Môn giảng dạy</label>
+            <input
+              type="text"
+              th:value="${uniclass.subject.getSubjectName()}"
+              readonly
+            />
+            <label class="label">Giảng viên</label>
+            <input
+              type="text"
+              th:value="${uniclass.lectureProfile.firstName +' '+ uniclass.lectureProfile.lastName +' - ' + uniclass.lectureProfile.lectureID}"
+              readonly
+            />
+            <div th:if="${uniclass.dateStartLearn != null and uniclass.dateEndLearn != null}">
+              <div
+                class="viewDetail-btn"
+                th:if="${T(java.time.LocalDate).now().isBefore(uniclass.dateStartLearn) and uniclass.getSubject().getTernNo() <= maxTernNo + 1}"
+              >
+                <a
+                  th:href="@{/registerClassDetail/{id}(id=${uniclass.uniClassId})}"
+                >
+                  <button>Xem chi tiết</button>
+                </a>
+              </div>
+              <div
+                class="err-log"
+                th:if="${T(java.time.LocalDate).now().isAfter(uniclass.dateStartLearn)}"
+              >
+                <span
+                  style="color: red"
+                  th:text="'Không thể đăng kí lớp học'"
+                ></span>
+              </div>
+            </div>
+            <div th:if="${uniclass.dateStartLearn == null || uniclass.dateEndLearn == null || uniclass.getSubject().getTernNo() > maxTernNo + 1}">
+              <span
+                style="color: red"
+                th:text="'Không thể đăng kí lớp học'"
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
