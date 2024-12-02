@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box"></div>
+        <div class="message-box">
+            <input type="text" id="message-input" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+<script>
+    const chatBox = document.getElementById('chat-box');
+const messageInput = document.getElementById('message-input');
+
+// Lấy thông tin tài khoản từ session
+let senderAccountID = "Admin"; // Thay thế bằng ID tài khoản hiện tại
+let receiverAccountID = "BinhTVT"; // Thay thế bằng ID tài khoản người nhận
+
+// Hàm để hiển thị tin nhắn lên giao diện
+function appendMessage(sender, content) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+
+    // Xác định tin nhắn từ chính bạn hay từ người khác
+    const isSender = sender === senderAccountID;
+
+    // Thêm lớp tùy thuộc vào người gửi
+    const senderElement = document.createElement('span');
+    senderElement.classList.add(isSender ? 'sender' : 'receiver');
+    senderElement.innerText = isSender ? "You" : sender;
+
+    const contentElement = document.createElement('span');
+    contentElement.classList.add('message-content');
+    contentElement.innerText = content;
+
+    messageElement.appendChild(senderElement);
+    messageElement.appendChild(contentElement);
+
+    chatBox.appendChild(messageElement);
+
+    // Cuộn xuống cuối cùng
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+// Hàm gửi tin nhắn
+async function sendMessage() {
+    const messageContent = messageInput.value.trim();
+
+    if (messageContent) {
+        // Gửi tin nhắn qua API
+        const response = await fetch('http://localhost:8080/messages/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                receiverAccountID: receiverAccountID,
+                messageContent: messageContent
+            })
+        });
+        if (response.ok) {
+            console.log(messageContent);
+            
+            appendMessage(senderAccountID, messageContent); // Hiển thị tin nhắn của người gửi
+            messageInput.value = ''; // Xóa ô nhập
+        } else {
+            alert('Failed to send message');
+        }
+    }
+}
+
+// Hàm nhận tin nhắn mới (lấy tin nhắn từ API)
+async function getMessages() {
+    const response = await fetch(`http://localhost:8080/messages/history`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+
+    if (response.ok) {
+        const messages = await response.json();
+        
+        // Sắp xếp tin nhắn theo timeStamp (tăng dần)
+        messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+        // Xóa các tin nhắn cũ trước khi thêm tin nhắn mới
+        chatBox.innerHTML = '';
+
+        // Hiển thị tin nhắn
+        messages.forEach(message => {
+             appendMessage(message.accountSender.accountID, message.messageContent);
+            // appendMessage(message.accountReceiver.accountID, message.messageContent);
+        });
+    } else {
+        alert('Failed to fetch messages');
+    }
+}
+
+
+// Tự động làm mới tin nhắn mỗi 5 giây
+setInterval(getMessages, 5000);
+
+// Khi trang được tải, gọi hàm để lấy lịch sử tin nhắn
+window.onload = getMessages;
+
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebSocket Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+</head>
+<body>
+    <h1>Chat Application</h1>
+
+    <div id="messages"></div>
+
+    <input type="text" id="username" placeholder="Enter your username" />
+    <input type="text" id="messageInput" placeholder="Type a message" />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        var socket = new SockJS('/ws'); // Kết nối WebSocket
+        var stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            
+            // Subscribe to receive messages from the server
+            stompClient.subscribe('/topic/messages', function (messageOutput) {
+                var messagesDiv = document.getElementById("messages");
+                messagesDiv.innerHTML += "<p>" + messageOutput.body + "</p>";
+            });
+        });
+
+        // Gửi tin nhắn
+        function sendMessage() {
+            var username = document.getElementById("username").value;
+            var message = document.getElementById("messageInput").value;
+
+            if (username && message) {
+                stompClient.send("/app/chat/" + username, {}, message); // Gửi đến server
+                document.getElementById("messageInput").value = ''; // Xóa ô input sau khi gửi
+            }
+        }
+    </script>
+</body>
+</html>
