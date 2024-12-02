@@ -60,6 +60,7 @@
             <th>Kỳ</th>
             <th>Mã Chuyên Ngành</th>
             <th>Môn Tiên Quyết</th>
+            <th>Tùy Chọn</th>
           </tr>
         </thead>
         <tbody>
@@ -91,6 +92,13 @@
                ? prerequisiteSubject.prerequisiteSubjectID + ' ' 
                : 'Không có'}"
                 ></span>
+              </td>
+              <td>
+                <a
+                  th:href="@{/viewScoreTranscriptOfSubject/{subjectID}(subjectID=${subject.subjectID})}"
+                  class="btn btn-info btn-sm"
+                  >Khung chương trình</a
+                >
               </td>
             </tr>
           </th:block>

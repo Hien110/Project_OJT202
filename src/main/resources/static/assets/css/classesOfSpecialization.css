@@ -7,16 +7,14 @@
   .class-content {
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
     gap: 20px;
   }
 
   /* Make sure each .uniclass takes up 1/3 of the width or full width if only 1 item */
   .classes-content {
-    flex: 1 1 calc(33.33% - 20px); /* Allow 3 items per row */
     box-sizing: border-box;
     margin-bottom: 20px;
+    margin-right: 20px;
   }
 
   /* If there's only one .uniclass, it will take full width */

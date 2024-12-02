@@ -7,14 +7,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.Major;
 import com.example.project_ojt202.models.PrerequisiteSubject;
+import com.example.project_ojt202.models.ScoreTranscript;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.PrerequisiteSubjectRepository;
+import com.example.project_ojt202.repositories.ScoreTranscriptRepository;
 import com.example.project_ojt202.services.LearnService;
 import com.example.project_ojt202.services.MajorService;
 import com.example.project_ojt202.services.SubjectService;
@@ -33,6 +36,8 @@ public class SubjectController {
     private LearnService learnService;
     @Autowired
     private PrerequisiteSubjectRepository prerequisiteSubjectRepository;
+    @Autowired
+    private ScoreTranscriptRepository scoreTranscriptRepository;
 
     @GetMapping("/allOfSubject")
     public String listStudents(@RequestParam(defaultValue = "0") int page,
@@ -47,6 +52,13 @@ public class SubjectController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", subjectPage.getTotalPages());
         return "allOfSubject"; // Trang sẽ render
+    }
+
+    @GetMapping("/viewScoreTranscriptOfSubject/{subjectID}")
+    public String viewScoreTrans(@PathVariable String subjectID, Model model) {
+        List<ScoreTranscript> scoreTranscripts = scoreTranscriptRepository.findBySubjectSubjectID(subjectID);
+        model.addAttribute("scoreTranscripts", scoreTranscripts);
+        return "viewScoreTranscriptOfSubject"; 
     }
 
     @GetMapping("/classesOfSpecialization")
@@ -65,6 +77,7 @@ public class SubjectController {
             maxTernNo = maxTernNoLearn.getUniClass().getSubject().getTernNo();
         }
 
+        model.addAttribute("subjects", subjects);
         model.addAttribute("maxTernNo", maxTernNo);
         model.addAttribute("learns", learns);
         model.addAttribute("uniClasses", uniClasses);
