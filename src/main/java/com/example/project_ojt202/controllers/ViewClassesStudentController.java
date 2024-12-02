@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.ScoreTranscript;
-import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.LearnService;
 import com.example.project_ojt202.services.ScoreTranscriptService;
-import com.example.project_ojt202.services.UniClassService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,14 +20,12 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/Student")
 public class ViewClassesStudentController {
     private final LearnService learnService;
-    private final UniClassService uniClassService;
     private final ScoreTranscriptService scoreTranscriptService;
 
     // Constructor injection of LearnService
-    public ViewClassesStudentController(LearnService learnService, UniClassService uniClassService,
+    public ViewClassesStudentController(LearnService learnService,
             ScoreTranscriptService scoreTranscriptService) {
         this.learnService = learnService;
-        this.uniClassService = uniClassService;
         this.scoreTranscriptService = scoreTranscriptService;
     }
 

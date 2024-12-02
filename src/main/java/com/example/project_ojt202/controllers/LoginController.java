@@ -20,7 +20,6 @@ import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.Notification;
 import com.example.project_ojt202.models.ParentProfile;
 import com.example.project_ojt202.models.StudentProfile;
-import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.AccountService;
 import com.example.project_ojt202.services.ChatMessageService;
 import com.example.project_ojt202.services.LearnService;
@@ -28,10 +27,8 @@ import com.example.project_ojt202.services.LectureProfileService;
 import com.example.project_ojt202.services.NotificationService;
 import com.example.project_ojt202.services.ParentProfileService;
 import com.example.project_ojt202.services.StudentProfileService;
-import com.example.project_ojt202.services.UniClassService;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.val;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,8 +45,7 @@ public class LoginController {
     
     @Autowired
         private ChatMessageService messageService;
-    @Autowired
-        private UniClassService uniClassService;
+    
     @Autowired
         private LearnService learnService;
     public LoginController(AccountService accountService, NotificationService notificationService,
