@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.ScoreTranscript;
+import com.example.project_ojt202.models.Test;
+import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.LearnService;
 import com.example.project_ojt202.services.ScoreTranscriptService;
+import com.example.project_ojt202.services.TestService;
+import com.example.project_ojt202.services.UniClassService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,12 +25,14 @@ import jakarta.servlet.http.HttpSession;
 public class ViewClassesStudentController {
     private final LearnService learnService;
     private final ScoreTranscriptService scoreTranscriptService;
+    private final TestService testService;
 
     // Constructor injection of LearnService
-    public ViewClassesStudentController(LearnService learnService,
-            ScoreTranscriptService scoreTranscriptService) {
+    public ViewClassesStudentController(LearnService learnService, UniClassService uniClassService,
+            ScoreTranscriptService scoreTranscriptService, TestService testService) {
         this.learnService = learnService;
         this.scoreTranscriptService = scoreTranscriptService;
+        this.testService = testService;
     }
 
     @GetMapping("/list-classforstudent")
@@ -49,16 +55,13 @@ public class ViewClassesStudentController {
         return "s_list-classforstudent";
     }
 
-    @GetMapping("/list-classforstudent/{uniClassId}/Learning")
-    public String getTestsByUniClassId(@PathVariable String uniClassId, Model model) {
-    
-        if (uniClassId != null) {
-            // Lấy danh sách ScoreTranscript thông qua subjectId
-            List<ScoreTranscript> scoreTranscripts = scoreTranscriptService.getScoreTranscriptsBySubjectId(uniClassId);
-            model.addAttribute("scoreTranscripts", scoreTranscripts);
-        }    
-    
-        // Trả về view để hiển thị
+    @GetMapping("/list-classforstudent/{SubId}/{Uniclass}/Learning")
+    public String getTestsByUniClassId(@PathVariable String SubId, @PathVariable String Uniclass, Model model) {
+        if (SubId != null) {
+            // Lấy danh sách bài kiểm tra theo uniClassId
+            List<Test> tests = testService.getAllTestByUniClass(Long.parseLong(Uniclass));
+            model.addAttribute("test", tests);
+        }
         return "s_subjectLearning";
     }
 }

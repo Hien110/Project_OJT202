@@ -49,4 +49,15 @@ public class QuestionTest {
 
     @OneToMany(mappedBy = "questionTest")
     private List<AnswerTest> answers;
+
+    @Override
+    public String toString() {
+        return "QuestionTest{" +
+               "questionTestID=" + questionTestID +
+               ", questionTestContent='" + questionTestContent + '\'' +
+               ", questionChapter=" + questionChapter +
+               ", questionLevel='" + questionLevel + '\'' +
+               '}';
+    }
+
 }

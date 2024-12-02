@@ -30,6 +30,9 @@ public class Test {
     @Column(name = "testID")
     private Long testID;
 
+    @Column(name = "examName")
+    private String examName;
+
     @Column(name = "testStartTime")
     private LocalDateTime testStartTime;
 
@@ -41,6 +44,9 @@ public class Test {
 
     @Column(name = "testLevel")
     private String testLevel;
+    
+    @Column(name = "time")
+    private int time;
 
     @Column(name = "questionNumber")
     private int questionNumber;
@@ -56,7 +62,7 @@ public class Test {
 
     @Column(name = "statusTest")
     private boolean statusTest;
-    
+
     @ManyToOne
     @JoinColumn(name = "uniClassID")
     private UniClass uniClass;
@@ -65,5 +71,4 @@ public class Test {
     @JoinColumn(name = "scoreTranscriptID")
     private ScoreTranscript scoreTranscript;
 
-    
 }
