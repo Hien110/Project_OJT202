@@ -45,12 +45,13 @@
                         </div>
                     </div>
                     <div class="update-card-body">
+                        
                         <div class="notification-content">
-                            <span th:text="${notification.notificationName}"></span>
+                            <b th:text="${notification.notificationName}"  ></b>
                             <p th:text="${notification.notificationContent}"></p>
                         </div>
                         <div th:if="${notification.notificationFile != null and !notification.notificationFile.isEmpty()}">
-                            <a th:href="@{${notification.notificationFile}}" download>Tải về File</a>
+                            <a th:href="@{${notification.notificationFile}}" class="a1" download>Tải về File</a>
                         </div>
                     </div>
                     <div th:if="${notification.notificationImage != null and !notification.notificationImage.isEmpty()}">

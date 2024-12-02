@@ -20,5 +20,7 @@ public class StudentFeedbackService {
     public List<StudentFeedback> getFeedbackForClassAndStudent(String studentID, Long uniClassId) {
         return studentFeedbackRepository.findByStudentProfile_StudentIDAndUniClass_UniClassId(studentID, uniClassId);
     }
-   
+    public List<StudentFeedback> getFeedbackByClassId(Long classId) {
+        return studentFeedbackRepository.findFeedbackByClassId(classId);
+    }
 }

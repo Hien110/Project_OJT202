@@ -129,6 +129,15 @@
         <div class="theme">
             <div class="main">
                 <h1>Danh Sách Lớp Học</h1>
+                <!-- Hiển thị thông báo lỗi -->
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <!-- Hiển thị thông báo thành công -->
+                <div th:if="${message}" class="success-message">
+                    <p th:text="${message}"></p>
+                </div>
                 <label for="semester">Kỳ học</label>
                 <select name="semester" id="semesterSelect"
                     onchange="handleSemesterChange()">
@@ -150,6 +159,7 @@
                                 <th>Kỳ Học</th>
                                 <th>Ngày Bắt Đầu</th>
                                 <th>Ngày Kết Thúc</th>
+                                <th>Trạng Thái </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,6 +178,14 @@
                                     th:text="${learn.uniClass.dateStartLearn}"></td>
                                 <td
                                     th:text="${learn.uniClass.dateEndLearn}"></td>
+                                    <td>
+                                        <a th:if="${feedbackAvailabilityMap != null 
+                                            and learn.uniClass.uniClassId != null 
+                                            and feedbackAvailabilityMap[learn.uniClass.uniClassId]}" 
+                                     th:href="@{'/uniClasses/feedback'(id=${learn.uniClass.uniClassId})}">
+                                      <button>Phản hồi</button>
+                                  </a>
+                                    </td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,6 +1,7 @@
 package com.example.project_ojt202.controllers;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -55,6 +56,7 @@ public class LoginController {
     @GetMapping("/home")
 public String showHomeStudentPage(Model model, HttpSession session) {
     List<Notification> notifications = notificationService.findAll();
+    Collections.reverse(notifications);
     // Lọc thông báo hôm nay
     LocalDate today = LocalDate.now();
     List<Notification> todayNotifications = notifications.stream()
