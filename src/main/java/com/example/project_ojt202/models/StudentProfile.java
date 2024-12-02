@@ -65,5 +65,6 @@ public class StudentProfile {
 
     @Column(name = "avatar")  
     private String avatar;
+    
      
 }

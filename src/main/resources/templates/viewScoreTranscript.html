@@ -12,47 +12,73 @@
   <script src="/assets/js/headerNav.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+  <style>
+    /* Chèn CSS tại đây */
+    .scheduceMajor {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 cột */
+        gap: 10px; /* Khoảng cách giữa các nút */
+    }
 
+    .image-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        border: 1px solid #ddd;
+        background-color: #f4f4f4;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .button-text {
+        display: block;
+        padding: 5px;
+    }
+  </style>
 </head>
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navStudent}"></div>
     <div class="container_scheduceMajor">
-    <p class="title_scheduce" >Chọn Kỳ Học</p>
+        <p class="title_scheduce">Chọn Lớp Học</p>
         <form th:action="@{/viewScoreTranscript}" method="post">
             <div class="scheduceMajor">
                 <button class="image-button" type="submit">
-                    <span class="button-text"> FALL 2021 <br/></span>
-                </button></br>
+                    <span class="button-text">CEA201_FA23_05<br/></span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text">SPRING 2022 <br/></span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_03<br/></span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text">SUMMER 2022  <br/></span>
-                </button></br>
+                    <span class="button-text">CEA201_FA23_02<br/></span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text">FALL 2022</span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_04</span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text"> SPRING 2023</span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_05</span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text">SUMMER 2023</span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_06</span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text">FALL 2023 <br/></span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_07<br/></span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text"> SPRING 2024 <br/> </span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_08<br/></span>
+                </button>
                 <button class="image-button" type="submit">
-                    <span class="button-text"> SUMMER 2024<br/> </span>
-                </button></br>
+                    <span class="button-text">PRF192_FA23_09<br/></span>
+                </button>
+                <button class="image-button" type="submit">
+                    <span class="button-text">PRF192_FA23_10</span>
+                </button>
             </div>            
-        </div>
         </form>
-    </div> 
     </div> 
 </body>
 </html>
-

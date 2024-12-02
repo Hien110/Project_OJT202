@@ -10,56 +10,34 @@ body {
     padding-left: 280px;
 }
 
+/* Đảm bảo rằng các nút có kích thước đồng đều và hình dạng vuông */
 .image-button {
-    width: 290px;
-    height: 37vh;
-    background-size: cover;
-    background-color: #fff;
-    background-position: center;
-    border: none;
-    color: black;
-    font-size: 15px;
-    font-weight: bold;
-    text-align: center;
+    width: 200px; /* Đặt chiều rộng */
+    height: 200px; /* Đặt chiều cao */
     display: flex;
-    align-items: end;
     justify-content: center;
-    cursor: pointer;
-    flex-basis: calc(18%);
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    align-items: center;
+    background-color: #4CAF50; /* Màu nền */
+    border: none; /* Bỏ viền */
+    border-radius: 10px; /* Độ bo góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho nút */
+    color: white; /* Màu chữ */
+    font-size: 16px; /* Kích thước chữ */
+    text-align: center; /* Căn giữa chữ */
+    cursor: pointer; /* Con trỏ chuột thay đổi khi hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
 }
 
+/* Thêm hiệu ứng khi di chuột vào */
 .image-button:hover {
-    transform: scale(1.05); /* Phóng to nút khi hover */
-    background-color: #f0f0f0; /* Thay đổi màu nền */
-    color: #4da6fb; /* Thay đổi màu chữ */
+    background-color: #45a049; /* Thay đổi màu nền khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
 }
 
-.image-button::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background: rgba(0, 0, 0, 0.2); /* Màu đen bán trong suốt mặc định */
-    transition: height 0.3s ease, background-color 0.3s ease;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-}
-
-.image-button:hover::before {
-    height: 100%; /* Phủ toàn bộ nút khi hover */
-    border-radius: 15px;
-    background: rgba(77, 166, 251, 0.2); /* Màu xanh nhạt bán trong suốt */
-}
-
+/* Nếu bạn muốn nội dung của nút được căn giữa */
 .button-text {
-    position: relative;
-    transition: transform 0.3s ease, font-size 0.3s ease, color 0.3s ease;
+    line-height: 1.2;
+    color: black;
 }
 
 .image-button:hover .button-text {
@@ -68,13 +46,14 @@ body {
     color: #4da6fb; /* Đổi màu chữ */
 }
 
+/* Sử dụng Grid để tạo cấu trúc 4 cột */
 .scheduceMajor {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: unset;
-    gap: 10px;
+    display: grid; /* Sử dụng grid layout */
+    grid-template-columns: repeat(4, 1fr); /* 4 cột đều */
+    gap: 10px; /* Khoảng cách giữa các nút */
 }
 
+/* Căn chỉnh tiêu đề */
 .title_scheduce {
     text-align: center; 
     font-size: 40px; 

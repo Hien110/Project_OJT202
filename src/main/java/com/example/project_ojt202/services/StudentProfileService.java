@@ -54,12 +54,10 @@ public class StudentProfileService {
         // Thực hiện logic lưu dữ liệu (ví dụ: JPA hoặc JDBC)
         studentProfileRepository.save(studentProfile);
     }    
-
-    public void updateAvatar(String studentID, String avatarPath) {
-        StudentProfile profile = studentProfileRepository.findById(studentID)
-                              .orElseThrow(() -> new RuntimeException("Student not found"));
-        profile.setAvatar(avatarPath);
-        studentProfileRepository.save(profile);
-    }
-
+    public void updateAvatar(String studentID, String avatarUrl) {
+        StudentProfile studentProfile = studentProfileRepository.findById(studentID)
+            .orElseThrow(() -> new IllegalArgumentException("Student không tồn tại!"));
+        studentProfile.setAvatar(avatarUrl);
+        studentProfileRepository.save(studentProfile);
+    }    
 }
