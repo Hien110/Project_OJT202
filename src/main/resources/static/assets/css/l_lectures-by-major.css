@@ -45,10 +45,7 @@
   }
   
   /* Hover effect for table rows */
-  tr:hover {
-    background-color: white;
-  }
-  
+ 
   /* No lecturers found message */
   p {
     font-size: 1.1rem;

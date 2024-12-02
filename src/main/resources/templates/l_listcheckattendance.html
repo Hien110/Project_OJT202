@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        rel="stylesheet" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        th:href="@{/assets/css/headerNav.css}" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        th:href="@{/assets/css/l_listcheckattendance.css}" />
+    <title>Danh sách điểm danh</title>
+    <script>
+        // Function to remove duplicate rows based on studentID
+        function removeDuplicateRows() {
+            const table = document.querySelector("table tbody");
+            const seenIDs = new Set();
+            
+            table.querySelectorAll("tr").forEach((row) => {
+                const studentIDCell = row.cells[0]; // Assuming studentID is in the first cell
+                if (studentIDCell) {
+                    const studentID = studentIDCell.textContent.trim();
+                    if (seenIDs.has(studentID)) {
+                        row.remove(); // Remove duplicate row
+                    } else {
+                        seenIDs.add(studentID); // Mark this ID as seen
+                    }
+                }
+            });
+        }
+
+        // Function to handle pagination
+        function paginateTable() {
+            const rowsPerPage = 5;
+            const tableRows = document.querySelectorAll("table tbody tr");
+            const totalPages = Math.ceil(tableRows.length / rowsPerPage);
+            let currentPage = 1;
+
+            function showPage(page) {
+                // Hide all rows
+                tableRows.forEach(row => row.style.display = 'none');
+                
+                // Show rows for the current page
+                const startIndex = (page - 1) * rowsPerPage;
+                const endIndex = startIndex + rowsPerPage;
+                for (let i = startIndex; i < endIndex && i < tableRows.length; i++) {
+                    tableRows[i].style.display = '';
+                }
+            }
+
+            function changePage(direction) {
+                if (direction === 'next' && currentPage < totalPages) {
+                    currentPage++;
+                } else if (direction === 'prev' && currentPage > 1) {
+                    currentPage--;
+                }
+                showPage(currentPage);
+            }
+
+            // Create pagination buttons
+            const paginationDiv = document.createElement('div');
+            paginationDiv.classList.add('pagination');
+            
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Trang trước'; // Changed text
+            prevButton.onclick = () => changePage('prev');
+            paginationDiv.appendChild(prevButton);
+
+            const arrow = document.createElement('i');
+            arrow.classList.add('fa', 'fa-arrows-left-right'); // Add arrow icon
+            paginationDiv.appendChild(arrow);
+
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Trang sau'; // Changed text
+            nextButton.onclick = () => changePage('next');
+            paginationDiv.appendChild(nextButton);
+
+            // Add pagination buttons to the page
+            document.querySelector('.theme').appendChild(paginationDiv);
+
+            // Initially show the first page
+            showPage(currentPage);
+        }
+
+        // Run the functions after the page loads
+        window.onload = () => {
+            removeDuplicateRows();
+            paginateTable();
+        };
+    </script>
+</head>
+<body>
+    <div class="headerDiv">
+        <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+    </div>
+    <div class="navLectureDiv">
+        <div id="navLectureDiv"
+            th:insert="~{headerNav :: navLecture}"></div>
+        <div class="theme">
+            <h1>Danh sách điểm danh</h1>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã Số Sinh Viên</th>
+                            <th>Tên học sinh</th>
+                            <th>Ngày</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="attendance, iter : ${attendanceList}">
+                            <td
+                                th:text="${attendance.studentProfile.studentID}"></td>
+                            <td
+                                th:text="${attendance.studentProfile.firstName} + ' ' + ${attendance.studentProfile.lastName}"></td>
+                            <td
+                                th:text="${attendance.scheduce.dateScheduce}"></td>
+                            <td
+                                th:text="${attendance.scheduce.timeScheduce}"></td>
+                            <td
+                                th:text="${attendance.checkAttendance ? 'Có mặt' : 'Vắng mặt'}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

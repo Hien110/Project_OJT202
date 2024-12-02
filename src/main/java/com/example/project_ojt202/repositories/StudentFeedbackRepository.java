@@ -19,5 +19,6 @@ public interface StudentFeedbackRepository extends JpaRepository<StudentFeedback
            "JOIN FETCH fc.feedback f " +
            "WHERE uc.uniClassId = :classId")
     List<StudentFeedback> findFeedbackByClassId(@Param("classId") Long classId);
+    List<StudentFeedback> findByUniClass_UniClassId(Long uniClassId);
 }
 
