@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chi Tiết Hồ Sơ Sinh Viên</title>
+    <title>Chi Tiết Hồ Sơ Giảng viên</title>
     <link
       rel="stylesheet"
       type="text/css"
@@ -18,7 +18,10 @@
       rel="stylesheet"
       type="text/css"
       th:href="@{/assets/css/lecturerProfileDetail.css}"
-    />,
+    />
+    <style>
+      
+    </style>
   </head>
   <body>
     <div th:insert="~{headerNav :: header}"></div>
@@ -33,11 +36,13 @@
             onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"
             class="student-avatar"
           />
+
+          <p
+            class="student-name"
+            th:text="${lecturerProfile.firstName} + ' ' + ${lecturerProfile.lastName}"
+          ></p>
+
           <div class="student-info">
-            <p
-              class="student-name"
-              th:text="${lecturerProfile.firstName} + ' ' + ${lecturerProfile.lastName}"
-            ></p>
             <p>
               <strong>Mã Giảng Viên:</strong>
               <span th:text="${lecturerProfile.lectureID}"></span>
@@ -74,8 +79,7 @@
 
           <div class="button-container">
             <a href="/allOfLecturer" class="back-btn">Quay Lại</a>
-            <div th:if="${!lecturerProfile.leadMajor}"
-            >
+            <div th:if="${!lecturerProfile.leadMajor}">
               <form action="/assignLeadMajor" method="post">
                 <input
                   type="hidden"
@@ -92,38 +96,15 @@
       </div>
     </div>
 
-    <!-- Modal Success -->
-    <div th:if="${successMessage}" id="successModal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-          <path
-            fill="#07c02c"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
-          />
-        </svg>
-        <p th:text="${successMessage}"></p>
-      </div>
-    </div>
-
     <script>
-      // Show the modal after form submission if successMessage is present
-      if (
-        /* Check if successMessage exists */ document.getElementById(
-          "successModal"
-        )
-      ) {
+      if (document.getElementById("successModal")) {
         const modal = document.getElementById("successModal")
-        modal.style.display = "flex" // Show modal
-
-        // Close modal after 3 seconds
-        setTimeout(function () {
-          modal.style.display = "none" // Hide modal
+        modal.style.display = "flex"
+        setTimeout(() => {
+          modal.style.display = "none"
         }, 3000)
       }
 
-      // Close the modal when clicking the close button
       document
         .getElementById("closeModal")
         .addEventListener("click", function () {
