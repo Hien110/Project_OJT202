@@ -13,14 +13,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
 </head>
-<!-- hi -->
 
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:if="${session.account.accountRole == 'student'}" th:insert="~{headerNav :: navStudent}"></div>
     <div th:if="${session.account.accountRole == 'lecturer'}" th:insert="~{headerNav :: navLecture}"></div>
     <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
-      <div class="container">
+    <div class="container">
         <div class="updates">
             <div class="update-header">
                 <h2>All Updates</h2>
@@ -35,15 +34,13 @@
                             <img alt="User profile picture" src="https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png" style="border: 1px solid #4da6fb;"/>
                             <div>
                                 <div class="user-name">
+                                    <!-- Tên người dùng -->
                                 </div>
-                                <div class="user-role">
-                                    Notification
-                                </div>
+                                <div class="user-role">ADMIN</div>
                             </div>
                         </div>
                         <div th:if="${notification != null}">
-                            <div class="post-time" 
-                                 th:text="${notification.formattedDate}">
+                            <div class="post-time" th:text="${notification.formattedDate}">
                             </div>
                         </div>
                     </div>
@@ -52,13 +49,15 @@
                             <span th:text="${notification.notificationName}"></span>
                             <p th:text="${notification.notificationContent}"></p>
                         </div>
-                        <div class="notification-file" th:if="${notification.notificationFile != null}">
-                            <a th:href="${notification.notificationFile}" download>Tải về File</a>
+                        <div th:if="${notification.notificationFile != null and !notification.notificationFile.isEmpty()}">
+                            <a th:href="@{${notification.notificationFile}}" download>Tải về File</a>
                         </div>
                     </div>
-                    <img th:src="${notification.notificationImage}" alt="Image" />
+                    <div th:if="${notification.notificationImage != null and !notification.notificationImage.isEmpty()}">
+                        <img th:src="@{${notification.notificationImage}}" alt="Image" />
+                    </div>
                 </div>
-            </div>                                
+            </div>
         </div>
         <div class="popular-groups post">
             <div th:if="${session.account.accountRole == 'admin'}">
@@ -163,7 +162,6 @@
         </div>
         
 
-    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/src/main/resources/static/assets/js/homeStudent.js"></script>
     <script>

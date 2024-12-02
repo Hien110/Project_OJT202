@@ -66,4 +66,7 @@ public class StudentProfile {
     @Column(name = "avatar")  
     private String avatar;
      
+    public StudentProfile(String studentID) {
+        this.studentID = studentID;
+    }
 }

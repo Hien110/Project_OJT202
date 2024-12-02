@@ -1,0 +1,130 @@
+/* Container for the main content */
+.container {
+    margin-top: 20px;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Heading */
+  h1 {
+    font-size: 2.5rem;
+    color: #4da6fb;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Theme section */
+  .theme {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding-left: 500px;
+  }
+  
+  /* Table styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  thead {
+    background-color: #0066cc;
+    color: white;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  td {
+    background-color: white;
+    color: #4da6fb;
+  }
+  
+  /* Hover effect for table rows */
+  tr:hover {
+    background-color: white;
+  }
+  
+  /* No lecturers found message */
+  p {
+    font-size: 1.1rem;
+    color: white;
+  }
+  
+  /* Header section */
+  .navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}
+  
+  /* Styling for the "Lecturer Name" and "Department" columns */
+  th, td {
+    text-align: center;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px;
+    }
+  
+    table {
+      font-size: 14px;
+    }
+  
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
+  .detail-button-wrapper {
+    position: relative;
+  }
+
+  .detail-button {
+    padding: 10px 15px;
+    background-color: #4da6fb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .detail-options {
+    display: none;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    min-width: 150px;
+  }
+
+  .detail-button-wrapper:hover .detail-options {
+    display: block;
+  }
+
+  .detail-options a {
+    display: block;
+    padding: 8px 12px;
+    background-color: #fff;
+    text-decoration: none;
+    color: #4da6fb;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .detail-options a:last-child {
+    border-bottom: none;
+  }
+
+  .detail-options a:hover {
+    background-color: #e6e6e6;
+  }
+
+  
