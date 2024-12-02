@@ -3,6 +3,8 @@ package com.example.project_ojt202.services;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.project_ojt202.models.QuestionTest;
@@ -31,5 +33,10 @@ public class QuestionTestService {
     public QuestionTest saveQuestionTest(QuestionTest questionTest) {
         return questionTestRepository.save(questionTest);
     }
-    
+
+    public List<QuestionTest> getTopQuestionTests(String lectureID, String subjectID, int limit) {
+        Pageable pageable = PageRequest.of(0, limit); 
+        return questionTestRepository.findTopQuestionTests(lectureID, subjectID, pageable);
+    }
+
 }

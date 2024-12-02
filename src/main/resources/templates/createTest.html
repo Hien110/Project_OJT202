@@ -46,6 +46,11 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label for="testName" class="form-label">Đặt tên bài kiểm tra</label>
+            <input type="text" th:field="*{examName}" class="form-select">
+        </div>
+
         <!-- Mức độ -->
         <div class="form-group">
             <label for="levelTest" class="form-label">Mức độ:</label>
@@ -54,6 +59,11 @@
                 <option value="Trung Bình">Trung Bình</option>
                 <option value="Khó">Khó</option>
             </select>
+        </div>
+
+        <div class="form-group">
+            <label for="levelTest" class="form-label">Thời gian (phút)</label>
+            <input type="number" th:field="*{time}" id="time" class="form-input" placeholder="Nhập thời gian">
         </div>
 
         <!-- Số lượng câu hỏi -->

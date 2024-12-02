@@ -8,14 +8,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.AnswerTest;
 import com.example.project_ojt202.models.QuestionTest;
 import com.example.project_ojt202.models.Test;
 import com.example.project_ojt202.services.AnswerTestService;
+import com.example.project_ojt202.services.LectureProfileService;
 import com.example.project_ojt202.services.QuestionTestService;
 import com.example.project_ojt202.services.ScoreTranscriptService;
+import com.example.project_ojt202.services.SubjectService;
 import com.example.project_ojt202.services.TestService;
 import com.example.project_ojt202.services.UniClassService;
+import com.example.project_ojt202.models.Subject;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class SubmitQuestionController {
@@ -24,17 +30,23 @@ public class SubmitQuestionController {
     private final AnswerTestService answerTestService;
     private final UniClassService uniClassService;
     private final ScoreTranscriptService scoreTranscriptService;
+    private final LectureProfileService lectureProfileService;
+    private final SubjectService subjectService;
 
     public SubmitQuestionController(TestService testService,
             QuestionTestService questionTestService,
             AnswerTestService answerTestService,
             UniClassService uniClassService,
-            ScoreTranscriptService scoreTranscriptService) {
+            ScoreTranscriptService scoreTranscriptService,
+            LectureProfileService lectureProfileService,
+            SubjectService subjectService) {
         this.testService = testService;
         this.questionTestService = questionTestService;
         this.answerTestService = answerTestService;
         this.uniClassService = uniClassService;
         this.scoreTranscriptService = scoreTranscriptService;
+        this.lectureProfileService = lectureProfileService;
+        this.subjectService = subjectService;
     }
 
     @PostMapping("createQuestion")
@@ -54,10 +66,16 @@ public class SubmitQuestionController {
             @RequestParam boolean statusTest,
             @RequestParam Long uniClassId,
             @RequestParam Long scoreTranscriptID,
-
+            HttpSession session,
             @RequestParam List<String> answerTestContent,
             @RequestParam List<Boolean> isCorrect,
             Model model) {
+
+        Account account = (Account) session.getAttribute("account");
+
+        String lectureID = (account != null && account.getLectureProfile() != null)
+                ? account.getLectureProfile().getLectureID()
+                : null;
 
         Test test = new Test();
         try {
@@ -76,14 +94,18 @@ public class SubmitQuestionController {
         test.setStatusTest(statusTest);
         test.setUniClass(uniClassService.findById(uniClassId));
         test.setScoreTranscript(scoreTranscriptService.findById(scoreTranscriptID));
+
         testService.saveTest(test);
 
         for (int i = 0; i < questionTestContent.size(); i++) {
             try {
+                String SubjectId = uniClassService.getSubjectIdByUniClassId(uniClassId);
                 QuestionTest questionTest = new QuestionTest();
                 questionTest.setQuestionTestContent(questionTestContent.get(i));
                 questionTest.setQuestionChapter(Integer.parseInt(questionChapter.get(i)));
                 questionTest.setQuestionLevel(questionLevel.get(i));
+                questionTest.setLectureProfile(lectureProfileService.findByLectureID(lectureID));
+                questionTest.setSubject(subjectService.getSubjectById(SubjectId));
                 questionTestService.saveQuestionTest(questionTest);
 
                 int answerStartIndex = i * 4;

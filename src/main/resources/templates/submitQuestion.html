@@ -122,7 +122,7 @@
                         <ul>
                             <!-- Lặp qua danh sách đáp án độc lập -->
                             <li th:each="answer, iterStat : ${answers}"
-                                th:if="${answer.questionTest.questionTestContent == question.questionTestContent}">
+                                th:if="${answer.questionTest.questionTestID == question.questionTestID}">
                                 <input type="text" name="answerTestContent" th:value="${answer.answerTestContent}" />
                             </li>
                         </ul>
@@ -132,9 +132,10 @@
                     <td>
                         <ul>
                             <li th:each="answer, iterStat : ${answers}"
-                                th:if="${answer.questionTest.questionTestContent == question.questionTestContent}">
+                                th:if="${answer.questionTest.questionTestID == question.questionTestID}">
                                 <!-- Thêm một hidden input với giá trị mặc định là false -->
-                                <input th:if="${answer.answerTestTrue} == false" name="isCorrect" type="hidden" th:value="false" />
+                                <input th:if="${answer.answerTestTrue} == false" name="isCorrect" type="hidden"
+                                    th:value="false" />
 
                                 <!-- Checkbox được chọn sẽ gửi giá trị true -->
                                 <input type="checkbox" name="isCorrect" value="true"

@@ -207,4 +207,8 @@ public class SubjectService {
     public Page<Subject> getAllSubjects(int page, int size) {
         return subjectRepository.findAll(PageRequest.of(page, size));
     }
+
+    public Subject getSubjectById(String subjectID) {
+        return subjectRepository.findBySubjectID(subjectID);
+    }
 }
