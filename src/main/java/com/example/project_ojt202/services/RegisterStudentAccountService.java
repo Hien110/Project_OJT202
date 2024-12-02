@@ -11,6 +11,8 @@ import com.example.project_ojt202.repositories.StudentProfileRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +23,9 @@ import java.util.List;
 
 @Service
 public class RegisterStudentAccountService {
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     private StudentProfileRepository studentProfileRepository;
@@ -59,7 +64,7 @@ public class RegisterStudentAccountService {
                 int yearOfSubmission = getCellValueAsInt(row, 12); // Cột Year of Submission
                 String relationship = getCellValueAsString(row, 13); // Cột Relationship
                 int schoolYear = getCellValueAsInt(row, 14); // Cột School Year
-                String avatar = "default-avatar.jpg";  // Nếu không có ảnh đại diện
+                String avatar = "default-avatar.jpg"; // Nếu không có ảnh đại diện
 
                 // Tạo account_id_student, account_id_parent
                 String accountIdStudent = majorId + schoolYear + stt;
@@ -172,7 +177,34 @@ public class RegisterStudentAccountService {
                 Account parentAccount = new Account(parentProfile.getParentID(), null, parentProfile, null, "a123",
                         "parent", null);
                 accountRepository.save(parentAccount);
+
+                // sendMail
+                if (studentAccount != null) {
+                    String subject = "Thông Tin Tài Khoản Của Bạn";
+                    String message = String.format("Xin chào %s %s,\n" +
+                            "Thông tin tài khoản của bạn như sau:\n" +
+                            "Mã Tài Khoản: %s\n" +
+                            "Mật Khẩu Tài Khoản: %s\n" +
+                            "Mã Tài Khoản Phụ Huynh: %s" + "PH\n" +
+                            "Mật Khẩu Tài Khoản: %s\n\n" +
+                            "Trân trọng,\nNhóm của bạn.",
+                            studentProfile.getFirstName(), studentProfile.getLastName(),
+                            studentAccount.getAccountID(), studentAccount.getAccountPassword(),
+                            studentAccount.getAccountID(),
+                            studentAccount.getAccountPassword());
+
+                    sendEmail(studentProfile.getEmail(), subject, message);
+                }
             }
+
         }
+    }
+
+    private void sendEmail(String to, String subject, String message) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(to);
+        email.setSubject(subject);
+        email.setText(message);
+        mailSender.send(email);
     }
 }

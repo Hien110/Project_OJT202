@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.Major;
+import com.example.project_ojt202.models.PrerequisiteSubject;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
+import com.example.project_ojt202.repositories.PrerequisiteSubjectRepository;
 import com.example.project_ojt202.services.LearnService;
 import com.example.project_ojt202.services.MajorService;
 import com.example.project_ojt202.services.SubjectService;
@@ -29,13 +31,17 @@ public class SubjectController {
     private UniClassService uniClassService;
     @Autowired
     private LearnService learnService;
+    @Autowired
+    private PrerequisiteSubjectRepository prerequisiteSubjectRepository;
 
     @GetMapping("/allOfSubject")
     public String listStudents(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size, Model model) {
         Page<Subject> subjectPage = subjectService.getAllSubjects(page, size);
         List<Major> majors = majorService.findAllMajor();
+        List<PrerequisiteSubject> prerequisiteSubjects = prerequisiteSubjectRepository.findAll();
 
+        model.addAttribute("prerequisiteSubjects", prerequisiteSubjects);
         model.addAttribute("majorIds", majors);
         model.addAttribute("subjects", subjectPage);
         model.addAttribute("currentPage", page);
