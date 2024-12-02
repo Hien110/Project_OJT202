@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Khung Chương Trình</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/allOfSubject.css}"
+    />
+  </head>
+
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="student-list-container">
+      <h1>Khung Chương Trình</h1>
+
+      <!-- Bảng Sinh Viên -->
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên Bài Kiểm Tra</th>
+            <th>Số Cột Điểm</th>
+            <th>Tổng Phần Trăm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <th:block th:each="scoreTranscript, iterStat : ${scoreTranscripts}">
+            <tr
+              class="student-row"
+            >
+              <td th:text="${iterStat.index + 1}"></td>
+              <td th:text="${scoreTranscript.nameTest}"></td>
+              <td th:text="${scoreTranscript.numberColumn}"></td>
+              <td th:text="${scoreTranscript.totalPercent}"></td>
+            </tr>
+          </th:block>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -67,6 +67,7 @@
                             <!-- Tên sinh viên -->
                             <span class="student-name"
                                 th:text="${lecturer.firstName} + ' ' + ${lecturer.lastName}"></span>
+                            <span th:if="${lecturer.leadMajor}" style="color: green;">Trưởng bộ môn</span>
                         </td>
                         <td th:text="${lecturer.lectureID}"></td>
                         <td th:text="${lecturer.dob}"></td>
@@ -94,8 +95,7 @@
                     <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                         th:classappend="${i == currentPage ? 'active' : ''}">
                         <a class="page-link" href="#"
-                            th:href="@{/allOfLecturer(page=${i}, size=${lecturers.getSize()})}"
-                            th:text="${i + 1}"></a>
+                            th:href="@{/allOfLecturer(page=${i}, size=${lecturers.getSize()})}" th:text="${i + 1}"></a>
                     </li>
                     <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
                         <a class="page-link" href="#"

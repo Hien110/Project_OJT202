@@ -59,5 +59,15 @@ public class LectureProfile {
     @ManyToOne
     @JoinColumn(name = "majorID")
     private Major major;
-    
+
+       // Override toString() to avoid recursion
+       @Override
+       public String toString() {
+           return "LectureProfile{" +
+                  "lectureID='" + lectureID + '\'' +
+                  ", firstName='" + firstName + '\'' +
+                  ", lastName='" + lastName + '\'' +
+                  ", dob=" + dob +
+                  '}';
+       }
 }

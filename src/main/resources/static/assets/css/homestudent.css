@@ -63,9 +63,8 @@
     position: relative;
   }
   .popular-groups {
-    z-index: -1;
     position: fixed;
-    height: 100vh;
+    height: calc(100vh - 85px);
     top: 85px;
     width: 300px;
     background-color: white;
@@ -73,6 +72,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     right: 0;
+    overflow-y: auto;
   }
   .update-header {
     display: flex;
@@ -155,7 +155,7 @@
     margin-bottom: 15px;
   }
   .group img {
-    border-radius: 10px;
+    border-radius: 50%;
     width: 40px;
     height: 40px;
     margin-right: 10px;
@@ -193,4 +193,16 @@
     20% {
       transform: translateY(-20px)
     }
+  }
+
+  .chatUser{
+    padding: 5px 8px;
+    width: 600px;
+    border-radius: 10px;
+    transition: all 0.3s;
+
+  }
+  .chatUser:hover{
+    cursor: pointer;
+    background-color: aqua;
   }

@@ -166,7 +166,8 @@
                             <tr th:each="learn : ${classes}">
                                 <td>
                                     <a
-                                        th:href="@{/Student/list-classforstudent/{uniClassId}/Learning(uniClassId=${learn.getUniClass().getSubject().getSubjectID()})}">
+                                    th:href="@{/Student/list-classforstudent/{SubId}/{Uniclass}/Learning(SubId=${learn.getUniClass().getSubject().getSubjectID()}, Uniclass=${learn.uniClass.uniClassId})}"
+                                    >
                                         <span
                                             th:text="${learn.uniClass.uniClassName}"></span>
                                     </a>

@@ -161,140 +161,254 @@
             <div class="header1">
              <img alt="User profile picture" height="50" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="50"/>
              <div class="user-info">
-              <div class="name">
-               Nguyễn Minh Hiền - Student
-              </div>
-              <div class="id">
-               DE170650
-              </div>
-             </div>
-            </div>
-            <div class="content-message">
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message sent">
-             <div class="bubble">
-              Chào bạn, bạn có việc gì?
-             </div>
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-            </div>
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message sent">
-             <div class="bubble">
-              Chào bạn, bạn có việc gì?
-             </div>
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-            </div>
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message sent">
-             <div class="bubble">
-              Chào bạn, bạn có việc gì?
-             </div>
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-            </div>
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message sent">
-             <div class="bubble">
-              Chào bạn, bạn có việc gì?
-             </div>
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-            </div>
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message sent">
-             <div class="bubble">
-              Chào bạn, bạn có việc gì?
-             </div>
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-            </div>
-            <div class="message">
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-             <div class="bubble">
-              Xin chào tôi là học sinh lớp DA
-             </div>
-            </div>
-            <div class="message sent">
-             <div class="bubble">
-              Chào bạn, bạn có việc gì?
-             </div>
-             <img alt="User profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="40"/>
-            </div>
-        </div>
+              <div class="name" th:if="${accountReceiver.accountRole == 'lecturer'}" th:text="${lectureProfile.firstName + ' ' + lectureProfile.lastName}"></div>
+              <div class="id" th:if="${accountReceiver.accountRole == 'lecturer'}" th:text="${lectureProfile.lectureID}"></div>
+              <div class="name" th:if="${accountReceiver.accountRole == 'student'}" th:text="${studentProfile.firstName + ' ' + studentProfile.lastName}"></div>
+              <div class="id" th:if="${accountReceiver.accountRole == 'student'}" th:text="${studentProfile.studentID}"></div>
+              <div class="name" th:if="${accountReceiver.accountRole == 'admin'}" th:text="Admin"></div>
+              <div class="id" th:if="${accountReceiver.accountRole == 'admin'}" th:text="Admin"></div>
 
+             </div>
+            </div>
+            <div class="content-message" id="content-message">
+            </div>
             <div class="input-container">
-             <input placeholder="Soạn tin nhắn ..." type="text"/>
-             <button>
+             <input placeholder="Soạn tin nhắn ..." type="text" name="messageContent" id="message-input"/>
+             <button onclick="sendMessage()">
               <i class="fas fa-paper-plane icon-plane">
               </i>
              </button>
             </div>
            </div>
       <div class="popular-groups post">
-        <div>
-          <h3>Popular Groups</h3>
-          <div class="group">
-            <img
-              alt="Icon representing Street Artists group"
-              src="https://placehold.co/40x40"
-            />
-            <div class="group-info">
-              <div class="group-name">Street Artists</div>
-              <div class="group-members">4 members</div>
-            </div>
+        <input type="hidden" id="accountSender" th:value="${session.account.accountID}"/>
+        <input type="hidden" id="accountReceiverID" th:value="${accountReceiverID}"/>
+        <div th:if="${session.account.accountRole == 'admin'}">
+          <h3>Tin nhắn</h3>
+  
+          <!-- Ô tìm kiếm -->
+          <input 
+              type="text" 
+              id="searchGroups" 
+              placeholder="Tìm kiếm..." 
+              style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+          />
+          <div id="groupList">
+              <div class="group" th:each="entry : ${listMessageLecture}">
+                  <a class="chatUser" style="display: flex; align-items: center;" 
+                     th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                      <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <div class="group-info">
+                          <div class="group-name" 
+                               th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
+                          </div>
+                      </div>
+                  </a>
+              </div>
           </div>
-          <div class="group">
-            <img
-              alt="Icon representing Cosplayers of the World group"
-              src="https://placehold.co/40x40"
-            />
-            <div class="group-info">
-              <div class="group-name">Cosplayers of the World</div>
-              <div class="group-members">3 members</div>
-            </div>
+      </div>
+        <div th:if="${session.account.accountRole == 'lecturer'}">
+          <h3>Tin nhắn</h3>
+  
+          <!-- Ô tìm kiếm -->
+          <input 
+              type="text" 
+              id="searchGroups" 
+              placeholder="Tìm kiếm..." 
+              style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+          />
+  
+          <!-- Danh sách nhóm -->
+          <div id="groupList">
+              <div class="group">
+                  <a class="chatUser" style="display: flex; align-items: center;" th:href="@{/chatMessage/Admin}" >
+                      <img alt="Icon representing Street Artists group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <div class="group-info">
+                          <div class="group-name" th:text="Admin"></div>
+                      </div>
+                  </a>
+              </div>
+              <div class="group" th:each="entry : ${listMessageLecture}">
+                  <a class="chatUser" style="display: flex; align-items: center;" 
+                     th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                      <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <div class="group-info">
+                          <div class="group-name" 
+                               th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
+                          </div>
+                      </div>
+                  </a>
+              </div>
+                <div class="group" th:each="entry : ${chatStudentMap}">
+                    <a class="chatUser" style="display: flex; align-items: center;" 
+                    th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                        <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                        <div class="group-info">
+                            <div class="group-name" 
+                                th:text="${entry.key.studentProfile.lastName + ' ' + entry.key.studentProfile.firstName + ' - ' + entry.key.accountID}">
+                            </div>
+                        </div>
+                    </a>
+                </div>
           </div>
-          <div class="group">
-            <img
-              alt="Icon representing Stream Designers group"
-              src="https://placehold.co/40x40"
-            />
-            <div class="group-info">
-              <div class="group-name">Stream Designers</div>
-              <div class="group-members">3 members</div>
-            </div>
+      </div>
+      <div th:if="${session.account.accountRole == 'student'}">
+          <h3>Tin nhắn</h3>
+  
+          <!-- Ô tìm kiếm -->
+          <input 
+              type="text" 
+              id="searchGroups" 
+              placeholder="Tìm kiếm..." 
+              style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #000;"
+          />
+  
+          <!-- Danh sách nhóm -->
+          <div id="groupList">
+              <div class="group" th:each="learn : ${listMessageStudent}">
+                  <a class="chatUser" style="display: flex; align-items: center;" 
+                  th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
+                      <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <div class="group-info">
+                          <div class="group-name" 
+                               th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">
+                          </div>
+                      </div>
+                  </a>
+              </div>
           </div>
-        </div>
+      </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/src/main/resources/static/assets/js/homeStudent.js"></script>
+    <!-- <script src="/src/main/resources/static/assets/js/homeStudent.js"></script> -->
+    <script>
+      const chatBox = document.getElementById('content-message');
+      const messageInput = document.getElementById('message-input');
+  // Lấy thông tin tài khoản từ session
+      let senderAccountID = document.querySelector("#accountSender").value; // Thay thế bằng ID tài khoản hiện tại
+      let receiverAccountID = document.querySelector("#accountReceiverID").value; // Thay thế bằng ID tài khoản người nhận
+  
+  // Hàm để hiển thị tin nhắn lên giao diện
+  function appendMessage(sender, content) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message');
+      
+      // Xác định tin nhắn từ  chính bạn hay từ người khác
+      const isSender = sender === senderAccountID;
+      if (isSender === true){
+        messageElement.classList.add('sent');
+      }
+      // Thêm lớp tùy thuộc vào người gửi
+      const senderElement = document.createElement('span');
+      senderElement.classList.add(isSender ? 'sender' : 'receiver');
+      senderElement.innerText = isSender ? "You" : sender;
+  
+      const contentElement = document.createElement('div');
+      contentElement.classList.add('bubble');
+      contentElement.innerText = content;
+
+      const imageElement = document.createElement('img');
+      imageElement.src = "https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg";
+      imageElement.style.height = "40" ;
+      imageElement.style.width = "40" ;
+
+      if (isSender === true){
+        messageElement.appendChild(contentElement);
+        messageElement.appendChild(imageElement);
+      } else {
+        messageElement.appendChild(imageElement);
+        messageElement.appendChild(contentElement);
+      }
+  
+      chatBox.appendChild(messageElement);
+  
+      // Cuộn xuống cuối cùng
+      chatBox.scrollTop = chatBox.scrollHeight;
+  }
+  
+  
+  // Hàm gửi tin nhắn
+  async function sendMessage() {
+      const messageContent = messageInput.value.trim();
+  
+      if (messageContent) {
+          // Gửi tin nhắn qua API
+          const response = await fetch(`http://localhost:8080/messages/send/${receiverAccountID}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  messageContent: messageContent
+              })
+          });
+          if (response.ok) {
+              messageInput.value = ''; // Xóa ô nhập
+          } else {
+              alert('Failed to send message');
+          }
+      }
+  }
+  
+  // Hàm nhận tin nhắn mới (lấy tin nhắn từ API)
+  async function getMessages() {
+      const response = await fetch(`http://localhost:8080/messages/history/${receiverAccountID}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
+  
+      if (response.ok) {
+          const messages = await response.json();
+          
+          // Sắp xếp tin nhắn theo timeStamp (tăng dần)
+          messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  
+          // Xóa các tin nhắn cũ trước khi thêm tin nhắn mới
+          chatBox.innerHTML = '';
+  
+          // Hiển thị tin nhắn
+          messages.forEach(message => {
+               appendMessage(message.accountSender.accountID, message.messageContent);
+              // appendMessage(message.accountReceiver.accountID, message.messageContent);
+          });
+      } else {
+          alert('Failed to fetch messages');
+      }
+  }
+  
+  
+  // Tự động làm mới tin nhắn mỗi 5 giây
+  setInterval(getMessages, 1000);
+  
+  // Khi trang được tải, gọi hàm để lấy lịch sử tin nhắn
+  window.onload = getMessages;
+  
+  </script>
+
+<script>
+  // Lấy các phần tử HTML
+  const searchInput = document.getElementById('searchGroups');
+  const groupList = document.getElementById('groupList');
+  const groups = groupList.querySelectorAll('.group');
+
+  // Lắng nghe sự kiện nhập liệu
+  searchInput.addEventListener('input', function () {
+      const filter = searchInput.value.toLowerCase();
+
+      groups.forEach(group => {
+          const groupName = group.querySelector('.group-name').textContent.toLowerCase();
+
+          // Kiểm tra nếu từ khóa trùng với tên nhóm
+          if (groupName.includes(filter)) {
+              group.style.display = ''; // Hiển thị
+          } else {
+              group.style.display = 'none'; // Ẩn
+          }
+      });
+  });
+</script>
   </body>
 </html>

@@ -18,7 +18,6 @@ import org.apache.poi.ss.usermodel.*;
 import java.util.List;
 import java.util.Map;
 
-
 import com.example.project_ojt202.repositories.TestRepository;
 
 @Service
@@ -28,6 +27,10 @@ public class TestService {
 
     public Test saveTest(Test test) {
         return testRepository.save(test);
+    }
+
+    private String generateUniqueId(long stt, String prefix) {
+        return prefix + stt; // Ví dụ: Q_1, Q_2, ...
     }
 
     private String getStringCellValue(Cell cell, String columnName) {
@@ -43,8 +46,6 @@ public class TestService {
         }
         return cell.getNumericCellValue();
     }
-
-    
 
     public List<QuestionTest> processExcelFile(MultipartFile file) throws IOException {
         List<QuestionTest> questions = new ArrayList<>();
@@ -68,7 +69,7 @@ public class TestService {
 
                 try {
                     // Đọc dữ liệu từ các cột với kiểm tra kiểu dữ liệu
-                    int stt = (int) getNumericCellValue(row.getCell(0), "STT");
+                    long stt = (long) getNumericCellValue(row.getCell(0), "STT");
                     String questionContent = getStringCellValue(row.getCell(1), "Question_Content");
                     int chapter = (int) getNumericCellValue(row.getCell(2), "Chapter");
                     String questionLevel = getStringCellValue(row.getCell(3), "Question_Level");
@@ -78,8 +79,11 @@ public class TestService {
                     String optionDContent = getStringCellValue(row.getCell(7), "D");
                     String correctAnswer = getStringCellValue(row.getCell(8), "Answer");
 
+                    String uniqueId = generateUniqueId(stt, "Q_");
+
                     // Tạo đối tượng QuestionTest
                     QuestionTest question = new QuestionTest();
+                    question.setQuestionTestID(stt);
                     question.setQuestionTestContent(questionContent);
                     question.setQuestionChapter(chapter);
                     question.setQuestionLevel(questionLevel);
@@ -94,7 +98,6 @@ public class TestService {
                     answers.add(new AnswerTest(null, optionCContent, "C".equalsIgnoreCase(correctAnswer), question));
                     answers.add(new AnswerTest(null, optionDContent, "D".equalsIgnoreCase(correctAnswer), question));
 
-                    answersMap.put(stt, answers); // Ánh xạ STT với danh sách đáp án
                 } catch (IllegalArgumentException e) {
                     System.err.println("Error processing row " + (i + 1) + ": " + e.getMessage());
                     // Có thể log lỗi hoặc tiếp tục bỏ qua dòng bị lỗi
@@ -121,7 +124,7 @@ public class TestService {
                 if (row == null)
                     continue;
                 try {
-                    int stt = (int) getNumericCellValue(row.getCell(0), "STT");
+                    long stt = (long) getNumericCellValue(row.getCell(0), "STT");
                     String questionContent = getStringCellValue(row.getCell(1), "Question_Content");
                     int chapter = (int) getNumericCellValue(row.getCell(2), "Chapter");
                     String questionLevel = getStringCellValue(row.getCell(3), "Question_Level");
@@ -133,6 +136,7 @@ public class TestService {
 
                     // Tạo đối tượng QuestionTest
                     QuestionTest question = new QuestionTest();
+                    question.setQuestionTestID(stt);
                     question.setQuestionTestContent(questionContent);
                     question.setQuestionChapter(chapter);
                     question.setQuestionLevel(questionLevel);
@@ -156,4 +160,11 @@ public class TestService {
         return answers; // Trả về danh sách các AnswerTest
     }
 
+    public List<Test> getAllTestByUniClass(Long UniclassId) {
+        return testRepository.findByUniClass_uniClassId(UniclassId);
+    }
+
+    public Test getAllById(Long testID) {
+        return testRepository.findByTestID(testID);
+    }
 }

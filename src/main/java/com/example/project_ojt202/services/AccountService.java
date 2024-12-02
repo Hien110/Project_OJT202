@@ -1,5 +1,7 @@
 package com.example.project_ojt202.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,4 +44,12 @@ public void updatePassword(String accountID, String newPassword) {
     account.setAccountPassword(newPassword);  // Đặt mật khẩu mới
     accountRepository.save(account);  // Lưu lại vào database
 }
+
+    public Account getAccountByID(String accountID){
+        return accountRepository.findById(accountID).orElse(null);
+    }
+
+    public List<Account> getAllAccount(){
+        return accountRepository.findAll();
+    }
 }
