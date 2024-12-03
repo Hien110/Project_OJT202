@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.Learn;
-import com.example.project_ojt202.models.ScoreTranscript;
 import com.example.project_ojt202.models.Test;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.LearnService;

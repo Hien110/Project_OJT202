@@ -115,7 +115,7 @@
             method="post"
             th:action="@{/submitUploadStudentAccount}"
           >
-            <button type="button" onclick="submitData()">
+            <button type="button" onclick="submitData(); displayToast()">
               Lưu thông tin sinh viên
             </button>
           </form>
@@ -136,6 +136,25 @@
         <p>Dữ liệu đã được lưu thành công và gửi tới sinh viên!</p>
       </div>
     </div>
+
+        <!-- Toast message -->
+        <div
+        id="toastMessage"
+        class="toast"
+        style="
+          display: none;
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background-color: #28a745;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          z-index: 9999;
+        "
+      >
+        Thông tin đang được gửi đến sinh viên...
+      </div>
 
     <!-- toasts loi khi upload file -->
     <div

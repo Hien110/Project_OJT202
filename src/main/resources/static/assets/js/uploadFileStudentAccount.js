@@ -63,12 +63,20 @@ function submitData() {
       // Hiển thị modal khi nhận được phản hồi thành công
       const modal = document.getElementById("successModal");
       modal.style.display = "flex";
+      const toast = document.getElementById("toastMessage");
+      toast.style.display = "none";
+
 
       setTimeout(() => {
         modal.style.display = "none";
         window.location.href = "/home"; // Chuyển hướng về trang chủ
       }, 3000);
     })
+}
+
+function displayToast() {
+  const toast = document.getElementById("toastMessage");
+  toast.style.display = "flex";
 }
 
 let currentPage = 1;

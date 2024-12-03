@@ -10,6 +10,9 @@ public class StudentFeedbackService {
 
     @Autowired
     private StudentFeedbackRepository studentFeedbackRepository;
+    public StudentFeedbackService (StudentFeedbackRepository studentFeedbackRepository){
+        this.studentFeedbackRepository = studentFeedbackRepository;
+    }
 
     public StudentFeedback saveFeedback(StudentFeedback feedback) {
         return studentFeedbackRepository.save(feedback);
@@ -19,6 +22,9 @@ public class StudentFeedbackService {
     }
     public List<StudentFeedback> getFeedbackForClassAndStudent(String studentID, Long uniClassId) {
         return studentFeedbackRepository.findByStudentProfile_StudentIDAndUniClass_UniClassId(studentID, uniClassId);
+    }
+    public List<StudentFeedback> getFeedbackByUniClassId(Long uniClassId) {
+        return studentFeedbackRepository.findByUniClass_UniClassId(uniClassId);
     }
     public List<StudentFeedback> getFeedbackByClassId(Long classId) {
         return studentFeedbackRepository.findFeedbackByClassId(classId);

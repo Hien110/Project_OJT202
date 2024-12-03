@@ -1,0 +1,95 @@
+/* CSS Styles */
+.theme {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f8f9fa;
+    padding-left: 190px;
+}
+
+.class-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Căn giữa các ô trong hàng */
+    gap: 20px;
+    /* Khoảng cách giữa các ô */
+    margin: 20px auto;
+    max-width: 800px;
+    /* Tùy chỉnh chiều rộng tối đa */
+}
+
+.class-container {
+    flex: 1 1 calc(50% - 20px);
+    /* Mỗi ô chiếm 50% chiều rộng trừ khoảng cách */
+    max-width: calc(50% - 20px);
+    /* Đảm bảo ô không vượt quá kích thước hàng */
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.class-container:hover {
+    transform: scale(1.05);
+    background-color: #eef;
+}
+
+.class-link {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.class-link:hover {
+    text-decoration: none;
+}
+
+h1 {
+    color: #4DA6Fb;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+li {
+    background-color: #f8f9fa;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+li:hover {
+    background-color: #f8f9fa;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 18px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+/* Navigation Styles */
+.navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}
+.class-container svg{
+    width: 50px;
+}

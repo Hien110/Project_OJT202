@@ -94,3 +94,6 @@ a:hover {
 .noClass {
     text-align: center;
 }
+.class-container svg{
+    width: 50px;
+}
