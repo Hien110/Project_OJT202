@@ -28,8 +28,8 @@
         <div class="theme">
             <h1 class="title">Danh sách sinh viên</h1>
             <div style="display: flex; justify-self: center;" class="viewScore-btn">
-                <form action="" method="get">
-                    <input type="hidden" name="" id="" th:value="${uniClassId}">
+                <form action="/viewScoreOfClass" method="get">
+                    <input type="hidden" name="uniClassId" id="uniClassId" th:value="${uniClassId}">
                     <button type="submit" style="margin-left: 115px;">Xem Điểm</button>
                 </form>
             </div>
