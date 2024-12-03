@@ -13,7 +13,12 @@
     margin-left: 150px;
     
   }
-  
+  .formatted-text {
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+    line-height: 1.5; 
+    margin: 0; 
+}
   /* Main container: Flexbox layout */
   .main-container {
     display: flex;

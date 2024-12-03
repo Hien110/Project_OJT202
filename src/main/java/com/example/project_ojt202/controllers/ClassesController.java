@@ -1,12 +1,15 @@
 package com.example.project_ojt202.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.StudentProfile;
@@ -59,6 +62,14 @@ public class ClassesController {
         } else {
             model.addAttribute("students", students);
         }
+
+        model.addAttribute("uniClassId", uniClassId);
+
         return "l_list-student"; 
-    }
+    }  
+
+    @GetMapping("/viewClassScoreComponent")
+    public String viewClassScoreComponent() {
+    return "viewClassScoreComponent"; 
+}
 }

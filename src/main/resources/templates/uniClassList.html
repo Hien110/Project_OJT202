@@ -117,21 +117,82 @@
         .container1{
         padding-top: 100px;
         padding-left: 280px;}
+        .filter-form {
+        background-color: #3f3f3fbe;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .filter-form label {
+        font-weight: bold;
+        color: #ffffff;
+        margin-right: 10px;
+    }
+
+    .filter-form select {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        background-color: #fff;
+        margin-left: 10px;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .filter-form button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 187px;
+    }
+
+    .filter-form button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Tạo khoảng cách giữa các phần tử */
+    .filter-form .form-group {
+        margin-bottom: 15px;
+    }
     </style>
 </head>
 
 <body>
     <div th:insert="~{headerNav :: header}"></div>
-    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div th:if="${session.account.accountRole == 'lecturer'}" th:insert="~{headerNav :: navLecture}"></div>
+    <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
 
     <div class="container1">
-
+        <form class="filter-form" action="#" method="get">
+            <div class="form-group">
+                <label for="semester">Lọc theo Học kỳ:</label>
+                <select name="semester" id="semester">
+                    <option value="">Tất cả</option>
+                    <option th:each="sem : ${semesters}" th:value="${sem}" th:text="${sem}">Học kỳ</option>
+                </select>
+            </div>
+            <button type="submit">Lọc</button>
+        </form>
+        
     <!-- Danh sách lớp học -->
     <div th:each="uniClass : ${uniClasses}" class="class-container">
         <h2 th:text="${uniClass.uniClassName}">Tên lớp học</h2>
-        <p><strong>Mã lớp học:</strong> <span th:text="${uniClass.uniClassId}">Mã lớp học</span></p>
 
-        <!-- Hiển thị tên giáo viên của lớp -->
+        
+        <p><strong>Học kỳ:</strong> 
+            <span th:text="${uniClass.semester}">Học kỳ</span>
+        </p>
         <p><strong>Giáo viên phụ trách:</strong> 
            <span th:text="${uniClass.lectureProfile.firstName} + ' ' + ${uniClass.lectureProfile.lastName}">
                Tên giáo viên

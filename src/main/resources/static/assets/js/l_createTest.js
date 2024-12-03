@@ -24,6 +24,31 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Ngăn việc gửi form mặc định
+
+    // Kiểm tra nếu trường đang hoạt động là một trong các trường cần kiểm tra
+    const activeElement = document.activeElement;
+
+    if (activeElement.id === "questionCount") {
+      handleQuestionCountChange();
+    } else if (
+      activeElement.id === "hard" ||
+      activeElement.id === "medium" ||
+      activeElement.id === "easy"
+    ) {
+      adjustQuestions(activeElement.id);
+    } else if (
+      activeElement.id === "startExamDate" ||
+      activeElement.id === "startExamTime" ||
+      activeElement.id === "endExamDate" ||
+      activeElement.id === "endExamTime"
+    ) {
+      combineDateTime();
+    }
+  }
+});
 
 // Hiển thị hoặc ẩn mật khẩu
 function togglePassword() {
@@ -243,4 +268,87 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("easy")
     .addEventListener("blur", () => adjustQuestions("easy"));
+  document
+    .getElementById("startExamDate")
+    .addEventListener("blur", validateEndExamDate);
+
+  document
+    .getElementById("endExamDate")
+    .addEventListener("blur", validateEndExamDate);
+
+  document
+    .getElementById("startExamTime")
+    .addEventListener("blur", validateEndExamTime);
+
+  document
+    .getElementById("endExamTime")
+    .addEventListener("blur", validateEndExamTime);
 });
+
+function validateEndExamDate() {
+  const startDate = document.getElementById("startExamDate").value;
+  const endDate = document.getElementById("endExamDate").value;
+
+  if (startDate && endDate) {
+    if (new Date(endDate) < new Date(startDate)) {
+      alert("Ngày kết thúc không được nhỏ hơn ngày bắt đầu.");
+      document.getElementById("endExamDate").value = ""; // Xóa giá trị không hợp lệ
+      return false;
+    }
+  }
+  return true;
+}
+
+// Kiểm tra endExamTime nếu endExamDate <= startExamDate
+function validateEndExamTime() {
+  const startDate = document.getElementById("startExamDate").value;
+  const endDate = document.getElementById("endExamDate").value;
+  const startTime = document.getElementById("startExamTime").value;
+  const endTime = document.getElementById("endExamTime").value;
+
+  if (startDate && endDate && startTime && endTime) {
+    if (new Date(endDate) <= new Date(startDate)) {
+      const startDateTime = new Date(`${startDate}T${startTime}`);
+      const endDateTime = new Date(`${endDate}T${endTime}`);
+
+      // Kiểm tra nếu thời gian kết thúc nhỏ hơn hoặc bằng thời gian bắt đầu
+      if (endDateTime <= startDateTime) {
+        alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
+        document.getElementById("endExamTime").value = ""; // Xóa giá trị không hợp lệ
+        return false;
+      }
+    }
+  }
+  return true;
+}
+function filterTests() {
+  // Lấy giá trị của classSelect
+  var selectedClassId = document.getElementById("classSelect").value;
+
+  // Lấy tất cả các phần tử option trong testSelect
+  var testSelect = document.getElementById("testSelect");
+  var options = testSelect.getElementsByTagName("option");
+
+  // Lặp qua tất cả các option và ẩn hoặc hiển thị chúng dựa trên điều kiện
+  for (var i = 1; i < options.length; i++) {
+    // Bắt đầu từ i = 1 để bỏ qua option "Chọn bài kiểm tra"
+    var option = options[i];
+    var subjectId = option.getAttribute("data-subject");
+
+    if (selectedClassId === subjectId || selectedClassId === "") {
+      option.style.display = "block"; // Hiển thị nếu điều kiện đúng
+    } else {
+      option.style.display = "none"; // Ẩn nếu điều kiện không đúng
+    }
+  }
+}
+
+function validateNumberInput(input) {
+  // Kiểm tra xem giá trị nhập vào có phải là số và có lớn hơn hoặc bằng 1 không
+  if (isNaN(input.value) || input.value < 1) {
+    input.setCustomValidity("Vui lòng nhập số hợp lệ và lớn hơn hoặc bằng 1.");
+    input.value = ""; // Xóa giá trị nếu không hợp lệ
+  } else {
+    input.setCustomValidity(""); // Đặt lại nếu giá trị hợp lệ
+  }
+}

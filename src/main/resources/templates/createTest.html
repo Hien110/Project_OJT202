@@ -26,10 +26,9 @@
         onsubmit="return combineDateTime();" enctype="multipart/form-data">
         <h1 class="form-title">Tạo bài kiểm tra</h1>
 
-        <!-- Chọn lớp -->
         <div class="form-group">
             <label for="classSelect" class="form-label">Chọn lớp:</label>
-            <select id="classSelect" th:field="*{uniClass}" class="form-select" required>
+            <select id="classSelect" th:field="*{uniClass}" class="form-select" required onchange="loadTests()">
                 <option value="">Chọn lớp</option>
                 <option th:each="uniClass : ${uniClasses}" th:value="${uniClass.uniClassId}"
                     th:text="${uniClass.uniClassName}"></option>
@@ -41,8 +40,7 @@
             <label for="testSelect" class="form-label">Chọn bài kiểm tra:</label>
             <select id="testSelect" th:field="*{scoreTranscript}" class="form-select">
                 <option value="">Chọn bài kiểm tra</option>
-                <option th:each="scoreTranscript : ${scoreTranscripts}" th:value="${scoreTranscript.scoreTranscriptID}"
-                    th:text="${scoreTranscript.nameTest}"></option>
+                <!-- Các bài kiểm tra sẽ được tải động qua AJAX -->
             </select>
         </div>
 
@@ -62,8 +60,9 @@
         </div>
 
         <div class="form-group">
-            <label for="levelTest" class="form-label">Thời gian (phút)</label>
-            <input type="number" th:field="*{time}" id="time" class="form-input" placeholder="Nhập thời gian">
+            <label for="time" class="form-label">Thời gian (phút)</label>
+            <input type="number" id="time" class="form-input" placeholder="Nhập thời gian" min="1" step="1" required
+                th:field="*{time}" oninput="validateNumberInput(this)">
         </div>
 
         <!-- Số lượng câu hỏi -->
@@ -125,7 +124,7 @@
             <!-- Mật khẩu -->
             <div class="form-group">
                 <label for="passwordInput" class="form-label">Nhập mật khẩu:</label>
-                <input type="password" th:field="*{testkeyWord}" id="passwordInput" class="form-input">
+                <input type="password" th:field="*{testkeyWord}" id="passwordInput" class="form-input" required>
                 <div class="password-toggle">
                     <label>
                         <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
@@ -134,12 +133,40 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
         <button type="submit" class="submit-button">Tạo bài kiểm tra</button>
     </form>
 
 
-    <!-- JavaScript -->
+    <script>
+        function loadTests() {
+            const classSelect = document.getElementById('classSelect');
+            const selectedClassId = classSelect.value;
+
+            if (selectedClassId) {
+                // Gửi yêu cầu AJAX để lấy danh sách bài kiểm tra
+                fetch(`/getTestsByClassId?classId=${selectedClassId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Làm sạch dropdown bài kiểm tra trước khi cập nhật
+                        const testSelect = document.getElementById('testSelect');
+                        testSelect.innerHTML = '<option value="">Chọn bài kiểm tra</option>';
+
+                        // Thêm các bài kiểm tra vào dropdown
+                        data.forEach(scoreTranscript => {
+                            const option = document.createElement('option');
+                            option.value = scoreTranscript.scoreTranscriptID;
+                            option.text = scoreTranscript.nameTest;
+                            testSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error loading tests:', error));
+            } else {
+                // Nếu không chọn lớp, làm sạch dropdown bài kiểm tra
+                document.getElementById('testSelect').innerHTML = '<option value="">Chọn bài kiểm tra</option>';
+            }
+        }
+
+    </script>
 </body>
 
 </html>

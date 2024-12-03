@@ -13,80 +13,132 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-
     <script src="/assets/js/headerNav.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
     <title>Thông tin tài khoản</title>
     <link
     rel="stylesheet"
-    type="text/css"   
-    th:href="@{/assets/css/studentProfile.css}"
-  />
+    type="text/css"
+    th:href="@{/assets/css/studentProfile.css}"/>
+
 </head>
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navStudent}"></div>
-    
+
     <div class="container">
         <h1>Thông tin tài khoản</h1>
         <div class="profile-wrapper">
             <!-- Profile Info (Left) -->
             <div class="profile-info">
                 <div th:if="${studentProfile != null}">
-                    <p>Họ: <span th:text="${studentProfile.firstName}"></span></p>
-                    <p>Tên: <span th:text="${studentProfile.lastName}"></span></p>
-                    <p>Ngày sinh: <span th:text="${studentProfile.dob}"></span></p>
-                    <p>Giới tính: <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span></p>
-                    <p>Địa chỉ: <span th:text="${studentProfile.address}"></span></p>
-                    <p>Số điện thoại: <span th:text="${studentProfile.phoneNumber}"></span></p>
-                    <p>Email: <span th:text="${studentProfile.email}"></span></p>
-                    <p>Năm nhập học: <span th:text="${studentProfile.yearOfAdmission}"></span></p>
-                    <p>Năm học: <span th:text="${studentProfile.schoolYear}"></span></p>
-                    <p>Mã chuyên ngành: <span th:text="${studentProfile.major?.majorID}"></span></p>
-                    <p>Mã phụ huynh: <span th:text="${studentProfile.parent?.parentID}"></span></p>
+                    <input type="hidden" th:value="${studentProfile.studentID}" id="studentID">
+                    <p><b>Họ và tên:</b> <span th:text="${studentProfile.firstName + ' ' + studentProfile.lastName}"></span></p>
+                    <p><b>Ngày sinh:</b> <span th:text="${studentProfile.dob}"></span></p>
+                    <p><b>Giới tính:</b> <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span></p>
+                    <p><b>Địa chỉ:</b> <span th:text="${studentProfile.address}"></span></p>
+                    <p><b>Số điện thoại:</b> <span th:text="${studentProfile.phoneNumber}"></span></p>
+                    <p><b>Email:</b> <span th:text="${studentProfile.email}"></span></p>
+                    <p><b>Năm nhập học:</b> <span th:text="${studentProfile.yearOfAdmission}"></span></p>
+                    <p><b>Khóa học:</b> <span th:text="${studentProfile.schoolYear}"></span></p>
+                    <p><b>Mã chuyên ngành:</b> <span th:text="${studentProfile.major?.majorID}"></span></p>
+                    <p><b>Mã phụ huynh:</b> <span th:text="${studentProfile.parent?.parentID}"></span></p>
 
                     <!-- Logout and Change Password Buttons -->
                     <div class="button-group">
                         <button onclick="window.location.href='/resetpassword'" class="btn btn-primary">Đổi mật khẩu</button>
-                        <button onclick="window.location.href='/login'" class="btn btn-danger">Đăng xuất</button>              
+                        <button onclick="window.location.href='/login'" class="btn btn-danger">Đăng xuất</button>
                     </div>
                 </div>
                 <div th:if="${studentProfile == null}">
                     <p>Không tìm thấy thông tin sinh viên.</p>
                 </div>
             </div>
-            <!--Profile avatar-->
-            <div class="profile-avatar">
-                <div>
-                    <!-- Kiểm tra xem studentProfile.avatar có null hoặc rỗng không -->
-                    <img id="avatarPreview"
-                         th:src="@{${studentProfile != null && studentProfile.avatar != null && studentProfile.avatar != '' ? '/assets/images/' + studentProfile.avatar : '/assets/images/default-avatar.png'}}"
-                         src="/assets/images/default-avatar.png"
-                         alt="Avatar sinh viên"
-                         class="avatar">
-                </div>
-                <!-- Nút chọn ảnh -->
-                <div class="file-upload">
-                    <label for="fileInput" class="btn btn-secondary">Chọn ảnh</label>
-                    <input type="file" id="fileInput" accept=".png, .jpg, .jpeg" style="display: none;" />
-                </div>
-            </div>
-            
-            <script>
-                document.getElementById('fileInput').addEventListener('change', function (event) {
-                    const file = event.target.files[0]; // Lấy tệp được chọn
-                    if (file) {
-                        const reader = new FileReader(); // Tạo FileReader để đọc tệp
-                        reader.onload = function (e) {
-                            // Cập nhật src của ảnh với URL được đọc
-                            const avatarPreview = document.getElementById('avatarPreview');
-                            avatarPreview.src = e.target.result;
-                        };
-                        reader.readAsDataURL(file); // Đọc tệp dưới dạng URL
-                    }
-                });
-            </script>
-            
+
+   <!--Profile avatar-->
+   <div class="profile-avatar">
+    <div>
+        <!-- Kiểm tra xem studentProfile.avatar có null hoặc rỗng không -->
+        <img id="avatarPreview"
+             th:src="@{${studentProfile != null && studentProfile.avatar != null && studentProfile.avatar != '' ? studentProfile.avatar : '/assets/images/default-avatar.png'}}"
+             src="/assets/images/default-avatar.png"
+             alt="Avatar sinh viên"
+             class="avatar">
+        <img id="uploadedAvatar" src="" alt="Ảnh tải lên" class="avatar" style="display: none;">
+    </div>
+    <div class="file-upload">
+        <label for="fileInput" class="btn btn-secondary">Chọn ảnh</label>
+        <input type="file" id="fileInput" accept=".png, .jpg, .jpeg" style="display: none;" />
+    </div>
+
+    <!-- Hiển thị ảnh đã chọn và nút lưu -->
+    <div id="selectedImage" style="display:none;">
+        <img id="imagePreview" style="max-width: 200px; margin-top: 20px; display: none" />
+        <button id="saveAvatar" class="btn btn-success" style="margin-top: 10px;">Lưu ảnh</button>
+    </div>
+</div>
 </body>
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (validTypes.includes(file.type)) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('avatarPreview').style.display = 'none';
+                    const uploadedAvatar = document.getElementById('uploadedAvatar');
+                    uploadedAvatar.src = e.target.result;
+                    uploadedAvatar.style.display = 'block';
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('selectedImage').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Chỉ cho phép tải lên ảnh .jpg, .jpeg hoặc .png.');
+                document.getElementById('fileInput').value = '';
+            }
+        }
+    });
+
+    document.getElementById('saveAvatar').addEventListener('click', function () {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Vui lòng chọn ảnh để tải lên.');
+            return;
+        }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validTypes.includes(file.type)) {
+            alert('Chỉ cho phép tải lên ảnh .jpg, .jpeg hoặc .png.');
+            return;
+        }
+
+        const formData = new FormData();
+        const studentID = document.getElementById("studentID").value;
+        formData.append('file', file);
+        formData.append('studentID', studentID);
+
+        fetch('/cloudinary/uploadAvatar', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Cập nhật ảnh thành công!');
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                alert('Có lỗi xảy ra khi tải lên!');
+                console.error(error);
+            });
+    });
+</script>
 </html>

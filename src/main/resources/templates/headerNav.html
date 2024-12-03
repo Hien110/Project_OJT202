@@ -30,14 +30,14 @@
                         <div class="display">
                             <div class="cont">
                                 <div class="sec" th:if="${session.todayNotifications != null}" th:each="notification : ${session.todayNotifications}">
-                                    <a th:href="@{/notifications/view/{id}(id=${notification.notificationID})}">
+                                    <a th:href="@{/home}">
                                       <div class="profCont">
                                         <img class="profile" 
-                                          th:src="${notification.notificationImage != null && !notification.notificationImage.isEmpty() ? notification.notificationImage : 'https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png'}" style="object-fit: cover;"
+                                          th:src="${notification.notificationImage != null && !notification.notificationImage.isEmpty() ? notification.notificationImage : 'https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png'}" style="object-fit: contain;"
                                           alt="Profile Image" />
-                                    </div>                                    
+                                    </div>                                   
                                         <div class="txt" th:text="${notification.notificationName}"></div>
-                                        <div class="txt sub" th:text="${#temporals.format(notification.notificationDate, 'yyyy-MM-dd')}"></div>
+                                        <div class="txt sub" th:text="${#temporals.format(notification.notificationDate, 'yyyy-MM-dd')}"></div> 
                                     </a>
                                 </div>
                                 <div class="sec" th:if="${session.todayNotifications == null || #lists.isEmpty(session.todayNotifications)}">
@@ -85,10 +85,11 @@
             <i class="fas fa-comment-alt"></i>
           <span>Quản lí feedback</span>
         </a>
-        <a href="#" class="menu-item">
+   
+        <a href="/adminProfile" class="menu-item logout">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
-        </a>
+      </a>      
       </div>
     </div>
 
@@ -114,15 +115,15 @@
         <a th:href="@{/lecture/l_viewClass}" class="menu-item">
           <i class="fas fa-clipboard-list"></i>
           <span>Quản lý bảng điểm</span>
-        </a>
-        <a href="#" class="menu-item">
+      </a>      
+        <a th:href="@{/luniClasses}" class="menu-item">
             <i class="fas fa-comment-alt"></i>
           <span>Feedback của sinh viên</span>
         </a>
-        <a href="#" class="menu-item">
+        <a href="/lectureProfile/L001" class="menu-item">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
-        </a>
+      </a>      
       </div>
     </div>
    
@@ -150,8 +151,7 @@
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
       </a>
-      
-      
+          
       </div>
     </div>
    

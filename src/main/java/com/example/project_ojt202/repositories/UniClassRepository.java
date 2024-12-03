@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
 
@@ -33,5 +34,7 @@ public interface UniClassRepository extends JpaRepository<UniClass, Long> {
     // Tìm các UniClass dựa trên danh sách Subject
     List<UniClass> findBySubjectIn(List<Subject> subjects);
     //Minh
-    List<UniClass> findByLectureProfileFirstNameContainingOrLectureProfileLastNameContaining(String firstName, String lastName);
+    List<UniClass> findByLectureProfile(LectureProfile lectureProfile);
+    List<UniClass> findByLectureProfileAndSemester(LectureProfile lectureProfile, String semester);
+    
 }

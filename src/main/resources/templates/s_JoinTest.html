@@ -14,29 +14,37 @@
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navStudent}"></div>
     <div class="content">
-        <form action="/doTest" method="post">
-            <h1 th:text="${test.uniClass.uniClassName}">Lớp</h1>
-            <h3 th:text="${test.examName}"></h3>
-            <div>
-                <label for="pass">Nhập mật khẩu</label>
-                <input type="password" id="pass" name="pass">
-            </div>
-            <div class="password-toggle">
-                <label>
-                    <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
-                </label>
-            </div>
-            <input type="hidden" th:value="${test.testID}" name="testID">
-            <button>Xác Nhận</button>
-        </form>
+        <h1 th:text="${test.uniClass.uniClassName}">Lớp</h1>
+        <h3 th:text="${test.examName}"></h3>
+
+        <!-- Nếu đã làm bài kiểm tra -->
+        <div th:if="${isTestTaken}">
+            <p class="message" th:text="${error}">Bạn đã làm bài kiểm tra này rồi.</p>
+        </div>
+
+        <!-- Nếu chưa làm bài kiểm tra -->
+        <div th:unless="${isTestTaken}">
+            <form action="/doTest" method="post">
+                <div>
+                    <label for="pass">Nhập mật khẩu</label>
+                    <input type="password" id="pass" name="pass">
+                </div>
+                <div class="password-toggle">
+                    <label>
+                        <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
+                    </label>
+                </div>
+                <input type="hidden" th:value="${test.testID}" name="testID">
+                <button>Xác Nhận</button>
+            </form>
+        </div>
     </div>
 
-
     <script>
-        document.getElementById("password-toggle").addEventListener('change', function () {
+        function togglePassword() {
             const passwordInput = document.getElementById("pass");
-            passwordInput.type = this.checked ? "text" : "password";
-        });
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
     </script>
 </body>
 

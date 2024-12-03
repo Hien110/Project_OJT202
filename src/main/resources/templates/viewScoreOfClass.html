@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Môn Học</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/allOfSubject.css}"
+    />
+  </head>
+
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div class="student-list-container">
+      <h1>Danh Sách Bảng Điểm</h1>
+
+      <!-- Bảng Sinh Viên -->
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Sinh Viên</th>
+            <th>Progress Test</th>
+            <th>Assignment</th>
+            <th>Final Exam</th>
+          </tr>
+        </thead>
+        <tbody>
+          <th:block th:each="learn, iterStat : ${learns}">
+            <tr class="student-row">
+              <td th:text="${iterStat.index + 1}"></td>
+              <td>
+                <span
+                  class="student-name"
+                  th:text="${learn.getStudentProfile().getLastName() + ' ' + learn.getStudentProfile().getFirstName() + '-' + learn.getStudentProfile().getStudentID()}"
+                >
+                </span>
+              </td>
+              <td>
+                <span
+                  th:each="exam : ${exams}"
+                  th:if="${exam.getStudentProfile().getStudentID() == learn.getStudentProfile().getStudentID() 
+                                     and exam.getTest().getUniClass().getUniClassId() == uniClassId 
+                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Progress test'}"
+                >
+                  <p th:text="${exam.getExamScore()}"></p>
+                  <span th:if="${!iterStat.last}"></span> <!-- Thêm dấu phẩy nếu không phải phần tử cuối -->
+                </span>
+              </td>
+              <td>
+                <span
+                  th:each="exam : ${exams}"
+                  th:if="${exam.getStudentProfile().getStudentID() == learn.getStudentProfile().getStudentID() 
+                                     and exam.getTest().getUniClass().getUniClassId() == uniClassId 
+                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Assigment'}"
+                  th:text="${exam.getExamScore()}"
+                >
+                </span>
+              </td>
+              <td>
+                <span
+                  th:each="exam : ${exams}"
+                  th:if="${exam.getStudentProfile().getStudentID() == learn.getStudentProfile().getStudentID() 
+                                     and exam.getTest().getUniClass().getUniClassId() == uniClassId 
+                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Final Exam'}"
+                  th:text="${exam.getExamScore()}"
+                >
+                </span>
+              </td>
+            </tr>
+          </th:block>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
