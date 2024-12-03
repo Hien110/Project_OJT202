@@ -119,5 +119,12 @@ public class LectureProfileService {
 
         return students;
     }
+    public void updateAvatar(String lectureID, String imageUrl) {
+        LectureProfile lectureProfile = lectureProfileRepository.findByLectureID(lectureID);
+        if (lectureProfile != null) {
+            lectureProfile.setAvatar(imageUrl);
+            lectureProfileRepository.save(lectureProfile);
+        }
+    }
     
 }

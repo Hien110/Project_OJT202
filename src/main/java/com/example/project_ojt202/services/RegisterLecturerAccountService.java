@@ -78,7 +78,7 @@ public class RegisterLecturerAccountService {
 
                 // Tạo LectureProfile
                 LectureProfile lectureProfile = new LectureProfile(lecturerId, firstName, lastName, dob, false, "null",
-                        gender, address, phoneNumber, email, yearOfSubmission, major);
+                        gender, address, phoneNumber, email, yearOfSubmission, major, null);
 
                 lectureProfiles.add(lectureProfile);
             }

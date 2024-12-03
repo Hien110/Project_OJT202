@@ -34,6 +34,7 @@
             <!-- Profile Info (Left) -->
             <div class="profile-info">
                 <div th:if="${lectureProfile}">
+                    <input type="hidden" th:value="${lectureProfile.lectureID}" id="lectureID">
                     <p><strong>Họ và tên:</strong> <span th:text="${lectureProfile.firstName + ' ' + lectureProfile.lastName}"></span></p>
                     <p><strong>Ngày sinh:</strong> <span th:text="${lectureProfile.dob}"></span></p>
                     <p><strong>Email:</strong> <span th:text="${lectureProfile.email}"></span></p>
@@ -54,33 +55,86 @@
                 <div>
                     <!-- Kiểm tra xem studentProfile.avatar có null hoặc rỗng không -->
                     <img id="avatarPreview"
-                         th:src="@{${studentProfile != null && studentProfile.avatar != null && studentProfile.avatar != '' ? '/assets/images/' + studentProfile.avatar : '/assets/images/default-avatar.png'}}"
+                         th:src="@{${lectureProfile != null && lectureProfile.avatar != null && lectureProfile.avatar != '' ? lectureProfile.avatar : '/assets/images/default-avatar.png'}}"
                          src="/assets/images/default-avatar.png"
-                         alt="Avatar sinh viên"
+                         alt="Avatar giảng viên"
                          class="avatar">
+                    <img id="uploadedAvatar" src="" alt="Ảnh tải lên" class="avatar" style="display: none;">
                 </div>
-                <!-- Nút chọn ảnh -->
                 <div class="file-upload">
                     <label for="fileInput" class="btn btn-secondary">Chọn ảnh</label>
                     <input type="file" id="fileInput" accept=".png, .jpg, .jpeg" style="display: none;" />
                 </div>
+
+                <!-- Hiển thị ảnh đã chọn và nút lưu -->
+                <div id="selectedImage" style="display:none;">
+                    <img id="imagePreview" style="max-width: 200px; margin-top: 20px; display: none" />
+                    <button id="saveAvatar" class="btn btn-success" style="margin-top: 10px;">Lưu ảnh</button>
+                </div>
             </div>
             
-            <script>
-                document.getElementById('fileInput').addEventListener('change', function (event) {
-                    const file = event.target.files[0]; // Lấy tệp được chọn
-                    if (file) {
-                        const reader = new FileReader(); // Tạo FileReader để đọc tệp
-                        reader.onload = function (e) {
-                            // Cập nhật src của ảnh với URL được đọc
-                            const avatarPreview = document.getElementById('avatarPreview');
-                            avatarPreview.src = e.target.result;
-                        };
-                        reader.readAsDataURL(file); // Đọc tệp dưới dạng URL
-                    }
-                });
-            </script>
-            
 </body>
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (validTypes.includes(file.type)) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('avatarPreview').style.display = 'none';
+                    const uploadedAvatar = document.getElementById('uploadedAvatar');
+                    uploadedAvatar.src = e.target.result;
+                    uploadedAvatar.style.display = 'block';
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('selectedImage').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Chỉ cho phép tải lên ảnh .jpg, .jpeg hoặc .png.');
+                document.getElementById('fileInput').value = '';
+            }
+        }
+    });
+
+    document.getElementById('saveAvatar').addEventListener('click', function () {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Vui lòng chọn ảnh để tải lên.');
+            return;
+        }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validTypes.includes(file.type)) {
+            alert('Chỉ cho phép tải lên ảnh .jpg, .jpeg hoặc .png.');
+            return;
+        }
+
+        const formData = new FormData();
+        const lectureID = document.getElementById("lectureID").value;
+        formData.append('file', file);
+        formData.append('lectureID', lectureID);
+
+        fetch('/cloudinary/uploadAvatar', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Cập nhật ảnh thành công!');
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                alert('Có lỗi xảy ra khi tải lên!');
+                console.error(error);
+            });
+    });
+</script>
 </html>
 

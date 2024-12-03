@@ -59,7 +59,9 @@ public class LectureProfile {
     @ManyToOne
     @JoinColumn(name = "majorID")
     private Major major;
-
+    @Column(name = "avatar")
+    private String avatar;
+    
        // Override toString() to avoid recursion
        @Override
        public String toString() {
