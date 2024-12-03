@@ -84,8 +84,8 @@
 </head>
 <body>
     <div th:insert="~{headerNav :: header}"></div>
-    <div th:insert="~{headerNav :: navAdmin}"></div>
-
+    <div th:if="${session.account.accountRole == 'lecturer'}" th:insert="~{headerNav :: navLecture}"></div>
+    <div th:if="${session.account.accountRole == 'admin'}" th:insert="~{headerNav :: navAdmin}"></div>
     <div class="container1">
         <div class="container">
             <table>

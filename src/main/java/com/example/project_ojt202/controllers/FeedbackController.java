@@ -122,14 +122,29 @@ public String saveAllChoices(@RequestParam Long feedbackID,
     }
     return "redirect:/afeedBack";  
 }
-    @GetMapping("/uniClasses")
-public String showUniClasses(Model model) {
-    // Lấy danh sách tất cả lớp học
-    List<UniClass> uniClasses = uniClassService.getAllUniClasses();
+@GetMapping("/uniClasses")
+public String showUniClasses(@RequestParam(required = false) String semester, Model model) {
+    List<UniClass> uniClasses;
+
+    // Kiểm tra nếu semester có giá trị (không rỗng)
+    if (semester != null && !semester.isEmpty()) {
+        // Lọc theo học kỳ
+        uniClasses = uniClassService.getUniClassesBySemester(semester);
+    } else {
+        // Nếu không có semester, lấy tất cả lớp học
+        uniClasses = uniClassService.getAllUniClasses();
+    }
+
+    // Thêm danh sách lớp vào model để hiển thị trên giao diện
     model.addAttribute("uniClasses", uniClasses);
-  
-    return "uniClassList";
+
+    // Lấy danh sách các học kỳ có trong cơ sở dữ liệu để hiển thị trong dropdown (select)
+    List<String> semesters = uniClassService.getAllSemesters();
+    model.addAttribute("semesters", semesters);
+
+    return "uniClassList"; // Trả về trang hiển thị danh sách lớp
 }
+
 
 
 }
