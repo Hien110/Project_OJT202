@@ -7,7 +7,7 @@
     <link
       href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css"
       rel="stylesheet"
-    />
+    />   
     <link rel="preload" href="/assets/images/68.jpg" as="image" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -26,8 +26,7 @@
 <body>
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navStudent}"></div>
-
-    <div class="container">
+    <div class="container" style="margin-top: 73px; margin-left: 500px;">
         <h1>Thông tin tài khoản</h1>
         <div class="profile-wrapper">
             <!-- Profile Info (Left) -->
@@ -41,7 +40,7 @@
                     <p><b>Số điện thoại:</b> <span th:text="${studentProfile.phoneNumber}"></span></p>
                     <p><b>Email:</b> <span th:text="${studentProfile.email}"></span></p>
                     <p><b>Năm nhập học:</b> <span th:text="${studentProfile.yearOfAdmission}"></span></p>
-                    <p><b>Khóa học:</b> <span th:text="${studentProfile.schoolYear}"></span></p>
+                    <p><b>Khóa học:</b> <span th:text="K + ${studentProfile.schoolYear}"></span></p>
                     <p><b>Mã chuyên ngành:</b> <span th:text="${studentProfile.major?.majorID}"></span></p>
                     <p><b>Mã phụ huynh:</b> <span th:text="${studentProfile.parent?.parentID}"></span></p>
 
@@ -129,7 +128,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Cập nhật ảnh thành công!');
+                    alert('Cập nhật ảnh đại diện thành công!');
                     location.reload();
                 } else {
                     alert(data.message);

@@ -27,7 +27,7 @@ header, .navStudent {
 /* Container Styling */
 .container {
   max-width: 800px;
-  margin: 20px auto;
+  margin: 5px auto;
   padding: 20px;
   background-color: #ffffff;
   display: flex;
@@ -40,11 +40,11 @@ header, .navStudent {
 
 /* Title Styling */
 h1 {
-  font-size: 68px;
+  font-size: 40px;
   font-weight: 700;
   text-align: center;
   color: #4CAF50;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 /* Profile Wrapper Styling */
@@ -91,6 +91,19 @@ h1 {
   display: block; /* Đảm bảo label là block để có thể sử dụng margin */
   margin: 0 auto; /* Căn giữa label */
   width: fit-content; /* Đảm bảo kích thước của nút chỉ bằng kích thước nội dung */
+  transition: background-color 0.3s, transform 0.2s; /* Thêm hiệu ứng chuyển màu và phóng to */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ */
+}
+
+/* Khi hover vào nút */
+.file-upload label:hover {
+  background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+  transform: scale(1.05); /* Phóng to nút khi hover */
+}
+
+/* Khi nút bị nhấn */
+.file-upload label:active {
+  transform: scale(0.98); /* Giảm kích thước khi nhấn */
 }
 
 /* Button Group Styling */
@@ -157,5 +170,29 @@ h1 {
 .file-upload input[type="file"] {
   display: none; /* Ẩn input thực tế */
 }
+
+#saveAvatar {
+    background-color: #28a745; /* Màu xanh lá */
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px; /* Bo tròn các góc */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng chuyển màu và phóng to */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ */
+}
+
+/* Khi hover vào nút */
+#saveAvatar:hover {
+    background-color: #218838; /* Màu xanh lá đậm hơn khi hover */
+    transform: scale(1.05); /* Phóng to nút khi hover */
+}
+
+/* Khi nút bị nhấn */
+#saveAvatar:active {
+    transform: scale(0.98); /* Giảm kích thước khi nhấn */
+}
+
 
 
