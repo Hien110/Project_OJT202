@@ -80,9 +80,10 @@
                     <div class="group" th:each="entry : ${listMessageLecture}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                            th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                            <img  th:src="@{${entry.key.avatar}}"
+                            <img id="avatarPreview"
+                            th:src="@{${entry.value != null && entry.value.avatar != null && entry.value.avatar != '' ? entry.value.avatar : '/assets/images/defaultAvatar.jpg'}}"
                             alt="Avatar"
-                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
+                            class="avatar">
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -116,9 +117,10 @@
                     <div class="group" th:each="entry : ${listMessageLecture}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                            th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                            <img  th:src="@{${entry.key.avatar}}"
+                           <img id="avatarPreview"
+                            th:src="@{${entry.value != null && entry.value.avatar != null && entry.value.avatar != '' ? entry.value.avatar : '/assets/images/defaultAvatar.jpg'}}"
                             alt="Avatar"
-                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
+                            class="avatar">
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -129,9 +131,10 @@
                     <div class="group" th:each="entry : ${chatStudentMap}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                            th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                            <img  th:src="@{${entry.key.avatar}}"
+                           <img id="avatarPreview"
+                            th:src="@{${entry.key != null && entry.key.avatar != null && entry.key.avatar != '' ? entry.key.avatar : '/assets/images/defaultAvatar.jpg'}}"
                             alt="Avatar"
-                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
+                            class="avatar">
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${entry.key?.studentProfile?.lastName + ' ' + entry.key?.studentProfile?.firstName + '-' + entry.key?.accountID}">
@@ -158,9 +161,9 @@
                     <div class="group" th:each="learn : ${listMessageStudent}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                         th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
-                            <img  th:src="@{/assets/images/defaultAvatar.jpg}"
+                            <img  th:src="@{${entry.key.avatar}}"
                             alt="Avatar"
-                             />
+                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">

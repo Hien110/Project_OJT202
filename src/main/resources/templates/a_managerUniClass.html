@@ -32,7 +32,9 @@
                     <div th:each="entry : ${subjectClassMap}" data-subjectMap="${subjectClassMap}">
                         <div th:if="${entry.key.subjectID == subject.subjectID}" class="uniClassEachSemester">
                             <div th:each="uniClass : ${entry.value}" th:if="${uniClass.semester == semester}" class="filter-box uniClassBox" style="margin-top: 10px;">
+                                <a th:href="@{/lecture/l_list-classes/{uniClassId}/l_list-students(uniClassId=${uniClass.uniClassId})}">
                                 <h3 style="background-color: black;">Lớp học</h3>
+                                </a>
                                 <input th:value="${uniClass.uniClassId}" class="UniClassID" type="hidden"/>
                                 <label class="labelSelect">Tên lớp học</label>
                                 <input type="text" th:value="${uniClass.uniClassName}" class="form-control" readonly />

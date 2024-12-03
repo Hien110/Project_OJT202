@@ -8,13 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.StudentFeedback;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.LectureProfileService;
 import com.example.project_ojt202.services.StudentFeedbackService;
 
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/lecturer")
@@ -28,14 +26,8 @@ public class feedbackLecturerController {
         this.feedbackService = feedbackService;
     }
 
-    @GetMapping("/l_viewClassLecturer/{lectureID}")
-    public String getClasses(Model model, HttpSession session) {
-        Account account = (Account) session.getAttribute("account");
-        String lectureID = null;
-
-        if (account != null && account.getLectureProfile() != null) {
-            lectureID = account.getLectureProfile().getLectureID();
-        }
+    @GetMapping("/{lectureID}/l_viewClassLecturer")
+    public String getClasses(@PathVariable("lectureID") String lectureID, Model model) {
 
         List<UniClass> classes = leturerService.getClassesForLecturer(lectureID);
         model.addAttribute("classes", classes);
