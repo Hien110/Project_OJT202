@@ -47,7 +47,7 @@
                       <button class="detail-button">Xem Chi Tiết</button>
                       <div class="detail-options">
                         <a th:href="@{/lectures/l_viewLectureProfile/{lectureID}(lectureID=${lecturer.lectureID})}" method ="get">Xem Hồ Sơ</a>
-                        <a th:href="@{/lecturer/l_viewClassLecturer/{lectureID}(lectureID=${lecturer.lectureID})}" method ="get">Quá Trình Giảng Dạy</a>
+                        <a th:href="@{/lecturer/{lectureID}/l_viewClassLecturer(lectureID=${lecturer.lectureID})}" method ="get">Quá Trình Giảng Dạy</a>
                       </div>
                     </div>
                   </td>

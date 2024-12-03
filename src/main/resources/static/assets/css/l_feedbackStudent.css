@@ -1,75 +1,108 @@
-/* Thiết lập cơ bản */
+
+/* Reset mặc định */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    
 }
 
-html, body {
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-}
-
-/* Căn giữa nội dung */
-.center-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding-left: 400px;
-}
-
-.container {
-    text-align: center;
-    width: 1000px;
-}
-
-h1 {
-    margin-bottom: 20px;
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f7f9fc;
     color: #333;
 }
 
-.table-wrapper {
-    overflow-x: auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-.feedback-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-.feedback-table thead {
-    background-color: #007bff;
-    color: white;
-}
-
-.feedback-table th, .feedback-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.feedback-table th:nth-child(1),
-.feedback-table td:nth-child(1) {
-    text-align: left;
-    width: 20%;
-}
-
-.feedback-table th:nth-child(2),
-.feedback-table td:nth-child(2) {
+h1 {
     text-align: center;
-    width: 80%;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #4e73df;
+    font-weight: 600;
 }
 
-.feedback-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+.alert {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
 }
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+.class-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.class-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.class-container h2 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.class-container p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.class-container a button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.class-container a button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .class-container {
+        padding: 15px;
+    }
+
+    .class-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .class-container a button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+.container1{
+padding-top: 100px;
+padding-left: 280px;}
+
   /* Header section */
   .navLectureDiv {
     padding-top: 100px;

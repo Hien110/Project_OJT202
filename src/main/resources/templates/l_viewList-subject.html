@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Subjects by Major</title>
+    <link
+    rel="stylesheet"
+    type="text/css"
+    th:href="@{/assets/css/headerNav.css}" />
+<link
+    rel="stylesheet"
+    type="text/css"
+    th:href="@{/assets/css/l_viewList-subject.css}" />
+</head>
+<body>
+    <div class="headerDiv">
+        <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+    </div>
+    <div class="navLectureDiv">
+        <div id="navLectureDiv"
+            th:insert="~{headerNav :: navLecture}"></div>
+    </div>
+    <h1>Subjects List</h1>
+    <div class="main-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject ID</th>
+                    <th>Subject Name</th>
+                    <th>Credits</th>
+                    <th>Term</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="subject : ${subjects}">
+                    <td th:text="${subject.subjectID}"></td>
+                    <td th:text="${subject.subjectName}"></td>
+                    <td th:text="${subject.subjectCredit}"></td>
+                    <td th:text="${subject.ternNo}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+    <script>
+        // Optional: Add any JavaScript functionality here if needed
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                alert(`You clicked on ${row.cells[1].innerText}`); // Example action on row click
+            });
+        });
+    </script>
+</body>
+</html>
