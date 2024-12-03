@@ -60,12 +60,12 @@
             <th:block th:each="student, iterStat : ${students.content}">
                 <tr class="student-row" th:data-major="${student.major.majorID}" th:data-year="${student.yearOfAdmission}">
                     <td th:text="${iterStat.index + 1}"></td>
-                    <td>
+                    <td class="student-name-avt">
                         <!-- Avatar -->
-                        <img th:src="@{${accounts[iterStat.index].avatar}}" alt="Avatar" 
+                        <img th:src="@{${student.avatar}}" alt="Avatar" 
                              onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'">
                         <!-- Tên sinh viên -->
-                        <span class="student-name" th:text="${student.lastName} + ' ' + ${student.firstName}"></span>
+                        <span class="student-name" th:text="${student.firstName} + ' ' + ${student.lastName}"></span>
                     </td>
                     <td th:text="${student.studentID}"></td>
                     <td th:text="${student.dob}"></td>

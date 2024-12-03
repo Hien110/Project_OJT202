@@ -67,7 +67,8 @@ public class RegisterStudentAccountService {
                 String avatar = "default-avatar.jpg"; // Nếu không có ảnh đại diện
 
                 // Tạo account_id_student, account_id_parent
-                String accountIdStudent = majorId + schoolYear + stt;
+                int studentIDNumber = schoolYear*10000 + stt;
+                String accountIdStudent = majorId + studentIDNumber;
                 String studentId = accountIdStudent;
                 String parentId = studentId + "PH";
 

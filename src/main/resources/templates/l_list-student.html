@@ -21,9 +21,13 @@
         <div class="headerDiv">
             <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
         </div>
-        <div class="navLectureDiv">
+        <div th:if="${session.account.accountRole == 'lecturer'}" class="navLectureDiv">
             <div id="navLectureDiv"
                 th:insert="~{headerNav :: navLecture}"></div>
+        </div>
+        <div th:if="${session.account.accountRole == 'admin'}" class="navLectureDiv">
+            <div id="navLectureDiv"
+                th:insert="~{headerNav :: navAdmin}"></div>
         </div>
         <div class="theme">
             <h1 class="title">Danh sách sinh viên</h1>
