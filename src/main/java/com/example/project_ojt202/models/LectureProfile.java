@@ -59,5 +59,21 @@ public class LectureProfile {
     @ManyToOne
     @JoinColumn(name = "majorID")
     private Major major;
+    @Column(name = "avatar")
+    private String avatar;
 
+    public LectureProfile(String lectureID, String firstName, String lastName, LocalDate dob, boolean leadMajor, String status, boolean gender, String address, String phoneNumber, String email, int yearOfAdmission, Major major) {
+        this.lectureID = lectureID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.leadMajor = leadMajor;
+        this.status = status;
+        this.gender = gender;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.yearOfAdmission = yearOfAdmission;
+        this.major = major;
+    }
 }

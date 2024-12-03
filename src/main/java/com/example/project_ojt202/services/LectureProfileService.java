@@ -8,12 +8,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.models.LectureProfile;
@@ -111,5 +109,12 @@ public class LectureProfileService {
         }
 
         return students;
+    }
+    public void updateAvatar(String lectureID, String imageUrl) {
+        LectureProfile lectureProfile = lectureProfileRepository.findByLectureID(lectureID);
+        if (lectureProfile != null) {
+            lectureProfile.setAvatar(imageUrl);
+            lectureProfileRepository.save(lectureProfile);
+        }
     }
 }

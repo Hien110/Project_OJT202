@@ -80,6 +80,19 @@ h1 {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ cho ảnh */
 }
 
+/* Label (nút chọn file) */
+.file-upload label {
+  padding: 12px 43px;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: block; /* Đảm bảo label là block để có thể sử dụng margin */
+  margin: 0 auto; /* Căn giữa label */
+  width: fit-content; /* Đảm bảo kích thước của nút chỉ bằng kích thước nội dung */
+}
+
 /* Button Group Styling */
 .button-group {
   margin-top: 20px;
@@ -136,18 +149,6 @@ h1 {
   display: block; /* Đảm bảo nằm trên một dòng mới */
 }
 
-/* Label (nút chọn file) */
-.file-upload label {
-  padding: 12px 43px;
-  background-color: #007BFF;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  display: block; /* Đảm bảo label là block để có thể sử dụng margin */
-  margin: 0 auto; /* Căn giữa label */
-  width: fit-content; /* Đảm bảo kích thước của nút chỉ bằng kích thước nội dung */
-}
 
 .file-upload label:hover {
   background-color: #0056b3;

@@ -66,4 +66,8 @@ public class ClassesController {
         return "l_list-student"; 
     }  
 
+    @GetMapping("/viewClassScoreComponent")
+    public String viewClassScoreComponent() {
+    return "viewClassScoreComponent"; 
+}
 }
