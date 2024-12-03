@@ -10,4 +10,5 @@ public class LecturerManageController {
     public String index() {
         return "lecturerManage"; 
     }
+    
 }
