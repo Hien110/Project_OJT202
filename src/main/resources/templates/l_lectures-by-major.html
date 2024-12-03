@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturers by Major</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/l_lectures-by-major.css}" />
+  </head>
+  <body>
+    <div class="headerDiv">
+      <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+    </div>
+    <div class="navLectureDiv">
+      <div id="navLectureDiv" th:insert="~{headerNav :: navLecture}"></div>
+      <div class="theme">
+        <div class="container">
+          <h1>Danh Sách Giảng Viên Chuyên Ngành: <span th:text="${majorID}"></span></h1>
+
+          <div th:if="${lecturers != null and !lecturers.isEmpty()}">
+            <h2>Danh Sách</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã Giảng Viên</th>
+                  <th>Tên Giảng Viên</th>
+                  <th>Ngày Sinh</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="lecturer : ${lecturers}">
+                  <td th:text="${lecturer.lectureID}"></td>
+                  <td th:text="${lecturer.firstName}+' '+${lecturer.lastName}"></td>
+                  <td th:text="${lecturer.dob}"></td>
+                  <td>
+                    <div class="detail-button-wrapper">
+                      <button class="detail-button">Xem Chi Tiết</button>
+                      <div class="detail-options">
+                        <a th:href="@{/lectures/l_viewLectureProfile/{lectureID}(lectureID=${lecturer.lectureID})}" method ="get">Xem Hồ Sơ</a>
+                        <a th:href="@{/lecturer/l_viewClassLecturer/{lectureID}(lectureID=${lecturer.lectureID})}" method ="get">Quá Trình Giảng Dạy</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div th:if="${lecturers == null or lecturers.isEmpty()}">
+            <p>No lecturers found for this major.</p>
+          </div>
+
+          <div>
+            <p>Lecture ID: <span th:text="${lectureID}"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

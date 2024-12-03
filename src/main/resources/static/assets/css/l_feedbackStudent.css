@@ -1,0 +1,77 @@
+/* Thiết lập cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Căn giữa nội dung */
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-left: 400px;
+}
+
+.container {
+    text-align: center;
+    width: 1000px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.feedback-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.feedback-table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.feedback-table th, .feedback-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.feedback-table th:nth-child(1),
+.feedback-table td:nth-child(1) {
+    text-align: left;
+    width: 20%;
+}
+
+.feedback-table th:nth-child(2),
+.feedback-table td:nth-child(2) {
+    text-align: center;
+    width: 80%;
+}
+
+.feedback-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+  /* Header section */
+  .navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}

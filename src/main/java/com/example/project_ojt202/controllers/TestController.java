@@ -55,7 +55,6 @@ public class TestController {
 
         List<ScoreTranscript> scoreTranscripts = scoreTranscriptService.findAllScoreTranscripts();
         model.addAttribute("scoreTranscripts", scoreTranscripts);
-
         return "createTest";
     }
 

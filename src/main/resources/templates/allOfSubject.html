@@ -59,6 +59,8 @@
             <th>Số Tín Chỉ</th>
             <th>Kỳ</th>
             <th>Mã Chuyên Ngành</th>
+            <th>Môn Tiên Quyết</th>
+            <th>Tùy Chọn</th>
           </tr>
         </thead>
         <tbody>
@@ -80,6 +82,24 @@
               <td th:text="${subject.subjectCredit}"></td>
               <td th:text="${subject.ternNo}"></td>
               <td th:text="${subject.major.majorID}"></td>
+              <!-- Môn Tiên Quyết -->
+              <td>
+                <!-- Lặp qua danh sách môn tiên quyết -->
+                <span
+                  th:each="prerequisiteSubject : ${prerequisiteSubjects}"
+                  th:if="${prerequisiteSubject.getSubject().getSubjectID() == subject.subjectID}"
+                  th:text="${prerequisiteSubject.prerequisiteSubjectID != 'null' && prerequisiteSubject.prerequisiteSubjectID != '' 
+               ? prerequisiteSubject.prerequisiteSubjectID + ' ' 
+               : 'Không có'}"
+                ></span>
+              </td>
+              <td>
+                <a
+                  th:href="@{/viewScoreTranscriptOfSubject/{subjectID}(subjectID=${subject.subjectID})}"
+                  class="btn btn-info btn-sm"
+                  >Khung chương trình</a
+                >
+              </td>
             </tr>
           </th:block>
         </tbody>

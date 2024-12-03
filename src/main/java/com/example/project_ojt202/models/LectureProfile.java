@@ -61,19 +61,15 @@ public class LectureProfile {
     private Major major;
     @Column(name = "avatar")
     private String avatar;
-
-    public LectureProfile(String lectureID, String firstName, String lastName, LocalDate dob, boolean leadMajor, String status, boolean gender, String address, String phoneNumber, String email, int yearOfAdmission, Major major) {
-        this.lectureID = lectureID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dob = dob;
-        this.leadMajor = leadMajor;
-        this.status = status;
-        this.gender = gender;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.yearOfAdmission = yearOfAdmission;
-        this.major = major;
-    }
+    
+       // Override toString() to avoid recursion
+       @Override
+       public String toString() {
+           return "LectureProfile{" +
+                  "lectureID='" + lectureID + '\'' +
+                  ", firstName='" + firstName + '\'' +
+                  ", lastName='" + lastName + '\'' +
+                  ", dob=" + dob +
+                  '}';
+       }
 }

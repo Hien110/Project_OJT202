@@ -1,0 +1,87 @@
+/* CSS Styles */
+.theme {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    padding-left: 150px;
+}
+
+.listClass {
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 90px 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#semesterSelect {
+    width: 100%;
+    /* Chiều rộng đầy đủ */
+    padding: 12px;
+    /* Tăng padding cho chọn lựa dễ dàng */
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    transition: border 0.3s ease;
+}
+
+#semesterSelect:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+#classList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#classList li {
+    background-color: #ffffff;
+    margin: 12px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
+    color: #333;
+    text-align: center;
+}
+
+#classList li:hover {
+    background-color: #f1f1f1;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Navigation Styles */
+.navLectureDiv {
+    padding-top: 80px;
+    /* Khoảng cách từ trên xuống */
+    padding-right: 180px;
+    padding-bottom: 50px;
+}
+
+.noClass {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+    margin-top: 40px;
+}

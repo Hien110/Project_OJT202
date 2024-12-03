@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Feedback List</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 12px 15px;
+        }
+
+        th {
+            background-color: #4da6fb;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        tfoot {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container1{
+        padding-top: 100px;
+        padding-left: 280px;}
+    </style>
+</head>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navAdmin}"></div>
+
+    <div class="container1">
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>HIT</th>
+                        <th>Q1</th>
+                        <th>Q2</th>
+                        <th>Q3</th>
+                        <th>Q4</th>
+                        <th>Q5</th>
+                        <th>GPA</th>
+                        <th>COMMENT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="row : ${feedbackTable}">
+                        <td th:text="${row['HIT']}"></td>
+                        <td th:text="${row['Q1']}"></td>
+                        <td th:text="${row['Q2']}"></td>
+                        <td th:text="${row['Q3']}"></td>
+                        <td th:text="${row['Q4']}"></td>
+                        <td th:text="${row['Q5']}"></td>
+                        <td th:text="${row['GPA']}"></td>
+                        <td th:text="${row['COMMENT']}"></td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+        <a th:href="@{/afeedBack/uniClasses}" class="back-btn">Trở về trang danh sách lớp học</a>
+    </div>
+</body>
+</html>

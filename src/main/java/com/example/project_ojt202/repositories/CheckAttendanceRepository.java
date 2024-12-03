@@ -22,4 +22,5 @@ public interface CheckAttendanceRepository extends JpaRepository<CheckAttendance
                               @Param("studentID") String studentID);
 
        CheckAttendance findByScheduce_scheduceIDAndStudentProfile_studentID(Long ScheduceID , String studentID);
+       List<CheckAttendance> findByScheduceUniClassUniClassId(Long classId);
 }

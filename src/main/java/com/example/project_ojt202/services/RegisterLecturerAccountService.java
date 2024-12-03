@@ -9,6 +9,8 @@ import com.example.project_ojt202.repositories.MajorRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +22,9 @@ import java.text.Normalizer;
 
 @Service
 public class RegisterLecturerAccountService {
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     private LectureProfileRepository lectureProfileRepository;
@@ -46,7 +51,8 @@ public class RegisterLecturerAccountService {
                 String firstName = getCellValueAsString(row, 1); // Cột First Name
                 String lastName = getCellValueAsString(row, 2); // Cột Last Name
                 LocalDate dob = getCellValueAsDate(row, 3); // Cột Date of Birth
-                boolean gender = row.getCell(4).getStringCellValue().equalsIgnoreCase("Nam");                String address = getCellValueAsString(row, 5); // Cột Address
+                boolean gender = row.getCell(4).getStringCellValue().equalsIgnoreCase("Nam");
+                String address = getCellValueAsString(row, 5); // Cột Address
                 String phoneNumber = getCellValueAsString(row, 6); // Cột Phone Number
                 String email = getCellValueAsString(row, 7); // Cột Email
                 String majorId = getCellValueAsString(row, 8); // Cột Major ID
@@ -72,7 +78,7 @@ public class RegisterLecturerAccountService {
 
                 // Tạo LectureProfile
                 LectureProfile lectureProfile = new LectureProfile(lecturerId, firstName, lastName, dob, false, "null",
-                        gender, address, phoneNumber, email, yearOfSubmission, major);
+                        gender, address, phoneNumber, email, yearOfSubmission, major, null);
 
                 lectureProfiles.add(lectureProfile);
             }
@@ -166,7 +172,29 @@ public class RegisterLecturerAccountService {
                 Account lectureAccount = new Account(lectureProfile.getLectureID(), null, null, lectureProfile, "a123",
                         "lecturer", null);
                 accountRepository.save(lectureAccount);
+
+                // sendEmail
+                if (lectureAccount != null) {
+                    String subject = "Thông Tin Tài Khoản Của Bạn";
+                    String message = String.format("Xin chào %s %s,\n" +
+                            "Thông tin tài khoản của bạn như sau:\n" +
+                            "Mã Tài Khoản: %s\n" +
+                            "Mật Khẩu Tài Khoản: %s\n" +
+                            "Trân trọng,\nNhóm của bạn.",
+                            lectureProfile.getFirstName(), lectureProfile.getLastName(),
+                            lectureAccount.getAccountID(), lectureAccount.getAccountPassword());
+
+                    sendEmail(lectureProfile.getEmail(), subject, message);
+                }
             }
         }
+    }
+
+    private void sendEmail(String to, String subject, String message) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(to);
+        email.setSubject(subject);
+        email.setText(message);
+        mailSender.send(email);
     }
 }

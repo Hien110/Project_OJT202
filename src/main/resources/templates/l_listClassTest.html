@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Lớp</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <script src="/assets/js/headerNav.js"></script>
+    <link rel="stylesheet" th:href="@{/assets/css/l_listClassTest.css}">
+</head>
+
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navLecture}"></div>
+    <form action="listClassesTest" method="get" id="semesterForm" class="listClass">
+        <label for="semesterSelect" class="form-label">Chọn Học Kỳ:</label>
+        <select name="semester" id="semesterSelect">
+            <option value="">Chọn học kỳ</option>
+            <option th:each="semester : ${semesters}" th:value="${semester}" th:text="${semester}"
+                th:selected="${semester == selectedSemester}"></option>
+        </select>
+
+        <ul id="classList">
+            <li th:each="uniclass : ${uniClasses}" th:text="${uniclass.uniClassName}"
+                data-semester="${uniclass.semester}"></li>
+        </ul>
+    </form>
+
+    <script>
+        document.getElementById("semesterSelect").addEventListener("change", function () {
+            document.getElementById("semesterForm").submit();  // Gửi form ngay khi thay đổi học kỳ
+        });
+    </script>
+</body>
+
+</html>

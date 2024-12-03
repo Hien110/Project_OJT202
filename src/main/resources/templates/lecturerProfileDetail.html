@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chi Tiết Hồ Sơ Sinh Viên</title>
+    <title>Chi Tiết Hồ Sơ Giảng viên</title>
     <link
       rel="stylesheet"
       type="text/css"
@@ -19,6 +19,9 @@
       type="text/css"
       th:href="@{/assets/css/lecturerProfileDetail.css}"
     />
+    <style>
+      
+    </style>
   </head>
   <body>
     <div th:insert="~{headerNav :: header}"></div>
@@ -33,11 +36,13 @@
             onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"
             class="student-avatar"
           />
+
+          <p
+            class="student-name"
+            th:text="${lecturerProfile.firstName} + ' ' + ${lecturerProfile.lastName}"
+          ></p>
+
           <div class="student-info">
-            <p
-              class="student-name"
-              th:text="${lecturerProfile.firstName} + ' ' + ${lecturerProfile.lastName}"
-            ></p>
             <p>
               <strong>Mã Giảng Viên:</strong>
               <span th:text="${lecturerProfile.lectureID}"></span>
@@ -72,9 +77,40 @@
             </p>
           </div>
 
-          <a href="/allOfLecturer" class="back-btn">Quay Lại</a>
+          <div class="button-container">
+            <a href="/allOfLecturer" class="back-btn">Quay Lại</a>
+            <div th:if="${!lecturerProfile.leadMajor}">
+              <form action="/assignLeadMajor" method="post">
+                <input
+                  type="hidden"
+                  th:value="${lecturerProfile.lectureID}"
+                  name="lectureID"
+                />
+                <button type="submit" class="assign-btn">
+                  Chỉ định làm trưởng bộ môn
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <script>
+      if (document.getElementById("successModal")) {
+        const modal = document.getElementById("successModal")
+        modal.style.display = "flex"
+        setTimeout(() => {
+          modal.style.display = "none"
+        }, 3000)
+      }
+
+      document
+        .getElementById("closeModal")
+        .addEventListener("click", function () {
+          const modal = document.getElementById("successModal")
+          modal.style.display = "none"
+        })
+    </script>
   </body>
 </html>

@@ -51,4 +51,12 @@ public class UniClass {
     @ManyToOne
     @JoinColumn(name = "lectureID")   
     private LectureProfile lectureProfile;
+    public boolean isFeedbackAvailable() {
+        if (dateEndLearn == null) {
+            return false; // Không có ngày kết thúc, không hiển thị feedback
+        }
+        LocalDate today = LocalDate.now();
+        LocalDate feedbackStartDate = dateEndLearn.minusDays(14);
+        return today.isAfter(feedbackStartDate) || today.isEqual(feedbackStartDate);
+    }
 }

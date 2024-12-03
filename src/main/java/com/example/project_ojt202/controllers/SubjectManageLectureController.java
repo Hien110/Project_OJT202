@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class FeedbackManageController {
+public class SubjectManageLectureController {
 
-    @GetMapping("/feedbackManage")
-    public String index() {
-        return "feedbackManage"; 
+    @GetMapping("/l_subjectManage")
+    public String showTeacherFunctions() {
+        return "l_subjectManage"; 
     }
 }

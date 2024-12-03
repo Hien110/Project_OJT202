@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Score</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .score {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 16px;
+        }
+
+        .result {
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .retry-button {
+            padding: 10px 20px;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .retry-button:hover {
+            background-color: #34d399;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 th:text="${examName}"></h1>
+        <div class="score" th:text="${score}">Score: 0</div>
+        <div class="result">
+            <p>Your score reflects the number of correct answers you provided. Good job!</p>
+        </div>
+        <button class="retry-button" onclick="window.location.href='/Student/list-classforstudent'">Trở về</button>
+    </div>
+
+</body>
+
+</html>

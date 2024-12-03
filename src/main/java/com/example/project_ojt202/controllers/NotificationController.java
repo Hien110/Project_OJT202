@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,8 @@ public class NotificationController {
 
     @GetMapping("/notifications")
     public String listNotifications(Model model, HttpSession session) {
-        List<Notification> notifications = notificationService.findAll();
+        List<Notification> notifications = notificationService.findAllByDateDesc();
+        Collections.reverse(notifications);
         session.setAttribute("notifications", notifications);
     
         LocalDate today = LocalDate.now();
@@ -48,10 +50,10 @@ public class NotificationController {
     @GetMapping("/notifications/list")
     @ResponseBody
     public List<Notification> getNotifications(HttpSession session) {
-        @SuppressWarnings("unchecked")
+       
         List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
         if (notifications == null) {
-            notifications = notificationService.findAll();
+            notifications = notificationService.findAllByNewestFirst();
             session.setAttribute("notifications", notifications);
         }
         return notifications;
@@ -101,7 +103,7 @@ public class NotificationController {
         try {
             // Tải lên file khác nếu có
             if (file != null && !file.isEmpty()) {
-                @SuppressWarnings("unchecked")
+                
                 Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
                 notification.setNotificationFile((String) uploadResult.get("secure_url"));
             }
@@ -143,21 +145,4 @@ public class NotificationController {
         return "success";
     }
 
-    @GetMapping("/notification")
-    public String viewStudentNotifications(Model model, HttpSession session) {
-        @SuppressWarnings("unchecked")
-        List<Notification> notifications = (List<Notification>) session.getAttribute("notifications");
-        if (notifications == null) {
-            notifications = notificationService.findAll();
-            session.setAttribute("notifications", notifications);
-        }
-        model.addAttribute("notifications", notifications);
-        return "homeStudent";
-    }
-
-    @SuppressWarnings("unchecked")
-    @ModelAttribute("notifications")
-    public List<Notification> addNotificationsToModel(HttpSession session) {
-        return (List<Notification>) session.getAttribute("notifications");
-    }
 }

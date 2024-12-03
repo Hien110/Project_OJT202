@@ -110,7 +110,7 @@
             method="post"
             th:action="@{/submitUploadLecturerAccount}"
           >
-            <button type="button" onclick="submitData()">
+            <button type="button" onclick="submitData(); displayToast()">
               Lưu thông tin giảng viên
             </button>
           </form>
@@ -128,31 +128,28 @@
             d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
           />
         </svg>
-        <p>Dữ liệu đã được lưu thành công!</p>
-        <form action="/sendEmails" method="post">
-          <button type="submit">Gửi thông tin tài khoản đến giảng viên</button>
-        </form>
+        <p>Dữ liệu đã được lưu thành công và gửi đến giảng viên!</p>
       </div>
     </div>
 
     <!-- Toast message -->
     <div
-      id="toastMessage"
-      class="toast"
-      style="
-        display: none;
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background-color: #28a745;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 9999;
-      "
-    >
-      <p>Thông tin gửi đến giảng viên thành công</p>
-    </div>
+    id="toastMessage"
+    class="toast"
+    style="
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      z-index: 9999;
+    "
+  >
+    Thông tin đang được gửi đến giảng viên...
+  </div>
 
     <!-- toasts loi khi upload file -->
     <div

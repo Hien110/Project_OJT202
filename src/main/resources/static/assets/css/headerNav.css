@@ -175,11 +175,13 @@ header{
   vertical-align: middle;
 }
 
-h1{
+/* h1{
  float: left;
   padding: 50px 30px
+} */
+.icons .notification a {
+  pointer-events: none;
 }
-
 body{
   margin: 0;
   padding: 0;
@@ -298,6 +300,9 @@ body{
 
 .profCont{
   padding-left: 15px;
+    height: 35px; 
+    object-fit: cover; 
+    
 }
 
 .profile{
@@ -305,6 +310,8 @@ body{
   clip-path: circle(50% at 50% 50%);
   width: 75px;
   float: left;
+  height: 95px;
+  object-fit: cover;
 }
 
 .txt{

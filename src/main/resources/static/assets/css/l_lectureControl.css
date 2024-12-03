@@ -1,54 +1,46 @@
-        .theme {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            padding-top: 100px;
-            padding-left: 200px;
-        }
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Giảm khoảng cách giữa các nút */
+    justify-content: center; /* Căn giữa các nút nếu không đủ 2 nút trên 1 hàng */
+    padding-top: 50px;
+    padding-left: 200px;
+}
 
-        h1 {
-            color: #4da6fb;
-            margin-top: 50px;
-            font-size: 28px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+.button-container form {
+    flex: 1 1 calc(50% - 200px); /* Điều chỉnh chiều rộng để phù hợp với khoảng cách mới */
+    display: flex;
+    justify-content: center; /* Căn giữa nút trong form */
+    padding-left: 70px;
+}
 
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
+.button-container form button {
+    width: 100%;
+    max-width: 400px; /* Kích thước nút lớn hơn */
+    padding: 15px 30px; /* Tăng khoảng cách bên trong nút */
+    font-size: 18px; /* Kích thước chữ */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px; /* Bo tròn nút */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    height: 100px;
+}
 
-        .button-link,
-        .button-container button {
-            display: inline-block;
-            width: 250px;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #4da6fb;
-            text-decoration: none;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .button-link:hover,
-        .button-container button:hover {
-            background-color: #FF0000;
-            transform: translateY(-3px);
-        }
-
-        .button-container button:active {
-            transform: translateY(1px);
-            background-color: #388e3c;
-        }
+.button-container form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Hiệu ứng hover */
+}
+.navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}
+.theme h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #007bff;
+    text-align: center;
+    padding-left: 200px;
+    font-size: 60px;
+}

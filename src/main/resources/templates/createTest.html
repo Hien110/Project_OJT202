@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/createTest.css}" />
     <script src="/assets/js/l_createTest.js"></script>
     <style>
-  
+
     </style>
 </head>
 
@@ -22,127 +22,122 @@
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navLecture}"></div>
     <!-- Form -->
-    <form action="submitTest" method="POST" th:object="${test}"
-    class="form-container" onsubmit="return combineDateTime();"
-    enctype="multipart/form-data">
-    <h1 class="form-title">Tạo bài kiểm tra</h1>
+    <form action="submitTest" method="POST" th:object="${test}" class="form-container"
+        onsubmit="return combineDateTime();" enctype="multipart/form-data">
+        <h1 class="form-title">Tạo bài kiểm tra</h1>
 
-    <!-- Chọn lớp -->
-    <div class="form-group">
-        <label for="classSelect" class="form-label">Chọn lớp:</label>
-        <select id="classSelect" th:field="*{uniClass}"
-            class="form-select" required>
-            <option value="">Chọn lớp</option>
-            <option th:each="uniClass : ${uniClasses}" th:value="${uniClass.uniClassId}"
-                th:text="${uniClass.uniClassName}"></option>
-        </select>
-    </div>
-
-    <!-- Chọn bài kiểm tra -->
-    <div class="form-group">
-        <label for="testSelect" class="form-label">Chọn bài kiểm tra:</label>
-        <select id="testSelect" th:field="*{scoreTranscript}"
-            class="form-select">
-            <option value="">Chọn bài kiểm tra</option>
-            <option th:each="scoreTranscript : ${scoreTranscripts}" th:value="${scoreTranscript.scoreTranscriptID}"
-                th:text="${scoreTranscript.nameTest}"></option>
-        </select>
-    </div>
-
-    <!-- Mức độ -->
-    <div class="form-group">
-        <label for="levelTest" class="form-label">Mức độ:</label>
-        <select id="levelTest" th:field="*{testLevel}"
-            class="form-select"
-            onchange="updateQuestionDistribution()">
-            <option value="Dễ">Dễ</option>
-            <option value="Trung Bình">Trung Bình</option>
-            <option value="Khó">Khó</option>
-        </select>
-    </div>
-
-    <!-- Số lượng câu hỏi -->
-    <label for="questionCount" class="form-label">Nhập số câu:</label>
-    <input type="number" th:field="*{questionNumber}" id="questionCount"
-        class="form-input" placeholder="Nhập số câu">
-
-    <!-- Câu khó, trung bình, dễ -->
-    <div class="form-group">
-        <label for="hard" class="form-label">Câu khó:</label>
-        <input type="number" th:field="*{hardQuestion}" id="hard"
-            class="form-input"
-            oninput="adjustQuestions('hard')" placeholder="Nhập số câu khó">
-    </div>
-    <div class="form-group">
-        <label for="medium" class="form-label">Câu trung bình:</label>
-        <input type="number" th:field="*{mediumQuestion}" id="medium"
-            class="form-input"
-            oninput="adjustQuestions('medium')" placeholder="Nhập số câu trung bình">
-    </div>
-    <div class="form-group">
-        <label for="easy" class="form-label">Câu dễ:</label>
-        <input type="number" th:field="*{easyQuestion}" id="easy"
-            class="form-input"
-            oninput="adjustQuestions('easy')" placeholder="Nhập số câu dễ">
-    </div>
-
-    <!-- Thời gian bắt đầu -->
-    <div class="form-group">
-        <label for="startExamDate" class="form-label">Thời gian bắt đầu:</label>
-        <input type="date" id="startExamDate"
-            class="form-input" required>
-        <input type="time" id="startExamTime"
-            class="form-input mt-2" required>
-    </div>
-
-    <!-- Thời gian kết thúc -->
-    <div class="form-group">
-        <label for="endExamDate" class="form-label">Thời gian kết thúc:</label>
-        <input type="date" id="endExamDate"
-            class="form-input" required>
-        <input type="time" id="endExamTime"
-            class="form-input mt-2" required>
-    </div>
-
-    <!-- Trường ẩn để lưu thời gian bắt đầu và kết thúc -->
-    <input type="hidden" th:field="*{testStartTime}" id="testStartTime">
-    <input type="hidden" th:field="*{testFinishTime}" id="testFinishTime">
-
-    <!-- Phần upload câu hỏi -->
-    <div class="upload-container">
-        <div class="tabs">
-            <a class="tab" data-value="0" onclick="setStatusTest(this)">Ngân hàng câu hỏi</a>
-            <a class="tab" data-value="1" onclick="setStatusTest(this)">Upload câu hỏi</a>
-            <input type="hidden" id="statusTestInput" name="statusTest" th:field="*{statusTest}" value="">
-        </div>
-
-        <!-- Form upload câu hỏi -->
-        <div id="uploadFileForm" class="upload-form" style="display: none;">
-            <p class="upload-text">Upload gói câu hỏi tự chọn cho bài kiểm tra</p>
-            <label for="fileUpload" class="upload-label">Tải lên tệp:</label>
-            <input type="file" id="fileUpload" name="fileUpload" class="file-input">
-            <a href="/assets/example/Questions.xlsx" class="download-link">Tải mẫu Question.xlsx</a>
-        </div>
-
-        <!-- Mật khẩu -->
+        <!-- Chọn lớp -->
         <div class="form-group">
-            <label for="passwordInput" class="form-label">Nhập mật khẩu:</label>
-            <input type="password" th:field="*{testkeyWord}" id="passwordInput"
-                class="form-input">
-            <div class="password-toggle">
-                <label>
-                    <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
-                </label>
+            <label for="classSelect" class="form-label">Chọn lớp:</label>
+            <select id="classSelect" th:field="*{uniClass}" class="form-select" required>
+                <option value="">Chọn lớp</option>
+                <option th:each="uniClass : ${uniClasses}" th:value="${uniClass.uniClassId}"
+                    th:text="${uniClass.uniClassName}"></option>
+            </select>
+        </div>
+
+        <!-- Chọn bài kiểm tra -->
+        <div class="form-group">
+            <label for="testSelect" class="form-label">Chọn bài kiểm tra:</label>
+            <select id="testSelect" th:field="*{scoreTranscript}" class="form-select">
+                <option value="">Chọn bài kiểm tra</option>
+                <option th:each="scoreTranscript : ${scoreTranscripts}" th:value="${scoreTranscript.scoreTranscriptID}"
+                    th:text="${scoreTranscript.nameTest}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="testName" class="form-label">Đặt tên bài kiểm tra</label>
+            <input type="text" th:field="*{examName}" class="form-select">
+        </div>
+
+        <!-- Mức độ -->
+        <div class="form-group">
+            <label for="levelTest" class="form-label">Mức độ:</label>
+            <select id="levelTest" th:field="*{testLevel}" class="form-select" onchange="updateQuestionDistribution()">
+                <option value="Dễ">Dễ</option>
+                <option value="Trung Bình">Trung Bình</option>
+                <option value="Khó">Khó</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="levelTest" class="form-label">Thời gian (phút)</label>
+            <input type="number" id="time" class="form-input" placeholder="Nhập thời gian" min="1" step="1" required
+                oninput="validity.valid||(value='');">
+        </div>
+
+        <!-- Số lượng câu hỏi -->
+        <label for="questionCount" class="form-label">Nhập số câu:</label>
+        <input type="number" th:field="*{questionNumber}" id="questionCount" class="form-input"
+            placeholder="Nhập số câu">
+
+        <!-- Câu khó, trung bình, dễ -->
+        <div class="form-group">
+            <label for="hard" class="form-label">Câu khó:</label>
+            <input type="number" th:field="*{hardQuestion}" id="hard" class="form-input"
+                oninput="adjustQuestions('hard')" placeholder="Nhập số câu khó">
+        </div>
+        <div class="form-group">
+            <label for="medium" class="form-label">Câu trung bình:</label>
+            <input type="number" th:field="*{mediumQuestion}" id="medium" class="form-input"
+                oninput="adjustQuestions('medium')" placeholder="Nhập số câu trung bình">
+        </div>
+        <div class="form-group">
+            <label for="easy" class="form-label">Câu dễ:</label>
+            <input type="number" th:field="*{easyQuestion}" id="easy" class="form-input"
+                oninput="adjustQuestions('easy')" placeholder="Nhập số câu dễ">
+        </div>
+
+        <!-- Thời gian bắt đầu -->
+        <div class="form-group">
+            <label for="startExamDate" class="form-label">Thời gian bắt đầu:</label>
+            <input type="date" id="startExamDate" class="form-input" required>
+            <input type="time" id="startExamTime" class="form-input mt-2" required>
+        </div>
+
+        <!-- Thời gian kết thúc -->
+        <div class="form-group">
+            <label for="endExamDate" class="form-label">Thời gian kết thúc:</label>
+            <input type="date" id="endExamDate" class="form-input" required>
+            <input type="time" id="endExamTime" class="form-input mt-2" required>
+        </div>
+
+        <!-- Trường ẩn để lưu thời gian bắt đầu và kết thúc -->
+        <input type="hidden" th:field="*{testStartTime}" id="testStartTime">
+        <input type="hidden" th:field="*{testFinishTime}" id="testFinishTime">
+
+        <!-- Phần upload câu hỏi -->
+        <div class="upload-container">
+            <div class="tabs">
+                <a class="tab" data-value="0" onclick="setStatusTest(this)">Ngân hàng câu hỏi</a>
+                <a class="tab" data-value="1" onclick="setStatusTest(this)">Upload câu hỏi</a>
+                <input type="hidden" id="statusTestInput" name="statusTest" th:field="*{statusTest}" value="">
+            </div>
+
+            <!-- Form upload câu hỏi -->
+            <div id="uploadFileForm" class="upload-form" style="display: none;">
+                <p class="upload-text">Upload gói câu hỏi tự chọn cho bài kiểm tra</p>
+                <label for="fileUpload" class="upload-label">Tải lên tệp:</label>
+                <input type="file" id="fileUpload" name="fileUpload" class="file-input">
+                <a href="/assets/example/Questions.xlsx" class="download-link">Tải mẫu Question.xlsx</a>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="form-group">
+                <label for="passwordInput" class="form-label">Nhập mật khẩu:</label>
+                <input type="password" th:field="*{testkeyWord}" id="passwordInput" class="form-input" required>
+                <div class="password-toggle">
+                    <label>
+                        <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="submit-button">Tạo bài kiểm tra</button>
+        <button type="submit" class="submit-button">Tạo bài kiểm tra</button>
     </form>
 
-
-    <!-- JavaScript -->
 </body>
 
 </html>
