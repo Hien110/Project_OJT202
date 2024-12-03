@@ -158,9 +158,9 @@
                     <div class="group" th:each="learn : ${listMessageStudent}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                         th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
-                            <img  th:src="@{${entry.key.avatar}}"
+                            <img  th:src="@{/assets/images/defaultAvatar.jpg}"
                             alt="Avatar"
-                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
+                             />
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">
