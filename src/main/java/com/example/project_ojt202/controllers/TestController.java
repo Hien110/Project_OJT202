@@ -8,6 +8,7 @@ import com.example.project_ojt202.models.AnswerTest;
 import com.example.project_ojt202.models.QuestionTest;
 import com.example.project_ojt202.models.ScoreTranscript;
 import com.example.project_ojt202.models.Test;
+import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.TestService;
 import com.example.project_ojt202.services.ScoreTranscriptService;
 import com.example.project_ojt202.services.UniClassService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -77,7 +79,7 @@ public class TestController {
                     model.addAttribute("error", "The uploaded file does not contain valid data.");
                     return "errorPage";
                 }
-
+                
                 model.addAttribute("questions", questions);
                 model.addAttribute("answers", answers);
                 model.addAttribute("test", test);
@@ -97,4 +99,20 @@ public class TestController {
             return "errorPage";
         }
     }
+
+    //aaaaaaaaaa
+    @GetMapping("/getTestsByClassId")
+@ResponseBody
+public List<ScoreTranscript> getTestsByClassId(@RequestParam Long classId) {
+    // Giả sử bạn có đối tượng uniClass để lấy subjectID từ lớp
+    UniClass uniClass = uniClassService.findById(classId);
+    String subjectId = uniClass.getSubject().getSubjectID();
+
+    // Lọc các bài kiểm tra dựa trên subjectID
+    List<ScoreTranscript> scoreTranscripts = scoreTranscriptService.getScoreTranscriptsBySubjectId(subjectId);
+
+    // Trả về dữ liệu dưới dạng JSON
+    return scoreTranscripts;
+}
+
 }

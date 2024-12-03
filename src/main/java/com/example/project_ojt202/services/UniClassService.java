@@ -37,8 +37,18 @@ public class UniClassService {
         Optional<UniClass> uniClassOptional = uniClassRepository.findById(uniClassId);
         return uniClassOptional.orElse(null); // Trả về null nếu không tìm thấy UniClass
     }
+    public List<UniClass> getUniClassesBySemester(String semester) {
+        return uniClassRepository.findBySemester(semester);
+    }
     public List<UniClass> getClassesByLecturer(LectureProfile lectureProfile) {
         return uniClassRepository.findByLectureProfile(lectureProfile);
+    }
+    public List<UniClass> getClassesByLecturerAndSemester(LectureProfile lectureProfile, String semester) {
+        return uniClassRepository.findByLectureProfileAndSemester(lectureProfile, semester);
+    }
+    
+    public List<String> getAllSemesters() {
+        return uniClassRepository.findDistinctSemesters();
     }
     // Linh
     public List<UniClass> getClassesByLectureID(String lectureID) {

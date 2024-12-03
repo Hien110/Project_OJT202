@@ -117,9 +117,9 @@ h1 {
 
 /* CSS cho ảnh đại diện và tên sinh viên */
 td img {
-    width: 80px;
+    width: 40px;
     /* Tăng kích cỡ avatar */
-    height: 80px;
+    height: 40px;
     border-radius: 50%;
     /* Vẫn giữ avatar dạng tròn */
     margin-bottom: 5px;
@@ -142,4 +142,10 @@ td {
     /* Căn giữa các nội dung trong cột */
     vertical-align: middle;
     /* Căn giữa theo chiều dọc */
+}
+
+.lecture-name-avt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
