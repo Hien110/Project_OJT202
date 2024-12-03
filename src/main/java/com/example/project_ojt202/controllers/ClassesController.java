@@ -59,10 +59,13 @@ public class ClassesController {
         
         // Kiểm tra nếu không có dữ liệu sinh viên
         if (students == null || students.isEmpty()) {
-            model.addAttribute("errorMessage", "No students found for the specified class ID.");
+            model.addAttribute("errorMessage", "Không có sinh viên nào trong lớp");
         } else {
             model.addAttribute("students", students);
         }
+
+        model.addAttribute("uniClassId", uniClassId);
+
         return "l_list-student"; 
     }  
 }

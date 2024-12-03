@@ -19,6 +19,9 @@
       type="text/css"
       th:href="@{/assets/css/studentProfileDetail.css}"
     />
+    <style>
+      
+    </style>
   </head>
   <body>
     <div th:insert="~{headerNav :: header}"></div>
@@ -33,11 +36,13 @@
             onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"
             class="student-avatar"
           />
+
+          <p
+            class="student-name"
+            th:text="${studentProfile.firstName} + ' ' + ${studentProfile.lastName}"
+          ></p>
+
           <div class="student-info">
-            <p
-              class="student-name"
-              th:text="${studentProfile.firstName} + ' ' + ${studentProfile.lastName}"
-            ></p>
             <p>
               <strong>Mã Sinh Viên:</strong>
               <span th:text="${studentProfile.studentID}"></span>

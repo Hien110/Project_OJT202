@@ -1,0 +1,52 @@
+
+  
+  /* Header section */
+  .navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}
+.content {
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-left: 480px;
+}
+
+.title{
+    display:flex;
+    justify-content: center;
+    padding-right: 200px;
+
+}
+
+/* Bảng thông tin */
+table.lecturer-info {
+    width: 900px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    height: 490px;
+}
+
+table.lecturer-info td {
+    padding: 10px;
+    border: 1px solid #fff;
+    vertical-align: top;
+}
+
+table.lecturer-info td:first-child {
+    font-weight: bold;
+    color: #555;
+    width: 30%;
+}
+
+/* Liên kết quay lại */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+

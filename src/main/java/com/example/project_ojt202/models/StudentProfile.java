@@ -67,4 +67,7 @@ public class StudentProfile {
     private String avatar;
     
      
+    public StudentProfile(String studentID) {
+        this.studentID = studentID;
+    }
 }

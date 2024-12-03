@@ -31,10 +31,13 @@ public class StudentFeedback {
     private StudentProfile studentProfile; 
     
     @ManyToOne
-    @JoinColumn(name = "lectureID", referencedColumnName = "lectureID")
-    private LectureProfile lectureProfile; 
+    @JoinColumn(name = "uniClassId", referencedColumnName = "uniClassId")
+    private UniClass uniClass; 
 
     @ManyToOne
     @JoinColumn(name = "feedbackChoiceID", referencedColumnName = "feedbackChoiceID")
     private FeedbackChoice feedbackChoice; 
+    
+    @Column(name = "feedbackText", length = 1000) 
+    private String feedbackText;
 }

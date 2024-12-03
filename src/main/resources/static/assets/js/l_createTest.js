@@ -24,6 +24,31 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Ngăn việc gửi form mặc định
+
+    // Kiểm tra nếu trường đang hoạt động là một trong các trường cần kiểm tra
+    const activeElement = document.activeElement;
+
+    if (activeElement.id === "questionCount") {
+      handleQuestionCountChange();
+    } else if (
+      activeElement.id === "hard" ||
+      activeElement.id === "medium" ||
+      activeElement.id === "easy"
+    ) {
+      adjustQuestions(activeElement.id);
+    } else if (
+      activeElement.id === "startExamDate" ||
+      activeElement.id === "startExamTime" ||
+      activeElement.id === "endExamDate" ||
+      activeElement.id === "endExamTime"
+    ) {
+      combineDateTime();
+    }
+  }
+});
 
 // Hiển thị hoặc ẩn mật khẩu
 function togglePassword() {

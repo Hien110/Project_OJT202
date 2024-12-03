@@ -1,6 +1,8 @@
 package com.example.project_ojt202.controllers;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.project_ojt202.models.Account;
+import com.example.project_ojt202.models.CheckAttendance;
 import com.example.project_ojt202.models.Scheduce;
 import com.example.project_ojt202.models.StudentProfile;
 import com.example.project_ojt202.models.UniClass;
@@ -30,8 +33,8 @@ public class CheckAttendanceController {
     private final CheckAttendanceService attendanceService;
     private final ScheduceService scheduceService;
 
-    public CheckAttendanceController(LectureProfileService lecturerService, 
-    CheckAttendanceService attendanceService, ScheduceService scheduceService) {
+    public CheckAttendanceController(LectureProfileService lecturerService,
+            CheckAttendanceService attendanceService, ScheduceService scheduceService) {
         this.lecturerService = lecturerService;
         this.attendanceService = attendanceService;
         this.scheduceService = scheduceService;
@@ -42,36 +45,38 @@ public class CheckAttendanceController {
         Account account = (Account) session.getAttribute("account");
         String lectureID = null;
         List<UniClass> classes = null;
-    
+
         if (account != null && account.getLectureProfile() != null) {
             lectureID = account.getLectureProfile().getLectureID();
         }
-    
+
         // Lấy danh sách lớp học của giảng viên
         classes = lecturerService.getClassesForLecturer(lectureID);
-    
+
         // Lấy ngày hôm nay
         LocalDate currentDate = LocalDate.now();
-    
-        // Tạo Map để lưu danh sách lịch học cho từng lớp, chỉ bao gồm những lớp có lịch học trong ngày hôm nay
+
+        // Tạo Map để lưu danh sách lịch học cho từng lớp, chỉ bao gồm những lớp có lịch
+        // học trong ngày hôm nay
         Map<Long, List<Scheduce>> schedulesByClass = classes.stream()
-            .collect(Collectors.toMap(
-                UniClass::getUniClassId,
-                uniClass -> scheduceService.findScheduceOfUniClass(uniClass.getUniClassId()).stream()
-                    .filter(scheduce -> scheduce.getDateScheduce().equals(currentDate)) // So sánh với ngày hôm nay
-                    .collect(Collectors.toList())
-            ));
-    
+                .collect(Collectors.toMap(
+                        UniClass::getUniClassId,
+                        uniClass -> scheduceService.findScheduceOfUniClass(uniClass.getUniClassId()).stream()
+                                .filter(scheduce -> scheduce.getDateScheduce().equals(currentDate)) // So sánh với ngày
+                                                                                                    // hôm nay
+                                .collect(Collectors.toList())));
+
         // Lọc những lớp có lịch học trong ngày hôm nay
         classes = classes.stream()
-            .filter(uniClass -> schedulesByClass.get(uniClass.getUniClassId()).size() > 0)
-            .collect(Collectors.toList());
-    
+                .filter(uniClass -> schedulesByClass.get(uniClass.getUniClassId()).size() > 0)
+                .collect(Collectors.toList());
+
         model.addAttribute("classes", classes);
         model.addAttribute("schedulesByClass", schedulesByClass);
-    
+
         return "l_listClassTakeAttendance";
-    }    
+    }
+
     @GetMapping("/l_listClassTakeAttendance/{uniClassId}/l_listStudentTakeAttendance")
     public String getStudentsInClass(@PathVariable String uniClassId, Model model) {
         Long uniClassIdLong;
@@ -106,5 +111,12 @@ public class CheckAttendanceController {
         model.addAttribute("uniClassId", uniClassId);
 
         return "redirect:/lecture/l_listClassTakeAttendance";
+    }
+    @GetMapping("/l_listClassTakeAttendance/{uniClassId}/l_listcheckattendance")
+    public String getAttendanceList(@PathVariable Long uniClassId, Model model) {
+        List<CheckAttendance> attendanceList = attendanceService.getAttendanceByClass(uniClassId);
+        Collections.reverse(attendanceList);
+        model.addAttribute("attendanceList", attendanceList);
+        return "l_listcheckattendance"; // Giao diện hiển thị danh sách điểm danh
     }
 }

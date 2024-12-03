@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>List of Classes for Student</title>
+        <script src="/assets/js/headerNav.js"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/headerNav.css}" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/s_list-classforstudent.css}" />
+        <script>
+            // Function to filter classes based on selected semester
+            function handleSemesterChange() {
+                var semesterSelect = document.getElementById("semesterSelect");
+                var selectedSemester = semesterSelect.value;
+
+                // Get all the rows in the table
+                var tableRows = document.querySelectorAll("tbody tr");
+
+                tableRows.forEach(function(row) {
+                    var semesterCell = row.querySelector("td:nth-child(3)").innerText;
+
+                    // Show or hide the row based on semester match
+                    if (semesterCell === selectedSemester || selectedSemester === "All") {
+                        row.style.display = ""; // Show row
+                    } else {
+                        row.style.display = "none"; // Hide row
+                    }
+                });
+
+                // Reset pagination after filtering
+                currentPage = 1;
+                displayPage(currentPage);
+            }
+
+            // Pagination variables
+            let currentPage = 1;
+            const itemsPerPage = 5;
+
+            // Function to display classes for the current page
+            function displayPage(page) {
+                const rows = document.querySelectorAll("tbody tr");
+                const totalItems = rows.length;
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                // Hide all rows initially
+                rows.forEach((row, index) => {
+                    row.style.display = "none";
+                });
+
+                // Show the rows for the current page
+                const start = (page - 1) * itemsPerPage;
+                const end = Math.min(start + itemsPerPage, totalItems);
+
+                for (let i = start; i < end; i++) {
+                    rows[i].style.display = "";
+                }
+
+                // Update the pagination buttons
+                updatePaginationButtons(totalPages, page);
+            }
+
+            // Function to update the pagination buttons
+            function updatePaginationButtons(totalPages, page) {
+                const pagination = document.getElementById("pagination");
+                pagination.innerHTML = ""; // Clear existing buttons
+
+                // Create previous button
+                const prevButton = document.createElement("button");
+                prevButton.innerText = "Previous";
+                prevButton.disabled = page === 1;
+                prevButton.onclick = () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayPage(currentPage);
+                    }
+                };
+                pagination.appendChild(prevButton);
+
+                // Create page number buttons
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement("button");
+                    pageButton.innerText = i;
+                    pageButton.classList.toggle("active", i === page);
+                    pageButton.onclick = () => {
+                        currentPage = i;
+                        displayPage(currentPage);
+                    };
+                    pagination.appendChild(pageButton);
+                }
+
+                // Create next button
+                const nextButton = document.createElement("button");
+                nextButton.innerText = "Next";
+                nextButton.disabled = page === totalPages;
+                nextButton.onclick = () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayPage(currentPage);
+                    }
+                };
+                pagination.appendChild(nextButton);
+            }
+
+            // Initialize pagination on page load
+            window.onload = function() {
+                const totalItems = document.querySelectorAll("tbody tr").length;
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                displayPage(currentPage);
+            }
+        </script>
+    </head>
+    <body>
+        <div class="headerDiv">
+            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+        </div>
+        <div class="navLectureDiv">
+            <div id="navLectureDiv"
+                th:insert="~{headerNav :: navLecture}"></div>
+        </div>
+        <div class="theme">
+            <div class="main">
+                <h1>Danh Sách Lớp Học</h1>
+                <!-- Hiển thị thông báo lỗi -->
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <!-- Hiển thị thông báo thành công -->
+                <div th:if="${message}" class="success-message">
+                    <p th:text="${message}"></p>
+                </div>
+                <label for="semester">Kỳ học</label>
+                <select name="semester" id="semesterSelect"
+                    onchange="handleSemesterChange()">
+                    <option value="All">All</option>
+                    <option value="Fall23">Fall23</option>
+                    <option value="Spring24">Spring24</option>
+                    <option value="Summer24">Summer24</option>
+                    <option value="Fall24">Fall24</option>
+                    <option value="Spring25">Spring25</option>
+                    <option value="Summer25">Summer25</option>
+                </select>
+
+                <div th:if="${classes != null}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lớp Học</th>
+                                <th>Môn Học</th>
+                                <th>Kỳ Học</th>
+                                <th>Ngày Bắt Đầu</th>
+                                <th>Ngày Kết Thúc</th>
+                                <th>Trạng Thái </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="learn : ${classes}">
+                                <td>
+                                    <a
+                                    th:href="@{/Student/list-classforstudent/{SubId}/{Uniclass}/Learning(SubId=${learn.getUniClass().getSubject().getSubjectID()}, Uniclass=${learn.uniClass.uniClassId})}"
+                                    >
+                                        <span
+                                            th:text="${learn.uniClass.uniClassName}"></span>
+                                    </a>
+                                </td>
+                                <td
+                                    th:text="${learn.uniClass.subject.subjectName}"></td>
+                                <td th:text="${learn.uniClass.semester}"></td>
+                                <td
+                                    th:text="${learn.uniClass.dateStartLearn}"></td>
+                                <td
+                                    th:text="${learn.uniClass.dateEndLearn}"></td>
+                                    <td>
+                                        <a th:if="${feedbackAvailabilityMap != null 
+                                            and learn.uniClass.uniClassId != null 
+                                            and feedbackAvailabilityMap[learn.uniClass.uniClassId]}" 
+                                     th:href="@{'/uniClasses/feedback'(id=${learn.uniClass.uniClassId})}">
+                                      <button>Phản hồi</button>
+                                  </a>
+                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div th:if="${classes == null or #lists.isEmpty(classes)}">
+                    <p>Không Có Lớp Nào Đã Tham Gia.</p>
+                </div>
+
+                <!-- Pagination controls -->
+                <div id="pagination" class="pagination"></div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -32,5 +32,7 @@ public class NotificationService {
     public List<Notification> findAllByDateDesc() {
         return notificationRepository.findAllByOrderByNotificationDateDesc();
     }
-
+    public List<Notification> findAllByNewestFirst() {
+        return notificationRepository.findAllByOrderByNotificationIDDesc();
+    }
 }

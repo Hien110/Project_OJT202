@@ -139,4 +139,5 @@ public class UniClassManagerController {
             }
             return "redirect:/uniClassManager/" + major + "/" + specialization;
     }
+    
 }

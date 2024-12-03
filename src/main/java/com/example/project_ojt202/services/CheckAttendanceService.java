@@ -60,4 +60,7 @@ public class CheckAttendanceService {
     public CheckAttendance getCheckAttendanceByScheduceAndStudent(Long scheduceID, String studentID) {
         return checkAttendanceRepository.findByScheduce_scheduceIDAndStudentProfile_studentID(scheduceID, studentID);
     }
+    public List<CheckAttendance> getAttendanceByClass(Long classId) {
+        return checkAttendanceRepository.findByScheduceUniClassUniClassId(classId);
+    }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chi Tiết Giảng Viên</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/headerNav.css}" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/assets/css/l_viewLectureProfile.css}" />
+    </head>
+    <body>
+        <div class="headerDiv">
+            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
+        </div>
+        <div class="navLectureDiv">
+            <div id="navLectureDiv"
+                th:insert="~{headerNav :: navLecture}"></div>
+        </div>
+
+        <div class="content">
+            <div class="title"><h1>Thông Tin Giảng Viên</h1></div>
+            <table class="lecturer-info">
+                <tr>
+                    <td>Mã Giảng Viên:</td>
+                    <td><span th:text="${lecturer.lectureID}"></span></td>
+                </tr>
+                <tr>
+                    <td>Họ Tên:</td>
+                    <td><span
+                            th:text="${lecturer.firstName} + ' ' + ${lecturer.lastName}"></span></td>
+                </tr>
+                <tr>
+                    <td>Ngày Sinh:</td>
+                    <td><span th:text="${lecturer.dob}"></span></td>
+                </tr>
+                <tr>
+                    <td>Địa Chỉ:</td>
+                    <td><span th:text="${lecturer.address}"></span></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><span th:text="${lecturer.email}"></span></td>
+                </tr>
+                <tr>
+                    <td>Số Điện Thoại:</td>
+                    <td><span th:text="${lecturer.phoneNumber}"></span></td>
+                </tr>
+                <tr>
+                    <td>Chuyên Ngành:</td>
+                    <td><span
+                            th:text="${lecturer.major.majorName}"></span></td>
+                </tr>
+                <tr>
+                    <td>Năm Tham Gia Giảng dạy</td>
+                    <td><span th:text="${lecturer.yearOfAdmission}"></span></td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
+</html>

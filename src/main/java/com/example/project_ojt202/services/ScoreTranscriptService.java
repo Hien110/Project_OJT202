@@ -128,4 +128,7 @@ public class ScoreTranscriptService {
         return scoreTranscriptRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ScoreTranscript not found with ID: " + id));
     }
+    public List<ScoreTranscript> getScoreTranscriptsBySubjectId(String subjectId) {
+        return scoreTranscriptRepository.findBySubjectSubjectID(subjectId);
+    }
 }

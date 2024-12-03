@@ -1,0 +1,81 @@
+/* Header styles */
+.navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+  }
+
+/* Main content styling */
+.theme {
+    padding: 20px;
+}
+
+.main {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding-left: 400px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #4da6fb;
+    
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+ul li:hover {
+    background-color: #ddd;
+}
+.test-item {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.test-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    min-width: 120px;
+    z-index: 10;
+    border-radius: 20px;
+}
+
+.test-item:hover .test-options {
+    display: block;
+}
+
+.test-options a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: #333;
+}
+
+.test-options a:hover {
+    background-color: #f1f1f1;
+}
+

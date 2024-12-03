@@ -5,18 +5,24 @@
     background-color: #f8f9fa;
     padding-left: 190px;
 }
+
 .class-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Căn giữa các ô trong hàng */
-    gap: 20px; /* Khoảng cách giữa các ô */
+    justify-content: center;
+    /* Căn giữa các ô trong hàng */
+    gap: 20px;
+    /* Khoảng cách giữa các ô */
     margin: 20px auto;
-    max-width: 800px; /* Tùy chỉnh chiều rộng tối đa */
+    max-width: 800px;
+    /* Tùy chỉnh chiều rộng tối đa */
 }
 
 .class-container {
-    flex: 1 1 calc(50% - 20px); /* Mỗi ô chiếm 50% chiều rộng trừ khoảng cách */
-    max-width: calc(50% - 20px); /* Đảm bảo ô không vượt quá kích thước hàng */
+    flex: 1 1 calc(50% - 20px);
+    /* Mỗi ô chiếm 50% chiều rộng trừ khoảng cách */
+    max-width: calc(50% - 20px);
+    /* Đảm bảo ô không vượt quá kích thước hàng */
     box-sizing: border-box;
     padding: 10px;
     border: 2px solid #ccc;
@@ -42,6 +48,7 @@
 .class-link:hover {
     text-decoration: none;
 }
+
 h1 {
     color: #4DA6Fb;
     text-align: center;
@@ -76,13 +83,17 @@ a {
 a:hover {
     text-decoration: none;
 }
-.headerDiv {}
+
 
 /* Navigation Styles */
 .navLectureDiv {
     padding-top: 100px;
     padding-right: 200px;
 }
-.noClass{
+
+.noClass {
     text-align: center;
+}
+.class-container svg{
+    width: 50px;
 }

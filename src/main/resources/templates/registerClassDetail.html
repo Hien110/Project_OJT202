@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Lớp Học</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/registerClassDetail.css}"
+    />
+  </head>
+
+  <body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navStudent}"></div>
+    <form th:action="@{/registerClass}" method="POST">
+      <div class="uniclass-detail">
+        <div class="uniclass">
+          <h3>Lớp Học</h3>
+          <label class="label">Mã lớp học</label>
+          <input
+            type="text"
+            th:value="${uniClass.uniClassId}"
+            name="uniClassId"
+            readonly
+          />
+          <label class="label">Tên lớp học</label>
+          <input type="text" th:value="${uniClass.uniClassName}" readonly />
+          <label class="label">Môn giảng dạy</label>
+          <input
+            type="text"
+            th:value="${uniClass.subject.getSubjectName()}"
+            readonly
+          />
+          <label class="label">Giảng viên</label>
+          <input
+            type="text"
+            th:value="${uniClass.lectureProfile.firstName + ' ' + uniClass.lectureProfile.lastName +' - '+ uniClass.lectureProfile.lectureID}"
+            readonly
+          />
+          <label class="label">Kỳ học</label>
+          <input type="text" th:value="${uniClass.semester}" readonly />
+          <label class="label">Ngày bắt đầu</label>
+          <input type="text" th:value="${uniClass.dateStartLearn}" readonly />
+          <label class="label">Ngày kết thúc</label>
+          <input type="text" th:value="${uniClass.dateEndLearn}" readonly />
+
+          <div
+            th:if="${isPassedPreSubject and not isPassedSubject and not errMaxStudent and not isInClass and not isInSubjectClass}"
+          >
+            <button type="submit">Đăng kí</button>
+          </div>
+          <div th:switch="${true}">
+            <div th:case="${isPassedSubject}">
+              <a style="color: red">Bạn đã pass môn này rồi</a>
+            </div>
+            <div th:case="${isInClass}">
+              <a style="color: red">Bạn đã ở trong lớp này</a>
+            </div>
+            <div th:case="${isInSubjectClass}">
+              <a style="color: red">Bạn đang học môn này</a>
+            </div>
+            <div th:case="${not isPassedPreSubject}">
+              <a style="color: red">Bạn chưa pass môn tiên quyết</a>
+            </div>
+            <div th:case="${errMaxStudent}">
+              <a style="color: red">Lớp đã đầy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Modal Success -->
+    <div th:if="${successMessage}" id="successModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            fill="#07c02c"
+            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+          />
+        </svg>
+        <p th:text="${successMessage}"></p>
+      </div>
+    </div>
+
+    <script>
+      // Show the modal after form submission if successMessage is present
+      if (
+        /* Check if successMessage exists */ document.getElementById(
+          "successModal"
+        )
+      ) {
+        const modal = document.getElementById("successModal")
+        modal.style.display = "flex" // Show modal
+
+        // Close modal after 3 seconds
+        setTimeout(function () {
+          modal.style.display = "none" // Hide modal
+        }, 3000)
+      }
+
+      // Close the modal when clicking the close button
+      document
+        .getElementById("closeModal")
+        .addEventListener("click", function () {
+          const modal = document.getElementById("successModal")
+          modal.style.display = "none"
+        })
+    </script>
+  </body>
+</html>
