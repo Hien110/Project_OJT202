@@ -1,8 +1,7 @@
 /* s_joinTest.css */
 
-.header{
-    
-}
+.header {}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -59,6 +58,11 @@ input[type="hidden"] {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+}
+
+.message {
+    
+    padding: 100px;
 }
 
 input[type="password"]:focus {

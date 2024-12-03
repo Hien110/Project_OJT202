@@ -63,7 +63,8 @@
 
         <div class="form-group">
             <label for="levelTest" class="form-label">Thời gian (phút)</label>
-            <input type="number" th:field="*{time}" id="time" class="form-input" placeholder="Nhập thời gian">
+            <input type="number" id="time" class="form-input" placeholder="Nhập thời gian" min="1" step="1" required
+                oninput="validity.valid||(value='');">
         </div>
 
         <!-- Số lượng câu hỏi -->
@@ -125,7 +126,7 @@
             <!-- Mật khẩu -->
             <div class="form-group">
                 <label for="passwordInput" class="form-label">Nhập mật khẩu:</label>
-                <input type="password" th:field="*{testkeyWord}" id="passwordInput" class="form-input">
+                <input type="password" th:field="*{testkeyWord}" id="passwordInput" class="form-input" required>
                 <div class="password-toggle">
                     <label>
                         <input type="checkbox" onclick="togglePassword()"> Hiển thị mật khẩu
@@ -134,12 +135,9 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
         <button type="submit" class="submit-button">Tạo bài kiểm tra</button>
     </form>
 
-
-    <!-- JavaScript -->
 </body>
 
 </html>
