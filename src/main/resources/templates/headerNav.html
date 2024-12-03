@@ -12,6 +12,7 @@
       <div class="logo">
         <img src="/assets/images/Logo.png" alt="Logo" />
       </div>
+      
       <div class="search-bar">
         <input placeholder="Enter your search here..." type="text" />
         <button class="search-button">
@@ -86,10 +87,10 @@
           <span>Quản lí feedback</span>
         </a>
    
-        <a href="/adminProfile" class="menu-item logout">
+        <a th:if="${session.account.accountRole == 'admin'}" href="/adminProfile" class="menu-item logout">
           <i class="fas fa-cog"></i>
           <span>Cài đặt tài khoản</span>
-      </a>      
+      </a>       
       </div>
     </div>
 
