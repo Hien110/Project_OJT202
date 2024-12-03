@@ -294,7 +294,7 @@
                   <a class="chatUser" style="display: flex; align-items: center;" 
                   th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
                       <img id="avatarPreview"
-                            th:src="@{${entry.value != null && entry.value.avatar != null && entry.value.avatar != '' ? entry.value.avatar : '/assets/images/defaultAvatar.jpg'}}"
+                            th:src="@{${learn.UniClass.LectureProfile!= null && learn.UniClass.LectureProfile.avatar != null && learn.UniClass.LectureProfile.avatar != '' ? learn.UniClass.LectureProfile.avatar : '/assets/images/defaultAvatar.jpg'}}"
                             alt="Avatar"
                             class="avatar">
                       <div class="group-info">
