@@ -1,49 +1,37 @@
 <!DOCTYPE html>
-<html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Feedback</title>
-        <link rel="stylesheet" href="css/style.css">
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            rel="stylesheet" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/assets/css/headerNav.css}" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/assets/css/l_feedbackStudent.css}" />
-    </head>
-    <body>
-        <div class="headerDiv">
-            <div id="headerDiv" th:insert="~{headerNav :: header}"></div>
-        </div>
-        <div class="navLectureDiv">
-            <div id="navLectureDiv"
-                th:insert="~{headerNav :: navLecture}"></div>
-            <div class="center-wrapper">
-                <div class="container">
-                    <h1>Student Feedback</h1>
-                    <div class="table-wrapper">
-                        <table class="feedback-table">
-                            <thead>
-                                <tr>
-                                    <th>Số Thứ Tự</th>
-                                    <th>Đánh Giá Của Sinh Viên</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="feedback, iterStat : ${feedbacks}">
-                                    <td th:text="${iterStat.index + 1}"></td>
-                                    <td th:text="${feedback.feedbackText}"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </body>
-    </html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Danh sách Lớp Học</title>
+    <script src="/assets/js/headerNav.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/assets/css/headerNav.css}"
+    />
+    <link
+    rel="stylesheet"
+    type="text/css"
+    th:href="@{/assets/css/l_feedbackStudent.css}" />
+</head>
+
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navLecture}"></div>
+
+    <div class="container1">
+      <h1>Feedback Của Sinh Viên</h1>
+
+    <!-- Danh sách lớp học -->
+    <div th:each="feedback : ${feedbacks}" class="class-container">
+        <h2 th:text="${feedback.uniClass.uniClassName}">Tên lớp học</h2>
+        <h3 th:text="${feedback.feedbackText}">Đánh giá của sinh viên</h3>
+        <h4 th:text="${feedback.uniClass.uniClassId}"> Mã Lớp Học</h4>
+    </div>
+</body>
+
+</html>

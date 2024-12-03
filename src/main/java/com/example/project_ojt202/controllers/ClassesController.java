@@ -49,7 +49,6 @@ public class ClassesController {
 
     @GetMapping("/l_list-classes/{uniClassId}/l_list-students")
     public String getStudentsInClass(@PathVariable Long uniClassId, Model model) {
-        System.out.println("Class ID: " + uniClassId);
     
         // Sử dụng trực tiếp uniClassId mà không ép kiểu sang Long
         List<StudentProfile> students = lecturerService.getStudentsForClass(uniClassId);

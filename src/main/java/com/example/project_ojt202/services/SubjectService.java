@@ -216,4 +216,7 @@ public class SubjectService {
     public List<Subject> getSubjectsByMajorAndTern(String majorID, int ternNo) {
         return subjectRepository.findByMajor_MajorIDAndTernNo(majorID, ternNo);
     }
+    public List<Subject> getSubjectsByMajorId(String majorID) {
+        return subjectRepository.findByMajor_MajorID(majorID);
+    }
 }

@@ -21,7 +21,7 @@ td {
 th,
 td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
 }
 
 th {
@@ -46,14 +46,13 @@ p {
   margin: 20px;
   border-collapse: collapse;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  min-height: 700px;
-  padding-right: 500px;
+  min-height: 450px;
   margin-left: 40px;
 }
 
 th, td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
     border: 1px solid #ccc; /* Đường viền giữa các ô */
 }
 
@@ -97,7 +96,6 @@ button#nextPage {
     cursor: pointer;
     font-size: 14px;
 }
-
 button#prevPage,
 button#nextPage {
     background-color: #00ccf5; /* Nền màu xanh */
@@ -120,4 +118,9 @@ button:disabled {
     background-color: lightgray;
     color: darkgray;
     cursor: not-allowed;
+}
+.changePage{
+  background-color: #00ccf5;
+  height: 50px;
+
 }

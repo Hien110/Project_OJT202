@@ -1,0 +1,45 @@
+h1 {
+    color: #4da6fb;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-left: 130px;
+}
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* To apply rounded corners */
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+th {
+    background-color: #4da6fb;
+    color: white;
+    font-weight: bold;
+}
+tr:hover {
+    background-color: #e6f4ff; /* Light blue on hover */
+}
+tr {
+    transition: transform 0.2s; /* Smooth transform effect */
+}
+tr:hover {
+    transform: scale(1.02); /* Slightly enlarge row on hover */
+}
+  
+  /* Header section */
+  .navLectureDiv {
+    padding-top: 100px;
+    padding-right: 200px;
+}
+.main-content{
+    
+    padding-left: 390px;
+  }
