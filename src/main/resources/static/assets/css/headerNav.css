@@ -175,10 +175,6 @@ header{
   vertical-align: middle;
 }
 
-h1{
- float: left;
-  padding: 50px 30px
-}
 .icons .notification a {
   pointer-events: none;
 }
