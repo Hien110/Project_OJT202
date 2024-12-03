@@ -116,7 +116,6 @@ public class JoinTestController {
 
                 long currentTime = System.currentTimeMillis();
                 long endTime = currentTime + testDurationInMillis;
-                System.out.println(exam);
                 model.addAttribute("exam", exam);
                 model.addAttribute("endTime", endTime);
                 model.addAttribute("test", test);
