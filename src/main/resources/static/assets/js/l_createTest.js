@@ -330,14 +330,25 @@ function filterTests() {
   var options = testSelect.getElementsByTagName("option");
 
   // Lặp qua tất cả các option và ẩn hoặc hiển thị chúng dựa trên điều kiện
-  for (var i = 1; i < options.length; i++) {  // Bắt đầu từ i = 1 để bỏ qua option "Chọn bài kiểm tra"
-      var option = options[i];
-      var subjectId = option.getAttribute("data-subject");
+  for (var i = 1; i < options.length; i++) {
+    // Bắt đầu từ i = 1 để bỏ qua option "Chọn bài kiểm tra"
+    var option = options[i];
+    var subjectId = option.getAttribute("data-subject");
 
-      if (selectedClassId === subjectId || selectedClassId === "") {
-          option.style.display = "block";  // Hiển thị nếu điều kiện đúng
-      } else {
-          option.style.display = "none";  // Ẩn nếu điều kiện không đúng
-      }
+    if (selectedClassId === subjectId || selectedClassId === "") {
+      option.style.display = "block"; // Hiển thị nếu điều kiện đúng
+    } else {
+      option.style.display = "none"; // Ẩn nếu điều kiện không đúng
+    }
+  }
+}
+
+function validateNumberInput(input) {
+  // Kiểm tra xem giá trị nhập vào có phải là số và có lớn hơn hoặc bằng 1 không
+  if (isNaN(input.value) || input.value < 1) {
+    input.setCustomValidity("Vui lòng nhập số hợp lệ và lớn hơn hoặc bằng 1.");
+    input.value = ""; // Xóa giá trị nếu không hợp lệ
+  } else {
+    input.setCustomValidity(""); // Đặt lại nếu giá trị hợp lệ
   }
 }
