@@ -116,8 +116,9 @@ public class JoinTestController {
 
                 long currentTime = System.currentTimeMillis();
                 long endTime = currentTime + testDurationInMillis;
-
+                // System.out.println(questionAnswerMap);
                 model.addAttribute("endTime", endTime);
+                System.out.println(endTime);
                 model.addAttribute("test", test);
                 model.addAttribute("latestQuestions", latestQuestions);
                 model.addAttribute("questionAnswerMap", questionAnswerMap);
