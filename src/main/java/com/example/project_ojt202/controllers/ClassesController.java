@@ -60,6 +60,9 @@ public class ClassesController {
         } else {
             model.addAttribute("students", students);
         }
+
+        model.addAttribute("uniClassId", uniClassId);
+
         return "l_list-student"; 
     }
 }
