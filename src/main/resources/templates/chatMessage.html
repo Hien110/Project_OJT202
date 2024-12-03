@@ -159,7 +159,20 @@
     <div class="container" style="margin-left: 0; padding-bottom: 0;">
         <div class="chat-container">
             <div class="header1">
-             <img alt="User profile picture" height="50" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="50"/>
+             <img th:if="${accountReceiver.accountRole == 'admin'}" alt="User profile picture" height="50" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" width="50"/>
+             <img th:if="${accountReceiver.accountRole == 'lecturer'}" id="avatarPreview"
+                            th:src="@{${lectureProfile != null && lectureProfile.avatar != null && lectureProfile.avatar != '' ? lectureProfile.avatar : '/assets/images/defaultAvatar.jpg'}}"
+                            alt="Avatar"
+                            class="avatar"
+                            height="50"
+                            width="50"/>
+             <img th:if="${accountReceiver.accountRole == 'student'}" id="avatarPreview"
+                            th:src="@{${studentProfile != null && studentProfile.avatar != null && studentProfile.avatar != '' ? studentProfile.avatar : '/assets/images/defaultAvatar.jpg'}}"
+                            alt="Avatar"
+                            class="avatar"
+                            height="50"
+                            width="50"/>
+                    
              <div class="user-info">
               <div class="name" th:if="${accountReceiver.accountRole == 'lecturer'}" th:text="${lectureProfile.firstName + ' ' + lectureProfile.lastName}"></div>
               <div class="id" th:if="${accountReceiver.accountRole == 'lecturer'}" th:text="${lectureProfile.lectureID}"></div>
@@ -197,9 +210,10 @@
               <div class="group" th:each="entry : ${listMessageLecture}">
                   <a class="chatUser" style="display: flex; align-items: center;" 
                      th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                      <img  th:src="@{${entry.key.avatar}}"
-                      alt="Avatar"
-                      onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
+                      <img id="avatarPreview"
+                            th:src="@{${entry.value != null && entry.value.avatar != null && entry.value.avatar != '' ? entry.value.avatar : '/assets/images/defaultAvatar.jpg'}}"
+                            alt="Avatar"
+                            class="avatar">
                       <div class="group-info">
                           <div class="group-name" 
                                th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -221,42 +235,47 @@
           />
   
           <!-- Danh sách nhóm -->
-          <div id="groupList">
-              <div class="group">
-                  <a class="chatUser" style="display: flex; align-items: center;" th:href="@{/chatMessage/Admin}" >
-                      <img alt="Icon representing Street Artists group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
-                      <div class="group-info">
-                          <div class="group-name" th:text="Admin"></div>
-                      </div>
-                  </a>
-              </div>
-              <div class="group" th:each="entry : ${listMessageLecture}">
-                  <a class="chatUser" style="display: flex; align-items: center;" 
-                     th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                      <img  th:src="@{${entry.key.avatar}}"
-                      alt="Avatar"
-                      onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
-                      <div class="group-info">
-                          <div class="group-name" 
-                               th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
-                          </div>
-                      </div>
-                  </a>
-              </div>
-                <div class="group" th:each="entry : ${chatStudentMap}">
+          <div th:if="${session.account.accountRole == 'lecturer'}">
+           
+            <div id="groupList">
+                <div class="group">
+                    <a class="chatUser" style="display: flex; align-items: center;" th:href="@{/chatMessage/Admin}" >
+                        <img alt="Icon representing Street Artists group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                        <div class="group-info">
+                            <div class="group-name" th:text="Admin"></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="group" th:each="entry : ${listMessageLecture}">
                     <a class="chatUser" style="display: flex; align-items: center;" 
-                    th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                        <img  th:src="@{${entry.key.avatar}}"
+                       th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                       <img id="avatarPreview"
+                        th:src="@{${entry.value != null && entry.value.avatar != null && entry.value.avatar != '' ? entry.value.avatar : '/assets/images/defaultAvatar.jpg'}}"
                         alt="Avatar"
-                        onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'" />
+                        class="avatar">
                         <div class="group-info">
                             <div class="group-name" 
-                                th:text="${entry.key.studentProfile.lastName + ' ' + entry.key.studentProfile.firstName + ' - ' + entry.key.accountID}">
+                                 th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
                             </div>
                         </div>
                     </a>
                 </div>
-          </div>
+                <div class="group" th:each="entry : ${chatStudentMap}">
+                    <a class="chatUser" style="display: flex; align-items: center;" 
+                       th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
+                       <img id="avatarPreview"
+                        th:src="@{${entry.key != null && entry.key.avatar != null && entry.key.avatar != '' ? entry.key.avatar : '/assets/images/defaultAvatar.jpg'}}"
+                        alt="Avatar"
+                        class="avatar">
+                        <div class="group-info">
+                            <div class="group-name" 
+                                 th:text="${entry.key?.studentProfile?.lastName + ' ' + entry.key?.studentProfile?.firstName + '-' + entry.key?.accountID}">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
       </div>
       <div th:if="${session.account.accountRole == 'student'}">
           <h3>Tin nhắn</h3>
@@ -274,9 +293,10 @@
               <div class="group" th:each="learn : ${listMessageStudent}">
                   <a class="chatUser" style="display: flex; align-items: center;" 
                   th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
-                      <img  th:src="@{${entry.key.avatar}}"
-                      alt="Avatar"
-                      onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
+                      <img id="avatarPreview"
+                            th:src="@{${entry.value != null && entry.value.avatar != null && entry.value.avatar != '' ? entry.value.avatar : '/assets/images/defaultAvatar.jpg'}}"
+                            alt="Avatar"
+                            class="avatar">
                       <div class="group-info">
                           <div class="group-name" 
                                th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">
@@ -301,11 +321,13 @@
   function appendMessage(sender, content) {
       const messageElement = document.createElement('div');
       messageElement.classList.add('message');
+      messageElement.style.marginLeft = "10px"
       
       // Xác định tin nhắn từ  chính bạn hay từ người khác
       const isSender = sender === senderAccountID;
       if (isSender === true){
         messageElement.classList.add('sent');
+        messageElement.style.marginRight = "10px"
       }
       // Thêm lớp tùy thuộc vào người gửi
       const senderElement = document.createElement('span');
@@ -317,15 +339,15 @@
       contentElement.innerText = content;
 
       const imageElement = document.createElement('img');
-      imageElement.src = "https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg";
-      imageElement.style.height = "40" ;
-      imageElement.style.width = "40" ;
+    //   imageElement.src = "https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg";
+    //   imageElement.style.height = "40" ;
+    //   imageElement.style.width = "40" ;
 
       if (isSender === true){
         messageElement.appendChild(contentElement);
-        messageElement.appendChild(imageElement);
+        // messageElement.appendChild(imageElement);
       } else {
-        messageElement.appendChild(imageElement);
+        // messageElement.appendChild(imageElement);
         messageElement.appendChild(contentElement);
       }
   

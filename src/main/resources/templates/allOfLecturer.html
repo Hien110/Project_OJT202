@@ -60,9 +60,9 @@
                     <tr class="student-row" th:data-major="${lecturer.major.majorID}"
                         th:data-year="${lecturer.yearOfAdmission}">
                         <td th:text="${iterStat.index + 1}"></td>
-                        <td>
+                        <td class="lecture-name-avt">
                             <!-- Avatar -->
-                            <img th:src="@{${accounts[iterStat.index].avatar}}" alt="Avatar"
+                            <img th:src="@{${lecturer.avatar}}" alt="Avatar"
                                 onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'">
                             <!-- Tên sinh viên -->
                             <span class="student-name"
