@@ -23,7 +23,7 @@
             color: #333;
         }
 
-        h1 {
+        h2 {
             text-align: center;
             color: #007bff;
             margin-bottom: 20px;
@@ -131,7 +131,7 @@
     <div th:insert="~{headerNav :: header}"></div>
     <div th:insert="~{headerNav :: navStudent}"></div>
     <div class="container">
-        <h1>Phản hồi lớp học: <span th:text="${uniClass.uniClassName}"></span></h1>
+        <h2>Phản hồi lớp học: <span th:text="${uniClass.uniClassName}"></span></h2>
 
         <!-- Hiển thị thông báo lỗi nếu có -->
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
@@ -155,11 +155,8 @@
             </div>
 
             <!-- Phần nội dung phản hồi -->
-            <div>
-                <label for="feedbackText">Nội dung phản hồi:</label>
-                <textarea name="feedbackText" id="feedbackText" rows="4"
-                          placeholder="Nhập ý kiến của bạn..."></textarea>
-            </div>
+            <textarea name="feedbackText" id="feedbackText" rows="4" style="resize: none; width: 100%; height: 100px;" placeholder="Nhập ý kiến của bạn..."></textarea>
+
 
             <!-- Nút gửi -->
             <button type="submit" class="button2">Gửi Feedback</button>
