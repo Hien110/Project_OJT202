@@ -175,7 +175,9 @@
       <form action="/calculatScore" method="post" onsubmit="handleSubmit(event)">
         <input type="hidden" id="selectedAnswers" name="selectedAnswers">
         <button type="submit">Submit Quiz</button>
+        <input type="hidden" name="examID" th:value="${exam.examID}">
         <input type="hidden" name="examName" th:value="${test.examName}">
+        <input type="hidden" name="testId" th:value="${test.testID}">
         <input type="hidden" name="questionNumber" th:value="${test.questionNumber}">
       </form>
     </div>
@@ -297,6 +299,13 @@
 
       document.querySelector('form').submit();
     }
+
+    window.addEventListener('beforeunload', function (event) {
+      if (Object.keys(selectedAnswers).length > 0) {
+        document.getElementById('selectedAnswers').value = JSON.stringify(selectedAnswers);
+        document.querySelector("form").submit();
+      }
+    });
 
 
     const widthThreshold = 1000;

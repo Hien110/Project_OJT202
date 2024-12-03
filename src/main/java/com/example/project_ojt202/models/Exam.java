@@ -26,6 +26,9 @@ public class Exam {
     @Column(name = "examID")
     private Long examID;
 
+    @Column(name = "examScore")
+    private Long examScore;
+
     @ManyToOne
     @JoinColumn(name = "studentID")
     private StudentProfile studentProfile;
