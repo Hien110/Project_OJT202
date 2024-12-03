@@ -68,6 +68,8 @@ public class SubmitQuestionController {
             @RequestParam Long scoreTranscriptID,
             HttpSession session,
             @RequestParam List<String> answerTestContent,
+            @RequestParam String testName,
+            @RequestParam int time,
             @RequestParam List<Boolean> isCorrect,
             Model model) {
 
@@ -92,6 +94,8 @@ public class SubmitQuestionController {
         test.setMediumQuestion(mediumQuestion);
         test.setHardQuestion(hardQuestion);
         test.setStatusTest(statusTest);
+        test.setExamName(testName);
+        test.setTime(time);
         test.setUniClass(uniClassService.findById(uniClassId));
         test.setScoreTranscript(scoreTranscriptService.findById(scoreTranscriptID));
 

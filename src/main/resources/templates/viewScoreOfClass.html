@@ -54,10 +54,10 @@
                   th:each="exam : ${exams}"
                   th:if="${exam.getStudentProfile().getStudentID() == learn.getStudentProfile().getStudentID() 
                                      and exam.getTest().getUniClass().getUniClassId() == uniClassId 
-                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Progress Test'}"
+                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Progress test'}"
                 >
                   <p th:text="${exam.getExamScore()}"></p>
-                  <span th:if="${!iterStat.last}"> | </span> <!-- Thêm dấu phẩy nếu không phải phần tử cuối -->
+                  <span th:if="${!iterStat.last}"></span> <!-- Thêm dấu phẩy nếu không phải phần tử cuối -->
                 </span>
               </td>
               <td>
@@ -65,7 +65,7 @@
                   th:each="exam : ${exams}"
                   th:if="${exam.getStudentProfile().getStudentID() == learn.getStudentProfile().getStudentID() 
                                      and exam.getTest().getUniClass().getUniClassId() == uniClassId 
-                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Assignment'}"
+                                     and exam.getTest().getScoreTranscript().getNameTest() == 'Assigment'}"
                   th:text="${exam.getExamScore()}"
                 >
                 </span>
