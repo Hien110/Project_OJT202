@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.project_ojt202.models.AvarageScore;
 import com.example.project_ojt202.models.Learn;
 import com.example.project_ojt202.repositories.LearnRepository;
+import java.util.Optional;
 
 @Service
 public class LearnService {
@@ -52,4 +54,9 @@ public class LearnService {
         learnRepository.save(learn);
     }
 
+    public Learn getLearnByUniClassAndStudent(Long uniClassId, String studentID) {
+        return learnRepository.findByUniClassAndStudent(uniClassId, studentID);
+    }
+    
+    
 }
