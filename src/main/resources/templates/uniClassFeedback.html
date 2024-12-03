@@ -149,10 +149,13 @@
                                th:name="'feedbackChoices[' + ${entry.key.feedbackID} + ']'"
                                th:value="${choice.feedbackChoiceID}"
                                th:id="'choice_' + ${choice.feedbackChoiceID}" />
-                        <span th:text="${choice.feedbackChoiceContent}"></span>
+                        <span th:text="${choice.feedbackChoiceContent}"></span> 
+                        <br>
+                        <span th:text="' (' + ${choice.feedbackChoiceNote} + ') '" style="margin-left: 10px; color: #888; font-style: italic; margin-left: 5px;"></span> <!-- Hiển thị note cùng hàng -->
                     </label>
                 </div>
             </div>
+            
 
             <!-- Phần nội dung phản hồi -->
             <textarea name="feedbackText" id="feedbackText" rows="4" style="resize: none; width: 100%; height: 100px;" placeholder="Nhập ý kiến của bạn..."></textarea>
