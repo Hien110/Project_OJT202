@@ -10,6 +10,9 @@
     rel="stylesheet"
     type="text/css"
     th:href="@{/assets/css/l_viewList-subject.css}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <script src="/assets/js/headerNav.js"></script>
+
 </head>
 <body>
     <div class="headerDiv">
@@ -32,21 +35,21 @@
             </thead>
             <tbody>
                 <tr th:each="subject : ${subjects}">
-                    <td th:text="${subject.subjectID}"></td>
+                    <td>
+                        <a
+                            th:href="@{/viewScoreTranscriptOfSubject/{subjectID}(subjectID=${subject.subjectID})}"
+                            class="btn btn-info btn-sm"
+                            th:text="${subject.subjectID}">
+                        </a>
+                    </td>
                     <td th:text="${subject.subjectName}"></td>
                     <td th:text="${subject.subjectCredit}"></td>
                     <td th:text="${subject.ternNo}"></td>
                 </tr>
+                
             </tbody>
         </table>
     </div> 
-    <script>
-        // Optional: Add any JavaScript functionality here if needed
-        document.querySelectorAll('tr').forEach(row => {
-            row.addEventListener('click', () => {
-                alert(`You clicked on ${row.cells[1].innerText}`); // Example action on row click
-            });
-        });
-    </script>
+   
 </body>
 </html>

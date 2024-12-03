@@ -39,12 +39,10 @@ header, .navStudent {
 }
 
 /* Title Styling */
-h1 {
-  font-size: 40px;
-  font-weight: 700;
+h2 {
   text-align: center;
   color: #4CAF50;
-  margin-bottom: 40px;
+  margin-top: 0;
 }
 
 /* Profile Wrapper Styling */

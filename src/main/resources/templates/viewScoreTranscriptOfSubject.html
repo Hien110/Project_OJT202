@@ -23,7 +23,14 @@
 
   <body>
     <div th:insert="~{headerNav :: header}"></div>
-    <div th:insert="~{headerNav :: navAdmin}"></div>
+    <div th:if="${session.account.accountRole == 'lecturer'}" class="navLectureDiv">
+      <div id="navLectureDiv"
+          th:insert="~{headerNav :: navLecture}"></div>
+  </div>
+  <div th:if="${session.account.accountRole == 'admin'}" class="navLectureDiv">
+      <div id="navLectureDiv"
+          th:insert="~{headerNav :: navAdmin}"></div>
+  </div>
     <div class="student-list-container">
       <h1>Khung Chương Trình</h1>
 

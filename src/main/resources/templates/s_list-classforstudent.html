@@ -124,17 +124,15 @@
         </div>
         <div class="navLectureDiv">
             <div id="navLectureDiv"
-                th:insert="~{headerNav :: navLecture}"></div>
+                th:insert="~{headerNav :: navStudent}"></div>
         </div>
         <div class="theme">
             <div class="main">
                 <h1>Danh Sách Lớp Học</h1>
-                <!-- Hiển thị thông báo lỗi -->
                 <div th:if="${error}" class="alert alert-danger" role="alert">
                     <p th:text="${error}"></p>
                 </div>
 
-                <!-- Hiển thị thông báo thành công -->
                 <div th:if="${message}" class="success-message">
                     <p th:text="${message}"></p>
                 </div>

@@ -39,9 +39,7 @@ body {
   }
   
   /* Title Styling */
-  h1 {
-    font-size: 60px;
-    font-weight: 700;
+  h2 {
     text-align: center;
     color: #4CAF50;
     margin-bottom: 60px;
