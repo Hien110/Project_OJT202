@@ -35,4 +35,6 @@ public interface UniClassRepository extends JpaRepository<UniClass, Long> {
     List<UniClass> findBySubjectIn(List<Subject> subjects);
     //Minh
     List<UniClass> findByLectureProfile(LectureProfile lectureProfile);
+    List<UniClass> findByLectureProfileAndSemester(LectureProfile lectureProfile, String semester);
+    
 }

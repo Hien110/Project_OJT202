@@ -5,6 +5,7 @@ import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.Feedback;
 import com.example.project_ojt202.models.FeedbackChoice;
 import com.example.project_ojt202.models.Learn;
+import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.services.StudentFeedbackService;
 import com.example.project_ojt202.services.UniClassService;
@@ -191,7 +192,38 @@ public String showFeedbackForm(@RequestParam("id") Long uniClassId,
     
         return "s_list-classforstudent";
     }
-
+    @GetMapping("/luniClasses")
+    public String showUniClassesForLecturer(HttpSession session, 
+                                             @RequestParam(required = false) String semester, 
+                                             Model model) {
+        // Lấy LectureProfile của giảng viên từ session
+        LectureProfile lectureProfile = (LectureProfile) session.getAttribute("profileAccount");
+    
+        // Kiểm tra giảng viên đã đăng nhập hay chưa
+        if (lectureProfile == null) {
+            return "redirect:/login"; // Chuyển hướng về trang đăng nhập nếu chưa đăng nhập
+        }
+    
+        // Lọc lớp theo học kỳ nếu có, nếu không sẽ lấy tất cả các lớp
+        List<UniClass> uniClasses;
+        if (semester != null && !semester.isEmpty()) {
+            // Lọc lớp theo học kỳ và giảng viên
+            uniClasses = uniClassService.getClassesByLecturerAndSemester(lectureProfile, semester);
+        } else {
+            // Lấy tất cả lớp của giảng viên nếu không có học kỳ
+            uniClasses = uniClassService.getClassesByLecturer(lectureProfile);
+        }
+    
+        // Thêm danh sách lớp vào model để hiển thị trên giao diện
+        model.addAttribute("uniClasses", uniClasses);
+    
+        // Thêm danh sách học kỳ (nếu cần) để hiển thị trên giao diện lọc
+        List<String> semesters = uniClassService.getAllSemesters(); // Phương thức lấy tất cả các học kỳ
+        model.addAttribute("semesters", semesters);
+    
+        return "uniClassList"; // Trả về trang hiển thị danh sách lớp
+    }
+    
 }
 
 

@@ -175,9 +175,7 @@ header{
   vertical-align: middle;
 }
 
-.icons .notification a {
-  pointer-events: none;
-}
+
 body{
   margin: 0;
   padding: 0;
