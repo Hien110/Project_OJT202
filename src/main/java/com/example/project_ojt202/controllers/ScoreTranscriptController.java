@@ -54,6 +54,6 @@ public class ScoreTranscriptController {
 
     @GetMapping("/viewScoreTranscript")
     public String viewScoreTranscript() {
-    return "viewscoretranscript"; // Trả về tên file template (không có đuôi .html)
+    return "viewscoretranscript";
 }
 }
