@@ -31,7 +31,9 @@
                 <div class="update-card">
                     <div class="update-card-header">
                         <div class="user-info">
-                            <img alt="User profile picture" src="https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png" style="border: 1px solid #4da6fb;"/>
+                            <img alt="User profile picture"
+                                src="https://upload.wikimedia.org/wikipedia/vi/thumb/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg/2560px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg.png"
+                                style="border: 1px solid #4da6fb;" />
                             <div>
                                 <div class="user-name">
                                     <!-- Tên người dùng -->
@@ -45,10 +47,9 @@
                         </div>
                     </div>
                     <div class="update-card-body">
-                        
                         <div class="notification-content">
-                            <b th:text="${notification.notificationName}"  ></b>
-                            <p th:text="${notification.notificationContent}"></p>
+                            <b th:text="${notification.notificationName}"></b>
+                            <p th:text="${notification.notificationContent}" class="formatted-text"></p>
                         </div>
                         <div th:if="${notification.notificationFile != null and !notification.notificationFile.isEmpty()}">
                             <a th:href="@{${notification.notificationFile}}" class="a1" download>Tải về File</a>
@@ -59,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
         <div class="popular-groups post">
             <div th:if="${session.account.accountRole == 'admin'}">
@@ -78,7 +80,9 @@
                     <div class="group" th:each="entry : ${listMessageLecture}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                            th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <img  th:src="@{${entry.key.avatar}}"
+                            alt="Avatar"
+                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -112,7 +116,9 @@
                     <div class="group" th:each="entry : ${listMessageLecture}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                            th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <img  th:src="@{${entry.key.avatar}}"
+                            alt="Avatar"
+                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -123,10 +129,12 @@
                     <div class="group" th:each="entry : ${chatStudentMap}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                            th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <img  th:src="@{${entry.key.avatar}}"
+                            alt="Avatar"
+                            onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                             <div class="group-info">
                                 <div class="group-name" 
-                                     th:text="${entry.key.studentProfile.lastName + ' ' + entry.key.studentProfile.firstName + '-' + entry.key.accountID}">
+                                     th:text="${entry.key?.studentProfile?.lastName + ' ' + entry.key?.studentProfile?.firstName + '-' + entry.key?.accountID}">
                                 </div>
                             </div>
                         </a>
@@ -150,7 +158,9 @@
                     <div class="group" th:each="learn : ${listMessageStudent}">
                         <a class="chatUser" style="display: flex; align-items: center;" 
                         th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
-                            <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                            <img  th:src="@{/assets/images/defaultAvatar.jpg}"
+                            alt="Avatar"
+                             />
                             <div class="group-info">
                                 <div class="group-name" 
                                      th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">

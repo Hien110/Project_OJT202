@@ -175,10 +175,6 @@ header{
   vertical-align: middle;
 }
 
-/* h1{
- float: left;
-  padding: 50px 30px
-} */
 .icons .notification a {
   pointer-events: none;
 }
@@ -235,7 +231,7 @@ body{
   padding: 0px;
   left: -300px;
   margin-top: 5px;
-  background-color: #F4F4F4;
+  background-color: #d0d0d0;
   -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
   -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
   box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
@@ -294,13 +290,13 @@ body{
 
 .sec{
   padding: 25px 10px;
-  background-color: #F4F4F4;
+  background-color: #d0d0d0;
   transition: 0.5s;
 }
 
 .profCont{
   padding-left: 15px;
-    height: 35px; 
+    height: 5px; 
     object-fit: cover; 
     
 }
@@ -310,7 +306,7 @@ body{
   clip-path: circle(50% at 50% 50%);
   width: 75px;
   float: left;
-  height: 95px;
+  height: 55px;
   object-fit: cover;
 }
 

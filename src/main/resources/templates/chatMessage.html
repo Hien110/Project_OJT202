@@ -197,7 +197,9 @@
               <div class="group" th:each="entry : ${listMessageLecture}">
                   <a class="chatUser" style="display: flex; align-items: center;" 
                      th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                      <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <img  th:src="@{${entry.key.avatar}}"
+                      alt="Avatar"
+                      onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                       <div class="group-info">
                           <div class="group-name" 
                                th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -231,7 +233,9 @@
               <div class="group" th:each="entry : ${listMessageLecture}">
                   <a class="chatUser" style="display: flex; align-items: center;" 
                      th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                      <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <img  th:src="@{${entry.key.avatar}}"
+                      alt="Avatar"
+                      onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                       <div class="group-info">
                           <div class="group-name" 
                                th:text="${entry.value.firstName +' ' + entry.value.lastName + ' - ' + entry.value.lectureID}">
@@ -242,7 +246,9 @@
                 <div class="group" th:each="entry : ${chatStudentMap}">
                     <a class="chatUser" style="display: flex; align-items: center;" 
                     th:href="@{/chatMessage/{accountID}(accountID = ${entry.key.accountID})}" >
-                        <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                        <img  th:src="@{${entry.key.avatar}}"
+                        alt="Avatar"
+                        onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'" />
                         <div class="group-info">
                             <div class="group-name" 
                                 th:text="${entry.key.studentProfile.lastName + ' ' + entry.key.studentProfile.firstName + ' - ' + entry.key.accountID}">
@@ -268,7 +274,9 @@
               <div class="group" th:each="learn : ${listMessageStudent}">
                   <a class="chatUser" style="display: flex; align-items: center;" 
                   th:href="@{/chatMessage/{accountID}(accountID = ${learn.UniClass.LectureProfile.lectureID})}" >
-                      <img alt="Icon representing group" src="https://storage.googleapis.com/a1aa/image/9spX6oDkVTrqEVOXsasOZi5vYxfDQwNFRbFd1Q2voLaXGq6JA.jpg" />
+                      <img  th:src="@{${entry.key.avatar}}"
+                      alt="Avatar"
+                      onerror="this.onerror=null; this.src='/assets/images/defaultAvatar.jpg'"  />
                       <div class="group-info">
                           <div class="group-name" 
                                th:text="${learn.UniClass.LectureProfile.firstName + ' ' + learn.UniClass.LectureProfile.lastName + ' - ' + learn.UniClass.LectureProfile.lectureID}">
@@ -381,7 +389,7 @@
   
   
   // Tự động làm mới tin nhắn mỗi 5 giây
-  setInterval(getMessages, 1000);
+  setInterval(getMessages, 500);
   
   // Khi trang được tải, gọi hàm để lấy lịch sử tin nhắn
   window.onload = getMessages;

@@ -129,7 +129,6 @@
     <!-- Danh sách lớp học -->
     <div th:each="uniClass : ${uniClasses}" class="class-container">
         <h2 th:text="${uniClass.uniClassName}">Tên lớp học</h2>
-        <p><strong>Mã lớp học:</strong> <span th:text="${uniClass.uniClassId}">Mã lớp học</span></p>
 
         <!-- Hiển thị tên giáo viên của lớp -->
         <p><strong>Giáo viên phụ trách:</strong> 

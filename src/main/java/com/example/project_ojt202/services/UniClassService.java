@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.project_ojt202.models.LectureProfile;
 import com.example.project_ojt202.models.Subject;
 import com.example.project_ojt202.models.UniClass;
 import com.example.project_ojt202.repositories.UniClassRepository;
@@ -36,8 +37,8 @@ public class UniClassService {
         Optional<UniClass> uniClassOptional = uniClassRepository.findById(uniClassId);
         return uniClassOptional.orElse(null); // Trả về null nếu không tìm thấy UniClass
     }
-    public List<UniClass> searchUniClassesByLecturer(String lecturerName) {
-        return uniClassRepository.findByLectureProfileFirstNameContainingOrLectureProfileLastNameContaining(lecturerName, lecturerName);
+    public List<UniClass> getClassesByLecturer(LectureProfile lectureProfile) {
+        return uniClassRepository.findByLectureProfile(lectureProfile);
     }
     // Linh
     public List<UniClass> getClassesByLectureID(String lectureID) {
