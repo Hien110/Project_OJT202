@@ -33,17 +33,16 @@
             <!-- Profile Info (Left) -->
             <div class="profile-info">
                 <div th:if="${studentProfile != null}">
-                    <p>Họ: <span th:text="${studentProfile.firstName}"></span></p>
-                    <p>Tên: <span th:text="${studentProfile.lastName}"></span></p>
-                    <p>Ngày sinh: <span th:text="${studentProfile.dob}"></span></p>
-                    <p>Giới tính: <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span></p>
-                    <p>Địa chỉ: <span th:text="${studentProfile.address}"></span></p>
-                    <p>Số điện thoại: <span th:text="${studentProfile.phoneNumber}"></span></p>
-                    <p>Email: <span th:text="${studentProfile.email}"></span></p>
-                    <p>Năm nhập học: <span th:text="${studentProfile.yearOfAdmission}"></span></p>
-                    <p>Năm học: <span th:text="${studentProfile.schoolYear}"></span></p>
-                    <p>Mã chuyên ngành: <span th:text="${studentProfile.major?.majorID}"></span></p>
-                    <p>Mã phụ huynh: <span th:text="${studentProfile.parent?.parentID}"></span></p>
+                    <p><b>Họ và tên:</b> <span th:text="${studentProfile.firstName + ' ' + studentProfile.lastName}"></span></p>
+                    <p><b>Ngày sinh:</b> <span th:text="${studentProfile.dob}"></span></p>
+                    <p><b>Giới tính:</b> <span th:text="${studentProfile.gender ? 'Nam' : 'Nữ'}"></span></p>
+                    <p><b>Địa chỉ:</b> <span th:text="${studentProfile.address}"></span></p>
+                    <p><b>Số điện thoại:</b> <span th:text="${studentProfile.phoneNumber}"></span></p>
+                    <p><b>Email:</b> <span th:text="${studentProfile.email}"></span></p>
+                    <p><b>Năm nhập học:</b> <span th:text="${studentProfile.yearOfAdmission}"></span></p>
+                    <p><b>Năm học:</b> <span th:text="${studentProfile.schoolYear}"></span></p>
+                    <p><b>Mã chuyên ngành:</b> <span th:text="${studentProfile.major?.majorID}"></span></p>
+                    <p><b>Mã phụ huynh:</b> <span th:text="${studentProfile.parent?.parentID}"></span></p>                                        
 
                     <!-- Logout and Change Password Buttons -->
                     <div class="button-group">

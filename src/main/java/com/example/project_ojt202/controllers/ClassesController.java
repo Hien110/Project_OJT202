@@ -65,5 +65,4 @@ public class ClassesController {
         }
         return "l_list-student"; 
     }  
-
 }
