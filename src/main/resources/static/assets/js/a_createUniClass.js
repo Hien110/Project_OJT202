@@ -109,7 +109,7 @@ let mapLectureUniClass = new Map();
                             <label class="labelSelect">Tên lớp học</label>
                             <input type="text" value="${className}" class="form-control uniClassName" readonly />
                             <label class="labelSelect">Giáo viên</label>
-                            <select class="optionLecture form-control">
+                            <select class="optionLecture form-control" style="width: 160px;">
                                 <option value="null">Chọn giáo viên</option>
                                 ${lectureOptionsHtml}
                             </select>

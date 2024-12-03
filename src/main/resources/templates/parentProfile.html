@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet" />
+    <link rel="preload" href="/assets/images/68.jpg" as="image" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    
+    <script src="/assets/js/headerNav.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/headerNav.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/parentProfile.css}" />
+    <title>Thông tin Tài khoản Phụ huynh</title>
+</head>
+<body>
+    <div th:insert="~{headerNav :: header}"></div>
+    <div th:insert="~{headerNav :: navParent}"></div>
+    
+    <div class="container">
+        <h1>Thông tin Tài khoản Phụ huynh</h1>
+        <div class="profile-wrapper">
+            <!-- Profile Info (Left) -->
+            <div class="profile-info">
+                <div th:if="${parentProfile}">
+                    <p><strong>ID Phụ huynh:</strong> <span th:text="${parentProfile.parentID}"></span></p>
+                    <p><strong>Tên phụ huynh:</strong> <span th:text="${parentProfile.parentName}"></span></p>
+                    <p><strong>Số điện thoại:</strong> <span th:text="${parentProfile.parentPhone}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${parentProfile.parentEmail}"></span></p>
+                    <p><strong>Quan hệ:</strong> <span th:text="${parentProfile.relationship}"></span></p>
+                    
+                    <!-- Nút Đổi mật khẩu và Đăng xuất -->
+                    <div class="button-group">
+                        <button onclick="window.location.href='/resetpassword'" class="btn btn-primary">Đổi mật khẩu</button>
+                        <button onclick="window.location.href='/login'" class="btn btn-danger">Đăng xuất</button>              
+                    </div>
+                </div>
+                <div th:if="${parentProfile == null}">
+                    <p>Không tìm thấy thông tin phụ huynh.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

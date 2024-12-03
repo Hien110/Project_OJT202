@@ -64,16 +64,15 @@ public class ViewClassesStudentController {
                             LocalDate now = LocalDate.now();
                             LocalDate startFeedbackDate = uniClass.getDateEndLearn().minusDays(14);
                             return (now.isAfter(startFeedbackDate) || now.isEqual(startFeedbackDate)) &&
-                                   (now.isBefore(uniClass.getDateEndLearn()) || now.isEqual(uniClass.getDateEndLearn()));
-                        }
-                ));
+                                    (now.isBefore(uniClass.getDateEndLearn())
+                                            || now.isEqual(uniClass.getDateEndLearn()));
+                        }));
 
         // Gắn dữ liệu vào model
         model.addAttribute("classes", classes);
         model.addAttribute("feedbackAvailabilityMap", feedbackAvailabilityMap);
         return "s_list-classforstudent"; // Tên file HTML view
     }
-
 
     @GetMapping("/list-classforstudent/{SubId}/{Uniclass}/Learning")
     public String getTestsByUniClassId(@PathVariable String SubId, @PathVariable String Uniclass, Model model) {

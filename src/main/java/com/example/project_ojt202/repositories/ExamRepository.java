@@ -17,4 +17,7 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     @Modifying
     @Query("UPDATE Exam e SET e.examScore = :examScore WHERE e.examID = :examID")
     int updateExamScore(Long examID, Long examScore);
+
+    @Query("SELECT e.test.testID FROM Exam e WHERE e.examID = :examID")
+    Long findTestIdByExamID(Long examID);
 }

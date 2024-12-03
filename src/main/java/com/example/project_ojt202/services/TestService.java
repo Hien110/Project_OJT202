@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.project_ojt202.models.AnswerTest;
 import com.example.project_ojt202.models.QuestionTest;
 import com.example.project_ojt202.models.Test;
+import com.example.project_ojt202.models.UniClass;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -166,5 +167,17 @@ public class TestService {
 
     public Test getAllById(Long testID) {
         return testRepository.findByTestID(testID);
+    }
+
+    public Long getScoreTranscriptIDByTestID(Long testID) {
+        return testRepository.findScoreTranscriptIDByTestID(testID);
+    }
+
+    public UniClass getUniClassByTestId(Long testID) {
+        Test test = testRepository.findByTestID(testID);
+        if (test != null) {
+            return test.getUniClass();
+        }
+        return null; 
     }
 }
