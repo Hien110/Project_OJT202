@@ -1,7 +1,10 @@
 package com.example.project_ojt202.controllers;
 
+import com.example.project_ojt202.models.Account;
 import com.example.project_ojt202.models.StudentFeedback;
 import com.example.project_ojt202.services.StudentFeedbackService;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +27,7 @@ public class StudentFeedbackController {
     }
 
     @GetMapping("/feedback/class/{classId}")
-    public String getFeedbackByClass(@PathVariable Long classId, Model model) {
+    public String getFeedbackByClass(@PathVariable Long classId, Model model, HttpSession session) {
         // Lấy danh sách feedback từ service
         List<StudentFeedback> feedbackList = studentFeedbackService.getFeedbackByClassId(classId);
 
@@ -34,8 +37,11 @@ public class StudentFeedbackController {
         // Nhóm feedback theo học sinh
         for (StudentFeedback feedback : feedbackList) {
             String studentId = feedback.getStudentProfile().getStudentID(); // ID học sinh là String
-            String studentFullName = feedback.getStudentProfile().getFirstName() + " " + feedback.getStudentProfile().getLastName(); // Lấy tên học sinh
-
+            Account account = (Account) session.getAttribute("account");
+            String studentFullName = "Ẩn danh";
+            if (account != null && account.getAccountRole().equals("admin")) {
+            studentFullName = feedback.getStudentProfile().getFirstName() + " " + feedback.getStudentProfile().getLastName(); // Lấy tên học sinh
+            }
             // Tạo hoặc lấy bản đồ cho học sinh nếu chưa có
             Map<String, Object> studentFeedback = studentFeedbackMap.computeIfAbsent(studentId, k -> new LinkedHashMap<>());
 

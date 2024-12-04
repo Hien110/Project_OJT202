@@ -32,6 +32,7 @@
             <p th:if="${message}" th:text="${message}" style="color: green; font-weight: bold;"></p>
         </div>
         <form th:action="@{/lecture/l_listClassTakeAttendance/{uniClassId}/submit-attendance (uniClassId=${uniClassId})}" method="get">
+            <input type="hidden" name="scheduceID" th:value="${schedule.scheduceID}">
             <table>
                 <thead>
                     <tr>
