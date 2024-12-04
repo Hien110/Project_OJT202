@@ -94,8 +94,10 @@ function setStatusTest(element) {
   const uploadFileForm = document.getElementById("uploadFileForm");
   if (statusValue === "1") {
     uploadFileForm.style.display = "block";
+    fileInput.setAttribute("required", "true");
   } else {
     uploadFileForm.style.display = "none";
+    fileInput.removeAttribute("required");
   }
 }
 
