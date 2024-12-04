@@ -1,6 +1,7 @@
 package com.example.project_ojt202.controllers;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -80,13 +81,22 @@ public class CheckAttendanceController {
     @GetMapping("/l_listClassTakeAttendance/{uniClassId}/l_listStudentTakeAttendance")
     public String getStudentsInClass(@PathVariable String uniClassId, Model model) {
         Long uniClassIdLong;
+         LocalDate today = LocalDate.now(); // Lấy ngày hiện tại
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Định dạng yyyy-MM-dd
+        String formattedDate = today.format(formatter);
         try {
             uniClassIdLong = Long.valueOf(uniClassId);
         } catch (NumberFormatException e) {
             model.addAttribute("errorMessage", "Invalid class ID");
             return "error";
         }
-
+        
+        List<Scheduce> scheduces = scheduceService.findScheduceOfUniClass(uniClassIdLong);
+        for(Scheduce scheduce : scheduces) {
+            if (scheduce.getDateScheduce().equals(today)){
+                model.addAttribute("schedule", scheduce);
+            }
+        }
         List<StudentProfile> students = lecturerService.getStudentsForClass(uniClassIdLong);
         model.addAttribute("students", students);
         model.addAttribute("uniClassId", uniClassIdLong);
@@ -95,11 +105,14 @@ public class CheckAttendanceController {
 
     @GetMapping("/l_listClassTakeAttendance/{uniClassId}/submit-attendance")
     public String submitAttendance(@PathVariable Long uniClassId,
-            @RequestParam Map<String, String> attendanceData, Model model) {
+            @RequestParam Map<String, String> attendanceData,@RequestParam Long scheduceID, Model model) {
         // Ghi nhận điểm danh
+        Scheduce scheduce = scheduceService.getScheduceById(scheduceID);
         attendanceData.forEach((studentId, status) -> {
             boolean isPresent = "present".equals(status);
-            attendanceService.recordAttendance(studentId, uniClassId, isPresent);
+            if (!studentId.equals("scheduceID")){
+                attendanceService.recordAttendance(studentId, uniClassId, isPresent, scheduce);
+            }
         });
 
         // Thêm thông báo xác nhận điểm danh

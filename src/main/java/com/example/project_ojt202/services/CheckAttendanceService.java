@@ -23,24 +23,24 @@ public class CheckAttendanceService {
         this.scheduceService = scheduceService;
     }
 
-    public void recordAttendance(String studentID, Long uniClassId, boolean isPresent) {
+    public void recordAttendance(String studentID, Long uniClassId, boolean isPresent, Scheduce scheduce) {
         CheckAttendance attendance = new CheckAttendance();
 
         // Get StudentProfile by studentID
         attendance.setStudentProfile(studentProfileService.getStudentProfileById(studentID));
 
         // Get the first Scheduce for the given uniClassId
-        Scheduce schedule = scheduceService.getFirstSchedule(uniClassId);
-        if (schedule != null) {
-            attendance.setScheduce(schedule);
-        } else {
-            System.out.println("No matching Scheduce found for classId: " + uniClassId);
-            return;
-        }
+        // Scheduce schedule = scheduceService.getFirstSchedule(uniClassId);
+        // if (schedule != null) {
+        //     attendance.setScheduce(schedule);
+        // } else {
+        //     System.out.println("No matching Scheduce found for classId: " + uniClassId);
+        //     return;
+        // }
 
         // Record attendance status
         attendance.setCheckAttendance(isPresent);
-
+        attendance.setScheduce(scheduce);
         // Save attendance record
         checkAttendanceRepository.save(attendance);
     }
