@@ -38,7 +38,7 @@
         <!-- Chọn bài kiểm tra -->
         <div class="form-group">
             <label for="testSelect" class="form-label">Chọn bài kiểm tra:</label>
-            <select id="testSelect" th:field="*{scoreTranscript}" class="form-select">
+            <select id="testSelect" th:field="*{scoreTranscript}" class="form-select" required>
                 <option value="">Chọn bài kiểm tra</option>
                 <!-- Các bài kiểm tra sẽ được tải động qua AJAX -->
             </select>
@@ -46,7 +46,7 @@
 
         <div class="form-group">
             <label for="testName" class="form-label">Đặt tên bài kiểm tra</label>
-            <input type="text" th:field="*{examName}" class="form-select">
+            <input type="text" th:field="*{examName}" class="form-select" required>
         </div>
 
         <!-- Mức độ -->
@@ -117,7 +117,8 @@
             <div id="uploadFileForm" class="upload-form" style="display: none;">
                 <p class="upload-text">Upload gói câu hỏi tự chọn cho bài kiểm tra</p>
                 <label for="fileUpload" class="upload-label">Tải lên tệp:</label>
-                <input type="file" id="fileUpload" name="fileUpload" class="file-input">
+                <input type="file" id="fileUpload" name="fileUpload" accept=".xlsx" class="file-input"
+                    onchange="checkFileExtension()">
                 <a href="/assets/example/Questions.xlsx" class="download-link">Tải mẫu Question.xlsx</a>
             </div>
 
@@ -165,6 +166,22 @@
                 document.getElementById('testSelect').innerHTML = '<option value="">Chọn bài kiểm tra</option>';
             }
         }
+
+        function checkFileExtension() {
+            var fileInput = document.getElementById("fileUpload");
+            var filePath = fileInput.value;
+            var fileExtension = filePath.split('.').pop().toLowerCase();
+
+            // Kiểm tra nếu tệp không phải là .xlsx
+            if (fileExtension !== "xlsx") {
+                document.getElementById("fileError").style.display = "block";
+                fileInput.value = '';
+                alert("Vui lòng tải lên tệp có đuôi .xlsx!");
+            } else {
+                document.getElementById("fileError").style.display = "none";
+            }
+        }
+
 
     </script>
 </body>
