@@ -1,323 +1,354 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Page</title>
+    <style>
+      .container {
+        background-color: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Page</title>
-  <style>
-    body {
-      background-color: #f3f4f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+      h1 {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 32px;
+      }
 
-    .container {
-      background-color: white;
-      padding: 32px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 1200px;
-    }
+      .content {
+        display: flex;
+        flex-direction: column;
+      }
 
-    h1 {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 32px;
-    }
+      .question-section,
+      .explanation-section {
+        margin-bottom: 32px;
+      }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-    }
+      .question-section h2,
+      .explanation-section h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
 
-    .question-section,
-    .explanation-section {
-      margin-bottom: 32px;
-    }
+      .question-section p,
+      .explanation-section p {
+        border: 1px solid #3b82f6;
+        padding: 16px;
+        border-radius: 8px;
+      }
 
-    .question-section h2,
-    .explanation-section h3 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
 
-    .question-section p,
-    .explanation-section p {
-      border: 1px solid #3b82f6;
-      padding: 16px;
-      border-radius: 8px;
-    }
+      .option {
+        background-color: white;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        margin-top: 40px;
+        margin-left: 40px;
+      }
 
-    .option {
-      background-color: white;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+      .sidebar .info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
 
-    .sidebar {
-      background-color: white;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 32px;
-    }
+      .sidebar .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+        background-color: #e5e7eb;
+        padding: 15px;
+        border-radius: 15px;
+      }
 
-    .sidebar .info {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
+      .sidebar .grid button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+      }
 
-    .sidebar .grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-      background-color: #e5e7eb;
-    }
+      .sidebar .grid button.blue {
+        background-color: #bfdbfe;
+      }
 
-    .sidebar .grid button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-    }
+      .sidebar .grid button.red {
+        background-color: #fecaca;
+      }
 
-    .sidebar .grid button.blue {
-      background-color: #bfdbfe;
-    }
+      .sidebar .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
 
-    .sidebar .grid button.red {
-      background-color: #fecaca;
-    }
+      .sidebar .nav-buttons button {
+        background-color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 1px solid #000;
+        transition: all 0.3s;
+      }
 
-    .sidebar .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-    }
+      .sidebar .nav-buttons button:hover {
+        background-color: #3b82f6;
+      }
+      .option.selected {
+        background-color: #3b82f6;
+        color: white;
+      }
 
-    .sidebar .nav-buttons button {
-      background-color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border: none;
-      cursor: pointer;
-    }
+      .option:hover {
+        background-color: #e0f2fe;
+      }
 
-    .option.selected {
-      background-color: #3b82f6;
-      color: white;
-    }
+      .option.correct {
+        background-color: #10b981;
+        color: white;
+      }
 
-    .option:hover {
-      background-color: #e0f2fe;
-    }
+      .option.incorrect {
+        background-color: #f87171;
+        color: white;
+      }
 
-    .option.correct {
-      background-color: #10b981;
-      color: white;
-    }
+      .submitQuiz {
+       
+        background-color: #4da6fb;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+      }
+      .submitQuiz:hover {
+        background-color: #3b90df;
+      }
+    </style>
+  </head>
 
-    .option.incorrect {
-      background-color: #f87171;
-      color: white;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container" style="display: flex;">
-    <h1 th:text="${test.examName}">Quiz Title</h1>
-    <div style="display: block;">
-      <div th:each="entry : ${questionAnswerMap}">
-        <div class="question-section">
-          <h3 th:text="${entry.key.questionTestContent}"></h3>
-          <input type="hidden" name="questionTestID" th:value="${entry.key.questionTestID}" />
-          <div class="options">
-            <button th:each="answer : ${entry.value}" class="option" th:data-answer-id="${answer.answerTestID}"
-              th:data-is-correct="${answer.answerTestTrue}" th:text="${answer.answerTestContent}"
-              th:value="answer.answerTestID" onclick="selectAnswer(this)">
-            </button>
+  <body>
+    <div class="container">
+      <h1 th:text="${test.examName}">Quiz Title</h1>
+      <div style="display: flex; width: 100%; justify-content: center">
+        <div style="display: block">
+          <div th:each="entry : ${questionAnswerMap}">
+            <div class="question-section">
+              <h3 th:text="${entry.key.questionTestContent}"></h3>
+              <input
+                type="hidden"
+                name="questionTestID"
+                th:value="${entry.key.questionTestID}"
+              />
+              <div class="options">
+                <button
+                  th:each="answer : ${entry.value}"
+                  class="option"
+                  th:data-answer-id="${answer.answerTestID}"
+                  th:data-is-correct="${answer.answerTestTrue}"
+                  th:text="${answer.answerTestContent}"
+                  th:value="answer.answerTestID"
+                  onclick="selectAnswer(this)"
+                ></button>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="sidebar">
+          <div class="info">
+            <span
+              style="font-weight: 600"
+              th:text="'Số câu hỏi: ' + ${test.questionNumber}"
+              >Total Questions:
+            </span>
+            <div id="countdown"></div>
+          </div>
+          <div class="grid">
+            <button
+              th:each="i : ${#numbers.sequence(1, test.questionNumber)}"
+              th:text="${i}"
+              th:data-question-number="${i}"
+            ></button>
+          </div>
+          <div class="nav-buttons">
+            <button>Prev</button>
+            <button>Next</button>
+          </div>
+          <form style=" display: flex;
+          justify-content: center;
+          align-items: center;"
+            action="/calculatScore"
+            method="post"
+            onsubmit="handleSubmit(event)"
+          >
+            <input type="hidden" id="selectedAnswers" name="selectedAnswers" />
+            <button class="submitQuiz" type="submit">Submit Quiz</button>
+            <input type="hidden" name="examID" th:value="${exam.examID}" />
+            <input type="hidden" name="examName" th:value="${test.examName}" />
+            <input type="hidden" name="testId" th:value="${test.testID}" />
+            <input
+              type="hidden"
+              name="questionNumber"
+              th:value="${test.questionNumber}"
+            />
+          </form>
         </div>
       </div>
     </div>
-    <div class="sidebar">
-      <div class="info">
-        <span th:text="${test.questionNumber}">Total Questions: </span>
-        <div id="countdown"></div>
-      </div>
-      <div class="grid">
-        <button th:each="i : ${#numbers.sequence(1, test.questionNumber)}" th:text="${i}"
-          th:data-question-number="${i}">
-        </button>
-      </div>
-      <div class="nav-buttons">
-        <button>Prev</button>
-        <button>Next</button>
-      </div>
-      <form action="/calculatScore" method="post" onsubmit="handleSubmit(event)">
-        <input type="hidden" id="selectedAnswers" name="selectedAnswers">
-        <button type="submit">Submit Quiz</button>
-        <input type="hidden" name="examID" th:value="${exam.examID}">
-        <input type="hidden" name="examName" th:value="${test.examName}">
-        <input type="hidden" name="testId" th:value="${test.testID}">
-        <input type="hidden" name="questionNumber" th:value="${test.questionNumber}">
-      </form>
-    </div>
-  </div>
 
-  <script>
-    let selectedAnswers = {}; // Khởi tạo đối tượng để lưu câu trả lời đã chọn
+    <script>
+      let selectedAnswers = {}; // Khởi tạo đối tượng để lưu câu trả lời đã chọn
 
-    function selectAnswer(button) {
-      // Deselect các câu trả lời trong câu hỏi hiện tại
-      const options = button.parentElement.querySelectorAll('.option');
-      options.forEach(option => {
-        option.classList.remove('selected');
+      function selectAnswer(button) {
+        // Deselect các câu trả lời trong câu hỏi hiện tại
+        const options = button.parentElement.querySelectorAll('.option');
+        options.forEach(option => {
+          option.classList.remove('selected');
+        });
+
+        // Thêm lớp 'selected' cho câu trả lời đã chọn
+        button.classList.add('selected');
+
+        // Lấy questionTestID từ trường ẩn và ID câu trả lời đã chọn
+        const questionTestID = button.closest('.question-section').querySelector('input[name="questionTestID"]').value;
+        const answerId = button.dataset.answerId;  // Lấy answerId từ data attribute
+
+        // Lưu câu trả lời vào đối tượng selectedAnswers
+        selectedAnswers[questionTestID] = answerId;
+
+        console.log('Selected Answer ID for question ' + questionTestID + ': ' + answerId);
+        console.log('All selected answers: ', selectedAnswers);
+
+        // Cập nhật lại giao diện grid
+        updateGrid();
+      }
+
+      function updateGrid() {
+        const gridButtons = document.querySelectorAll('.sidebar .grid button');
+
+        gridButtons.forEach(button => {
+          const questionNumber = button.textContent;
+          // Nếu đã chọn câu trả lời cho câu hỏi này, thêm màu 'blue'
+          if (selectedAnswers[questionNumber]) {
+            button.classList.add('blue');
+          } else {
+            button.classList.remove('blue');
+          }
+        });
+      }
+
+      // Đảm bảo grid được cập nhật khi trang được tải
+      document.addEventListener('DOMContentLoaded', function () {
+        updateGrid();
       });
 
-      // Thêm lớp 'selected' cho câu trả lời đã chọn
-      button.classList.add('selected');
+      // Hàm này sẽ được gọi khi form được submit
+      function handleSubmit(event) {
+        event.preventDefault(); // Ngừng việc gửi form mặc định
 
-      // Lấy questionTestID từ trường ẩn và ID câu trả lời đã chọn
-      const questionTestID = button.closest('.question-section').querySelector('input[name="questionTestID"]').value;
-      const answerId = button.dataset.answerId;  // Lấy answerId từ data attribute
+        // In ra giá trị mảng selectedAnswers trong console
+        console.log('Form data ready to be submitted: ', selectedAnswers);
 
-      // Lưu câu trả lời vào đối tượng selectedAnswers
-      selectedAnswers[questionTestID] = answerId;
+        // Xác nhận nộp bài qua alert
+        const totalQuestions = Object.keys(selectedAnswers).length;
+        const totalQuestionsCount = document.querySelectorAll('.question-section').length;
 
-      console.log('Selected Answer ID for question ' + questionTestID + ': ' + answerId);
-      console.log('All selected answers: ', selectedAnswers);
+        // Hiển thị alert với thông tin số câu đã làm so với tổng số câu
+        const confirmationMessage = `Bạn đã làm ${totalQuestions} trên ${totalQuestionsCount} câu. Bạn có chắc chắn muốn nộp bài?`;
+        const isConfirmed = confirm(confirmationMessage);
 
-      // Cập nhật lại giao diện grid
-      updateGrid();
-    }
+        if (isConfirmed) {
+          // Nếu người dùng xác nhận nộp bài, gửi dữ liệu form
+          document.getElementById('selectedAnswers').value = JSON.stringify(selectedAnswers);
+          event.target.submit(); // Submit form
+        }
+      }
 
-    function updateGrid() {
-      const gridButtons = document.querySelectorAll('.sidebar .grid button');
+      // Chặn chuột phải
+      // document.addEventListener('contextmenu', function (event) {
+      //   event.preventDefault(); // Ngừng hành động mặc định (hiển thị menu chuột phải)
+      // });
 
-      gridButtons.forEach(button => {
-        const questionNumber = button.textContent;
-        // Nếu đã chọn câu trả lời cho câu hỏi này, thêm màu 'blue'
-        if (selectedAnswers[questionNumber]) {
-          button.classList.add('blue');
-        } else {
-          button.classList.remove('blue');
+      // Chặn việc sao chép (Ctrl+C hoặc chuột phải)
+      document.addEventListener('copy', function (event) {
+        event.preventDefault(); // Ngừng hành động sao chép
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+          event.preventDefault();
         }
       });
-    }
 
-    // Đảm bảo grid được cập nhật khi trang được tải
-    document.addEventListener('DOMContentLoaded', function () {
-      updateGrid();
-    });
+      var endTime = [[${ endTime }]];
 
-    // Hàm này sẽ được gọi khi form được submit
-    function handleSubmit(event) {
-      event.preventDefault(); // Ngừng việc gửi form mặc định
+      function updateCountdown() {
+        var currentTime = new Date().getTime();
+        var timeLeft = endTime - currentTime;
 
-      // In ra giá trị mảng selectedAnswers trong console
-      console.log('Form data ready to be submitted: ', selectedAnswers);
+        var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-      // Xác nhận nộp bài qua alert
-      const totalQuestions = Object.keys(selectedAnswers).length;
-      const totalQuestionsCount = document.querySelectorAll('.question-section').length;
+        document.getElementById("countdown").innerHTML =
+          hours + "h " + minutes + "m " + seconds + "s ";
 
-      // Hiển thị alert với thông tin số câu đã làm so với tổng số câu
-      const confirmationMessage = `Bạn đã làm ${totalQuestions} trên ${totalQuestionsCount} câu. Bạn có chắc chắn muốn nộp bài?`;
-      const isConfirmed = confirm(confirmationMessage);
+        if (timeLeft < 0) {
+          document.getElementById("countdown").innerHTML = "Đã hết giờ!";
+          handleSubmitForAutoSubmit();
+        }
+      }
 
-      if (isConfirmed) {
-        // Nếu người dùng xác nhận nộp bài, gửi dữ liệu form
+      setInterval(updateCountdown, 1000);
+
+      function handleSubmitForAutoSubmit() {
+        const totalQuestions = Object.keys(selectedAnswers).length;
+        const totalQuestionsCount = document.querySelectorAll('.question-section').length;
+
+        const confirmationMessage = `Bạn đã làm ${totalQuestions} trên ${totalQuestionsCount} câu. Bạn có chắc chắn muốn nộp bài?`;
+        console.log('Form data ready to be submitted: ', selectedAnswers);
+
         document.getElementById('selectedAnswers').value = JSON.stringify(selectedAnswers);
-        event.target.submit(); // Submit form
+
+        document.querySelector('form').submit();
       }
-    }
 
-    // Chặn chuột phải
-    document.addEventListener('contextmenu', function (event) {
-      event.preventDefault(); // Ngừng hành động mặc định (hiển thị menu chuột phải)
-    });
-
-    // Chặn việc sao chép (Ctrl+C hoặc chuột phải)
-    document.addEventListener('copy', function (event) {
-      event.preventDefault(); // Ngừng hành động sao chép
-    });
-
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
-        event.preventDefault();
-      }
-    });
-
-    var endTime = [[${ endTime }]];
-
-    function updateCountdown() {
-      var currentTime = new Date().getTime();
-      var timeLeft = endTime - currentTime;
-
-      var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML =
-        hours + "h " + minutes + "m " + seconds + "s ";
-
-      if (timeLeft < 0) {
-        document.getElementById("countdown").innerHTML = "Đã hết giờ!";
-        handleSubmitForAutoSubmit();
-      }
-    }
-
-    setInterval(updateCountdown, 1000);
-
-    function handleSubmitForAutoSubmit() {
-      const totalQuestions = Object.keys(selectedAnswers).length;
-      const totalQuestionsCount = document.querySelectorAll('.question-section').length;
-
-      const confirmationMessage = `Bạn đã làm ${totalQuestions} trên ${totalQuestionsCount} câu. Bạn có chắc chắn muốn nộp bài?`;
-      console.log('Form data ready to be submitted: ', selectedAnswers);
-
-      document.getElementById('selectedAnswers').value = JSON.stringify(selectedAnswers);
-
-      document.querySelector('form').submit();
-    }
-
-    window.addEventListener('beforeunload', function (event) {
-      if (Object.keys(selectedAnswers).length > 0) {
-        document.getElementById('selectedAnswers').value = JSON.stringify(selectedAnswers);
-        document.querySelector("form").submit();
-      }
-    });
+      window.addEventListener('beforeunload', function (event) {
+        if (Object.keys(selectedAnswers).length > 0) {
+          document.getElementById('selectedAnswers').value = JSON.stringify(selectedAnswers);
+          document.querySelector("form").submit();
+        }
+      });
 
 
-    const widthThreshold = 1000;
-    window.addEventListener('resize', function () {
-      if (window.outerWidth - window.innerWidth > widthThreshold) {
-        alert('Chúng tôi đã phát hiện bạn đang mở DevTools. Bạn không thể thao tác với trang này.');
-        window.location.reload(); // Tải lại trang khi phát hiện mở DevTools
-      }
-    });
-
-  </script>
-
-</body>
-
+      const widthThreshold = 1000;
+      window.addEventListener('resize', function () {
+        if (window.outerWidth - window.innerWidth > widthThreshold) {
+          alert('Chúng tôi đã phát hiện bạn đang mở DevTools. Bạn không thể thao tác với trang này.');
+          window.location.reload(); // Tải lại trang khi phát hiện mở DevTools
+        }
+      });
+    </script>
+  </body>
 </html>
